@@ -1,0 +1,611 @@
+HSC_PROJECT
+VERSION 2 
+# Contains all data relevant for project.
+# Maintained by hsc, DO NOT MODIFY!
+# updated: 19-Sep-2002 19:15:02
+DOCUMENT 1f ../!PsiFS/Docs/contact/form.hsc
+SOURCE 10 contact/form.hsc
+TITLE 0 
+INCLUDE a macros.hsc
+INCLUDE 7 Release
+DOCUMENT 1c ../!PsiFS/Docs/fs/chars.html
+SOURCE c fs/chars.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/fs/chars.html
+SOURCE c fs/chars.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/wimp/astrt.html
+SOURCE e wimp/astrt.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/command/drive.html
+SOURCE 11 command/drive.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 20 ../!PsiFS/Docs/command/free.html
+SOURCE 10 command/free.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 20 ../!PsiFS/Docs/command/list.html
+SOURCE 10 command/list.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/command/psifs.html
+SOURCE 11 command/psifs.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 20 ../!PsiFS/Docs/command/name.html
+SOURCE 10 command/name.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/fs/date.html
+SOURCE b fs/date.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/fs/type.html
+SOURCE b fs/type.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/fs/index.html
+SOURCE c fs/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/fs/attr.html
+SOURCE b fs/attr.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/menu/disco.html
+SOURCE e menu/disco.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/menu/free.html
+SOURCE d menu/free.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/disbl.html
+SOURCE f start/disbl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/conct.html
+SOURCE f start/conct.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/prn16.html
+SOURCE f start/prn16.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/menu/quit.html
+SOURCE d menu/quit.hsc
+TITLE 0 
+ID 5 filer
+ID 3 all
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/legal/trade.html
+SOURCE f legal/trade.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/menu/name.html
+SOURCE d menu/name.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/menu/index.html
+SOURCE e menu/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/menu/link.html
+SOURCE d menu/link.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/menu/print.html
+SOURCE e menu/print.hsc
+TITLE 0 
+ID 8 settings
+ID 8 parallel
+ID 6 serial
+ID 4 file
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/menu/help.html
+SOURCE d menu/help.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/faq/drvrs.html
+SOURCE d faq/drvrs.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/command/drivr.html
+SOURCE 11 command/drivr.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/start/baud.html
+SOURCE e start/baud.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/command/disbl.html
+SOURCE 11 command/disbl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/disco.html
+SOURCE f start/disco.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/command/map.html
+SOURCE f command/map.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 18 ../!PsiFS/Docs/cred.html
+SOURCE 8 cred.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/swi/aend.html
+SOURCE c swi/aend.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/contact/index.html
+SOURCE 11 contact/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/faq/tar.html
+SOURCE b faq/tar.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/faq/arc.html
+SOURCE b faq/arc.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/menu/async.html
+SOURCE e menu/async.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/faq/seral.html
+SOURCE d faq/seral.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/command/stats.html
+SOURCE 11 command/stats.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/contact/web.html
+SOURCE f contact/web.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/swi/mode.html
+SOURCE c swi/mode.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/actrl.html
+SOURCE d swi/actrl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/swi/fsop.html
+SOURCE c swi/fsop.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/menu/backu.html
+SOURCE e menu/backu.hsc
+TITLE 0 
+ID 7 options
+ID 8 advanced
+ID 5 files
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/backu.html
+SOURCE f start/backu.hsc
+TITLE 0 
+ID 6 manual
+ID 9 automatic
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/restr.html
+SOURCE f start/restr.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/unreg.html
+SOURCE d swi/unreg.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/icon/index.html
+SOURCE e icon/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/icon/drive.html
+SOURCE e icon/drive.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/icon/idle.html
+SOURCE d icon/idle.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/irlse.html
+SOURCE d swi/irlse.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/ictrl.html
+SOURCE d swi/ictrl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/ipoll.html
+SOURCE d swi/ipoll.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/iclam.html
+SOURCE d swi/iclam.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/faq/old.html
+SOURCE b faq/old.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/conv/boot.html
+SOURCE d conv/boot.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/icon/act.html
+SOURCE c icon/act.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/icon/print.html
+SOURCE e icon/print.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/apoll.html
+SOURCE d swi/apoll.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/start/conv.html
+SOURCE e start/conv.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/command/index.html
+SOURCE 11 command/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/command/tar.html
+SOURCE f command/tar.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/start/seen.html
+SOURCE e start/seen.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 19 ../!PsiFS/Docs/compt.html
+SOURCE 9 compt.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/command/enabl.html
+SOURCE 11 command/enabl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/command/sis.html
+SOURCE f command/sis.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/swi/cuid.html
+SOURCE c swi/cuid.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/conv/index.html
+SOURCE e conv/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/conv/exfsi.html
+SOURCE e conv/exfsi.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/menu/conv.html
+SOURCE d menu/conv.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/legal/gpl.html
+SOURCE d legal/gpl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/legal/copy.html
+SOURCE e legal/copy.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/legal/index.html
+SOURCE f legal/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 20 ../!PsiFS/Docs/compile/libs.html
+SOURCE 10 compile/libs.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/compile/index.html
+SOURCE 11 compile/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/start/sis.html
+SOURCE d start/sis.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/astrt.html
+SOURCE d swi/astrt.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/contact/lists.html
+SOURCE 11 contact/lists.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/faq/dst.html
+SOURCE b faq/dst.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/cpste.html
+SOURCE d swi/cpste.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/ccopy.html
+SOURCE d swi/ccopy.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/index.html
+SOURCE d swi/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/trans.html
+SOURCE d swi/trans.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/conv/psifs.html
+SOURCE e conv/psifs.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/swi/set.html
+SOURCE b swi/set.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/swi/get.html
+SOURCE b swi/get.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/faq/ant.html
+SOURCE b faq/ant.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/faq/baud.html
+SOURCE c faq/baud.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/faq/sis.html
+SOURCE b faq/sis.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/faq/conv.html
+SOURCE c faq/conv.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/faq/modem.html
+SOURCE d faq/modem.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/menu/info.html
+SOURCE d menu/info.hsc
+TITLE 0 
+ID 5 psifs
+ID 7 machine
+ID 5 owner
+ID 5 power
+ID 4 link
+ID 9 clipboard
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/pdata.html
+SOURCE d swi/pdata.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/pcncl.html
+SOURCE d swi/pcncl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1b ../!PsiFS/Docs/swi/reg.html
+SOURCE b swi/reg.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/swi/ppoll.html
+SOURCE d swi/ppoll.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/prn32.html
+SOURCE f start/prn32.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/enabl.html
+SOURCE f start/enabl.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/index.html
+SOURCE f start/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/faq/port.html
+SOURCE c faq/port.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 20 ../!PsiFS/Docs/contact/auth.html
+SOURCE 10 contact/auth.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/confg.html
+SOURCE f start/confg.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 21 ../!PsiFS/Docs/compile/tools.html
+SOURCE 11 compile/tools.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1f ../!PsiFS/Docs/start/print.html
+SOURCE f start/print.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/menu/confg.html
+SOURCE e menu/confg.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 19 ../!PsiFS/Docs/probs.html
+SOURCE 9 probs.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/wimp/index.html
+SOURCE e wimp/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/wimp/print.html
+SOURCE e wimp/print.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1c ../!PsiFS/Docs/conv/res.html
+SOURCE c conv/res.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1e ../!PsiFS/Docs/conv/expsi.html
+SOURCE e conv/expsi.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/faq/index.html
+SOURCE d faq/index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 1d ../!PsiFS/Docs/faq/print.html
+SOURCE d faq/print.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 18 ../!PsiFS/Docs/vers.html
+SOURCE 8 vers.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+DOCUMENT 19 ../!PsiFS/Docs/index.html
+SOURCE 9 index.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+INCLUDE 7 Release
+DOCUMENT 20 ../!PsiFS/Docs/contact/form.html
+SOURCE 10 contact/form.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+INCLUDE 7 Release
+DOCUMENT 18 ../!PsiFS/Docs/xref.html
+SOURCE 8 xref.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+INCLUDE 8 database
+DOCUMENT 19 ../!PsiFS/Docs/cntnt.html
+SOURCE 9 cntnt.hsc
+TITLE 0 
+INCLUDE 9 brand.hsc
+INCLUDE a macros.hsc
+INCLUDE 8 database

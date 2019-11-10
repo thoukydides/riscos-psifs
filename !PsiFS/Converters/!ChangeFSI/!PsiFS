@@ -1,0 +1,103 @@
+File        : !PsiFS
+Date        : 19-Sep-02
+Author      : © Alexander Thoukydides, 1998-2002, 2019
+Description : Configuration file to allow !ChangeFSI to be used with
+              !PsiFS.
+
+              PsiFS is free software: you can redistribute it and/or
+              modify it under the terms of the GNU General Public License
+              as published by the Free Software Foundation, either
+              version 3 of the License, or (at your option) any later
+              version.
+
+              PsiFS is distributed in the hope that it will be useful,
+              but WITHOUT ANY WARRANTY; without even the implied warranty
+              of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+              the GNU General Public License for more details.
+
+              You should have received a copy of the GNU General Public
+              License along with PsiFS. If not, see
+              <http://www.gnu.org/licenses/>.
+
+
+Default conversion options:
+
+GIF conversion...
+Convert_695=ChangeFSISprite
+Convert_695_Standard=ChangeFSISprite
+Convert_695_InterceptLoad=ChangeFSISprite
+Convert_695_InterceptRun=ChangeFSISprite
+Convert_695_InterceptSave=
+
+PCX conversion...
+Convert_697=ChangeFSISprite
+Convert_697_Standard=ChangeFSISprite
+Convert_697_InterceptLoad=ChangeFSISprite
+Convert_697_InterceptRun=ChangeFSISprite
+Convert_697_InterceptSave=
+
+BMP conversion...
+Convert_69C=ChangeFSISprite
+Convert_69C_Standard=ChangeFSISprite
+Convert_69C_InterceptLoad=ChangeFSISprite
+Convert_69C_InterceptRun=ChangeFSISprite
+Convert_69C_InterceptSave=
+
+PBM conversion...
+Convert_69E=ChangeFSISprite
+Convert_69E_Standard=ChangeFSISprite
+Convert_69E_InterceptLoad=ChangeFSISprite
+Convert_69E_InterceptRun=ChangeFSISprite
+Convert_69E_InterceptSave=
+
+JPEG conversion...
+Convert_C85=ChangeFSISprite
+Convert_C85_Standard=ChangeFSISprite
+Convert_C85_InterceptLoad=ChangeFSISprite
+Convert_C85_InterceptRun=
+Convert_C85_InterceptSave=
+
+TIFF conversion...
+Convert_FF0=ChangeFSISprite
+Convert_FF0_Standard=ChangeFSISprite
+Convert_FF0_InterceptLoad=ChangeFSISprite
+Convert_FF0_InterceptRun=ChangeFSISprite
+Convert_FF0_InterceptSave=
+
+Sprite conversion...
+Convert_FF9=
+Convert_FF9_Standard=ChangeFSIJPEG
+Convert_FF9_InterceptLoad=
+Convert_FF9_InterceptRun=
+Convert_FF9_InterceptSave=
+<EOF>
+
+Common converter definitions:
+
+Name=ChangeFSI
+Author=© Acorn Computers
+Version=See !ChangeFSI
+WebSite=http://www.riscos.co.uk/
+Input=GIF PCX BMP PBM JPEG TIFF Sprite
+InputUID=000000000000000000000000
+InterceptLoad=GIF PCX BMP PBM JPEG TIFF
+InterceptRun=GIF PCX BMP PBM JPEG TIFF
+<EOF>
+
+Individual converter definitions:
+
+Tag=ChangeFSISprite
+Description=Graphic → Sprite
+Purpose=Convert graphic to Sprite
+Output=Sprite
+Options=ChangeFSIS -18 R10 -19c R11 -19 R12 -20d R13 -20t R14 -21 R15 -21d R16 -S16,90,90 R17 -S32,90,90 R18 -nodither O20 -range O21 -equal O22 -invert O23
+Convert=PsiFSChangeFSI <src> <dest> <opt>
+<EOF>
+
+Tag=ChangeFSIJPEG
+Description=Graphic → JPEG
+Purpose=Convert graphic to JPEG
+Output=JPEG
+Options=ChangeFSIJ -JPEG85 R10 -JPEGMONO85 R11 -range O21 -equal O22 -invert O23
+Convert=PsiFSChangeFSI <src> <dest> <opt>
+<EOF>

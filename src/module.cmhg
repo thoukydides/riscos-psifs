@@ -1,0 +1,238 @@
+;   File        : module.cmhg
+;   Date        : 19-Sep-02
+;   Author      : © A.Thoukydides, 1998-2002, 2019
+;   Description : Module definition for the PsiFS module.
+;
+;   License     : PsiFS is free software: you can redistribute it and/or
+;                 modify it under the terms of the GNU General Public License
+;                 as published by the Free Software Foundation, either
+;                 version 3 of the License, or (at your option) any later
+;                 version.
+;   
+;                 PsiFS is distributed in the hope that it will be useful,
+;                 but WITHOUT ANY WARRANTY; without even the implied warranty
+;                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+;                 the GNU General Public License for more details.
+;   
+;                 You should have received a copy of the GNU General Public
+;                 License along with PsiFS. If not, see
+;                 <http://www.gnu.org/licenses/>.
+
+; Module title and help text
+title-string:           PsiFS
+help-string:            PsiFS 1.60 © A.Thoukydides, 1998, 1999, 2000, 2001, 2002
+
+; Module initialisation and finalisation entry points
+initialisation-code:    main_initialisation
+finalisation-code:      main_finalisation
+
+; Module service call handler
+service-call-handler:   main_service_call 0x40 0x87 0x88
+
+; Help and command keyword table
+command-keyword-table:  command_handler
+
+; *Drive
+Drive(      fs-command:     ,
+            min-args:       1,
+            max-args:       1,
+            invalid-syntax: "Syntax: *Drive <drive>",
+            help-text:      "*Drive sets the default drive to use if the directory is unset.\n",
+            add-syntax:),
+
+; *Free
+Free(       fs-command:     ,
+            min-args:       0,
+            max-args:       1,
+            invalid-syntax: "Syntax: *Free [<disc spec.>]",
+            help-text:      "*Free displays the total free space on a disc.\n",
+            add-syntax:),
+
+; *NameDisc
+NameDisc(   fs-command:     ,
+            min-args:       2,
+            max-args:       2,
+            invalid-syntax: "Syntax: *NameDisc <disc spec.> <disc name>",
+            help-text:      "*NameDisc alters a disc's name.\n",
+            add-syntax:),
+
+; *NameDisk
+NameDisk(   fs-command:     ,
+            min-args:       2,
+            max-args:       2,
+            invalid-syntax: "Syntax: *NameDisk <disc spec.> <disc name>",
+            help-text:      "*NameDisk alters a disc's name.\n",
+            add-syntax:),
+
+; *Fore
+;Fore(       min-args:       0,
+;            max-args:       0,
+;            invalid-syntax: "Syntax: *Fore",
+;            help-text:      "*Fore performs the PsiFS serial port polling in the foreground.\n",
+;            add-syntax:),
+
+; *Test
+;Test(       min-args:       0,
+;            max-args:       255,
+;            invalid-syntax: "Syntax: *Test [<args>]",
+;            help-text:      "*Test performs a PsiFS operation.\n",
+;            add-syntax:),
+
+; *PsiFS
+PsiFS(      min-args:       0,
+            max-args:       0,
+            invalid-syntax: "Syntax: *PsiFS",
+            help-text:      "*PsiFS selects PsiFS as the current filing system.\n",
+            add-syntax:),
+
+; *PsiFSDisable
+PsiFSDisable(,
+            min-args:       0,
+            max-args:       1,
+            invalid-syntax: "Syntax: *PsiFSDisable [-abort]",
+            help-text:      "*PsiFSDisable closes any active connection and disables use of the configured block driver. This allows other programs to use the serial port. The -abort switch does not wait for data to be flushed, so may result in data being lost.\n",
+            add-syntax:),
+
+; *PsiFSDriver
+PsiFSDriver(,
+            min-args:       0,
+            max-args:       9,
+            invalid-syntax: "Syntax: *PsiFSDriver [[-driver] <driver>] [[-port] <port>] [[-baud] <baud rate>] [-autobaud | -noautobaud] [[-options] <options>]",
+            help-text:      "*PsiFSDriver configures the serial block driver used by PsiFS for both the remote link and printer mirror. The current values of any omitted parameters are preserved. If no parameters are given then the current settings are displayed.\n"
+                            "Field names:\n"
+                            "-driver\t\tSerial block driver name\n"
+                            "-port\t\tSerial port number (0 for the first)\n"
+                            "-baud\t\tSerial baud rate\n"
+                            "-options\tAdditional serial block driver configuration\n"
+                            "Switches:\n"
+                            "-autobaud\tEnable automatic baud rate identification\n"
+                            "-noautobaud\tDisable automatic baud rate identification\n"
+                            "Automatic baud rate identification is only used for the remote link; the correct baud rate must always be specified for the printer mirror.\n"
+            add-syntax:),
+
+; *PsiFSEnable
+PsiFSEnable(,
+            min-args:       0,
+            max-args:       2,
+            invalid-syntax: "Syntax: *PsiFSEnable [-link | [-print] [device]]",
+            help-text:      "*PsiFSEnable activates the configured block driver for either the remote link or connecting to a printer. The -link switch (assumed if no parameters specified) attempts to initiate a connection to a remote SIBO or EPOC device using the Psion Link Protocol. The -print switch results in all characters received over the serial port being copied to the specified device. The default printer mirror destination is printer: which allows a SIBO or EPOC device to print to the active RISC OS printer without needing a special cable.\n",
+            add-syntax:),
+
+; *PsiFSListDrivers
+PsiFSListDrivers(,
+            min-args:       0,
+            max-args:       1,
+            invalid-syntax: "Syntax: *PsiFSListDrivers [-verbose]",
+            help-text:      "*PsiFSListDrivers lists the serial block drivers available for use by PsiFS. If the -verbose switch is specified then more information is displayed about each driver, including the version number and the baud rates supported.\n",
+            add-syntax:),
+
+; *PsiFSMap
+PsiFSMap(   min-args:       0,
+            max-args:       5,
+            invalid-syntax: "Syntax: *PsiFSMap [-ext <extension> | -uid <uid> | -other] [[-type] <filetype>] [-mimemap | -nomimemap]",
+            help-text:      "*PsiFSMap maps a SIBO extension or EPOC UID to a RISC OS filetype. If no RISC OS filetype is given, then the existing mapping will be removed. If no parameters are given then all current mappings are listed.\n"
+                            "Field names:\n"
+                            "-ext\t\tSIBO extension (three alphanumeric characters)\n"
+                            "-uid\t\tEPOC UID (24 digit hexadecimal value)\n"
+                            "-type\t\tRISC OS filetype (3 digit hexadecimal value or text identifier)\n"
+                            "Switches:\n"
+                            "-other\t\tMapping for unrecognised or unmapped files\n"
+                            "-mimemap\tEnable use of MimeMap module if available\n"
+                            "-nomimemap\tDisable use of MimeMap module\n"
+                            "Mappings based on a UID take priority over those based on an extension, and both take priority over use of the MimeMap module.\n",
+            add-syntax:),
+
+; *PsiFSSIS
+PsiFSSIS(   min-args:       1,
+            max-args:       13,
+            invalid-syntax: "Syntax: *PsiFSSIS <SIS file> [[-dir] <directory> | -tar <tar file>] [-scrap <temp. file>] [-language <language>] [-recurse] [-drive <drive>] [-residual <residual file>] [-verbose]",
+            help-text:      "*PsiFSSIS extracts the contents of a SIS file.\n"
+                            "Field names:\n"
+                            "-dir\t\tDestination directory\n"
+                            "-tar\t\tDestination tar file (fltar format)\n"
+                            "-scrap\t\tTemporary file to use instead of <Wimp$Scrap>\n"
+                            "-language\tInstallation language numeric code or abbreviation\n"
+                            "-drive\t\tTarget installation drive instead of C\n"
+                            "-residual\tLeaf name of residual SIS file to create\n"
+                            "Switches:\n"
+                            "-recurse\tProcess nested SIS component files\n"
+                            "-verbose\tDisplay detailed information about the SIS file\n"
+                            "Language abbreviations:\n"
+                            "EN = English            \t"
+                            "FR = French             \t"
+                            "GE = German             \t"
+                            "SP = Spanish            \t"
+                            "IT = Italian            \t"
+                            "SW = Swedish            \t"
+                            "DA = Danish             \t"
+                            "NO = Norwegian          \t"
+                            "FI = Finnish            \t"
+                            "AM = American           \t"
+                            "SF = Swiss French       \t"
+                            "SG = Swiss German       \t"
+                            "PO = Portuguese         \t"
+                            "TU = Turkish            \t"
+                            "IC = Icelandic          \t"
+                            "RU = Russian            \t"
+                            "HU = Hungarian          \t"
+                            "DU = Dutch              \t"
+                            "BL = Belgian Flemish    \t"
+                            "AU = Australian         \t"
+                            "BG = Belgian French     \t"
+                            "AS = Austrian German    \t"
+                            "NZ = New Zealand English\t"
+                            "IF = International French\t"
+                            "CS = Czech              \t"
+                            "SK = Slovak             \t"
+                            "PL = Polish             \t"
+                            "SL = Slovenian          \t"
+                            "TC = Taiwan Chinese     \t"
+                            "HK = Hong Kong Chinese  \t"
+                            "ZH = PRC Chinese        \t"
+                            "JA = Japanese           \t"
+                            "TH = Thai        \n",
+            add-syntax:),
+
+; *PsiFSStatus
+PsiFSStatus(,
+            min-args:       0,
+            max-args:       0,
+            invalid-syntax: "Syntax: *PsiFSStatus",
+            help-text:      "*PsiFSStatus displays the status of the block driver and any active remote link or printer connection.\n",
+            add-syntax:),
+
+; *PsiFSTar
+PsiFSTar(   min-args:       1,
+            max-args:       4,
+            invalid-syntax: "Syntax: *PsiFSTar <tar file> [<object spec.> [<directory>]] [-verbose]",
+            help-text:      "*PsiFSTar extracts the contents of a tar file that match the supplied wildcarded specification (default is * to match all objects). The default directory is @, corresponding to the current directory. If the -verbose switch is specified then a listing of all matching files is displayed.\n",
+            add-syntax:)
+
+; SWI details
+swi-chunk-base-number:  0x000520c0
+swi-handler-code:       swi_handler
+swi-decoding-table:     PsiFS,
+                        Register,
+                        Unregister,
+                        Set,
+                        Get,
+                        Mode,
+                        AsyncStart,
+                        AsyncEnd,
+                        AsyncPoll,
+                        AsyncControl,
+                        FileOp,
+                        InterceptClaim,
+                        InterceptRelease,
+                        InterceptPoll,
+                        InterceptControl,
+                        CheckUID,
+                        ClipboardCopy,
+                        ClipboardPaste,
+                        GetTranslationTable,
+                        PrintJobPoll,
+                        PrintJobData,
+                        PrintJobCancel
+
+; Handlers for OS_CallAfter, OS_AddCallBack and Filter_RegisterPostFilter
+generic-veneers:        main_call_after main_callback main_pre_filter main_post_filter

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : conv/expsi.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - File Format Converters [PsiFS Module Example]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - File Format Converters [PsiFS Module Example]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: File Format Converters</H1>
+<B>PsiFS Module Example</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000"><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> Module Example</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>An example file format converter configuration for the <TT>*<A HREF="../command/tar.html" TITLE="*PsiFSTar">PsiFSTar</A></TT> and <TT>*<A HREF="../command/sis.html" TITLE="*PsiFSSIS">PsiFSSIS</A></TT> commands has been included in the directory <TT>!PsiFS.Converters.!PsiFS</TT>. This allows the contents of <TT>tar</TT> and SIS files to be extracted or listed. A print job launcher and a very simple converter for <I>EPOC</I> clipboard files have also been included.
+<P>
+Please note that since the file format converter interface uses the <TT>!Scrap</TT> directory to store temporary files, filenames may be truncated unless long filenames are supported on the drive where <TT>!Scrap</TT> is located.
+<P>
+The following sections describe each of the files within the sub-directory.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!PsiFS</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <A HREF="psifs.html" TITLE="!PsiFS"><TT>!PsiFS</TT></A> file tells <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> all of the important characteristics of the file format converter.
+<P>
+The first section of the file sets default conversion options, and this is followed by the converter configurations. Multiple converter configurations with different options are specified for each command; this is necessary if different output file types are produced.
+<P>
+The <TT>PsiFSCapture</TT> alias defined within the <TT>!Boot</TT> file is used to capture the output from a command to a specified file. The <TT>PsiFSInstall</TT>, <TT>PsiFSConvert</TT> and <TT>PsiFSPrint</TT> aliases are used to start BASIC programs to perform other special operations.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!PsiFSRes</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <A HREF="res.html" TITLE="!PsiFSRes"><TT>!PsiFSRes</TT></A> file contains the toolbox template used to select conversion options for SIS files, and launch options for print jobs. There are no user selectable options for the conversion of <TT>tar</TT> files.
+<P>
+A String Set gadget is used to allow selection of the installation drive. It is not possible to generate the list of available options dynamically when the conversion is performed, so a static list offering just drives <TT>C</TT> and <TT>D</TT> is specified in the toolbox resource file.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!Boot</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <A HREF="boot.html" TITLE="!Boot"><TT>!Boot</TT></A> file is run by <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> at start-up using <TT>Wimp_StartTask</TT>.
+<P>
+This starts by defining the textual version of the supported file types to ensure that the <TT>!PsiFS</TT> file can be correctly parsed. The file format converter is then registered by defining the system variable <TT>PsiFSConverter$PsiFS</TT> to point to the current directory. Another set of system variables (<TT>PsiFS$ConverterScrap</TT>, <TT>PsiFS$ConverterInstall</TT> and <TT>PsiFS$ConverterScrap</TT>) are defined to specify the names of temporary files. Finally, aliases for <TT>PsiFSCapture</TT>, <TT>PsiFSInstall</TT>, <TT>PsiFSConvert</TT> and <TT>PsiFSPrint</TT> are defined to run the <TT>Capture</TT>, <TT>Install</TT>, <TT>Convert</TT> and <TT>Print</TT> programs respectively, enabling simpler commands to be used within the <TT>!PsiFS</TT> file.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!Run</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>!Run</TT> file is not normally run; it is included solely to provide a friendly error message if someone does try to run it.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>Capture</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>Capture</TT> file is a simple BASIC program that executes a command with the output captured to a text file.
+<P>
+This program is used instead of a simple command alias to ensure that the output file is deleted if an error occurs. This behaviour is required by the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> file format converter interface.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>Convert</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>Convert</TT> file is a simple BASIC program that performs a straightforward bidirectional conversion between <I>EPOC</I> clipboard and text files.
+<P>
+<TT><A HREF="../swi/trans.html" TITLE="PsiFS_GetTranslationTable">PsiFS_GetTranslationTable</A></TT> is used to obtain a character translation table between the <I>Windows</I> ANSI character set used by <I>EPOC</I> and the Latin1 character set normally used by <I>RISC&nbsp;OS</I>. A few additional translations are then added to handle some peculiarities of <I>EPOC</I> files.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>Install</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>Install</TT> file is a simple BASIC program that starts an asynchronous remote operation to install a SIS file.
+<P>
+The first step is to make a copy of the SIS file to ensure that it is still available after the file format converter interface has deleted any temporary files. <TT><A HREF="../swi/astrt.html" TITLE="PsiFS_AsyncStart">PsiFS_AsyncStart</A></TT> is then used to start the installation, and <TT><A HREF="../wimp/astrt.html" TITLE="Message_PsifsAsyncStart">Message_PsifsAsyncStart</A></TT> is broadcast to open an action window.
+<P>
+Finally, a dummy output file is created to signal to <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> that the &quot;conversion&quot; has been successful.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>Print</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>Print</TT> file is a simple BASIC program that sends a message to the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> filer to process a print job file.
+<P>
+Like the <TT>Install</TT> program, the first step is to make a copy of the print job file to ensure that it is still available after the file format converter interface has deleted any temporary files. <TT><A HREF="../wimp/print.html" TITLE="Message_PsifsPrint">Message_PsifsPrint</A></TT> is then broadcast to open a print job window.
+<P>
+A dummy output file is created to signal to <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> that the &quot;conversion&quot; has been successful, and the temporary copy of the print job file is deleted.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>AddRemove</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>AddRemove</TT> file is a copy of the <TT>InstExe.exe</TT> executable used to install the <TT>Add/remove</TT> <I>control&nbsp;panel</I> icon. This is copied to an <I>EPOC</I> device and run to install the necessary files.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

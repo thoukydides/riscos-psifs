@@ -1,0 +1,41 @@
+|   File        : Load
+|   Date        : 19-Sep-02
+|   Author      : © A.Thoukydides, 1998-2002, 2019
+|   Description : Script to perform common initialisation of PsiFS.
+|
+|   License     : PsiFS is free software: you can redistribute it and/or
+|                 modify it under the terms of the GNU General Public License
+|                 as published by the Free Software Foundation, either
+|                 version 3 of the License, or (at your option) any later
+|                 version.
+|   
+|                 PsiFS is distributed in the hope that it will be useful,
+|                 but WITHOUT ANY WARRANTY; without even the implied warranty
+|                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+|                 the GNU General Public License for more details.
+|   
+|                 You should have received a copy of the GNU General Public
+|                 License along with PsiFS. If not, see
+|                 <http://www.gnu.org/licenses/>.
+
+| Special care needs to be taken over the C library
+Set PsiFS$CLibLoaded 1
+RMEnsure SharedCLibrary 0.00 Set PsiFS$CLibLoaded 0
+If PsiFS$CLibLoaded=1 Then RMEnsure SharedCLibrary 3.75 Error 0 You are already running a version of CLib which is too old. This application needs SharedCLibrary 3.75 or later.
+UnSet PsiFS$CLibLoaded
+
+| Ensure that the correct versions of system modules are loaded
+Run <PsiFS$Dir>.Resources.Ensure SharedCLibrary 3.75 CLib
+Run <PsiFS$Dir>.Resources.Ensure FPEmulator     2.70 FPEmulator
+
+| Check whether the block drivers have been seen
+If "<SerialDev$Path>" = "" Then Set SerialDev$Path <PsiFS$Dir>.Resources.
+
+| Load David Pilling's serial buffer module (not bothered which version)
+RMEnsure SerialBuffer 0.00 Run <PsiFS$Dir>.Resources.Serialbuff
+
+| Load the PsiFS module
+Run <PsiFS$Dir>.Resources.PsiFS
+
+| Run the configuration script
+Run <PsiFS$Dir>.Configure

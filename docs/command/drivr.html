@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : command/drivr.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - *Commands [*PsiFSDriver]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - *Commands [*PsiFSDriver]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: *Commands</H1>
+<B>*PsiFSDriver</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>*PsiFSDriver</B></TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Configure the serial block driver to use</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Syntax:</B></FONT></TD><TD COLSPAN=3><TT>*PsiFSDriver [[-driver]&nbsp;<I>driver</I>] [[-port]&nbsp;<I>port</I>] [[-baud]&nbsp;<I>baud_rate</I>] [-autobaud&nbsp;|&nbsp;-noautobaud] [[-options]&nbsp;<I>options</I>]</TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Parameters:</B></FONT></TD><TD><TT><I>driver</I>&nbsp;</TT></TD><TD COLSPAN=2>the block driver name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>port</I>&nbsp;</TT></TD><TD COLSPAN=2>serial port number (<TT>0</TT> for the first)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>baud_rate</I>&nbsp;</TT></TD><TD COLSPAN=2>serial baud rate</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>-autobaud</I>&nbsp;</TT></TD><TD COLSPAN=2>enable automatic baud rate identification</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>-noautobaud</I>&nbsp;</TT></TD><TD COLSPAN=2>disable automatic baud rate identification</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>options</I>&nbsp;</TT></TD><TD COLSPAN=2>an optional parameter string specifying extra block driver options</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+<TT>*PsiFSDriver</TT> configures the serial block driver used by <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> for both the remote link and connecting to a printer. The current values of any omitted parameters are preserved. If the block driver is active then an error is generated.
+<P>
+The baud rate must be configured the same on both the <I>RISC&nbsp;OS</I> and <I>SIBO</I> or <I>EPOC</I> machines. It should normally be set to the fastest rate supported by both sets of hardware.
+<P>
+If automatic baud rate identification is enabled then the following baud rates are tried in sequence until a connection is established: 9600, 19200, 38400, 57600 and 115200 baud. Automatic baud rate identification is only used for the remote link; the printer mirror always uses the specified baud rate.
+<P>
+The data format and handshaking are always set as:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH COLSPAN=2 NOWRAP>Data format</TH><TH COLSPAN=2 NOWRAP>Handshaking</TH></TR>
+<TR VALIGN=TOP><TD NOWRAP>Data bits</TD><TD ALIGN=RIGHT>8</TD><TD NOWRAP>XON/XOFF</TD><TD ALIGN=RIGHT>No</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Stop bits</TD><TD ALIGN=RIGHT>1</TD><TD NOWRAP>RTS/CTS</TD><TD ALIGN=RIGHT>Yes</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Parity</TD><TD ALIGN=RIGHT>Odd</TD><TD NOWRAP>DSR/DTR</TD><TD ALIGN=RIGHT>Yes</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Ignore parity</TD><TD ALIGN=RIGHT>Yes</TD><TD NOWRAP>DCD</TD><TD ALIGN=RIGHT>No</TD></TR>
+</TABLE>
+<P>
+These settings are automatically used for the <I>Psion&nbsp;Link&nbsp;Protocol</I>, but should be manually configured on the <I>SIBO</I> or <I>EPOC</I> device when printing via <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>.
+<P>
+The <TT>-options</TT> parameter is not normally required, but may be used to configure special features with some block drivers. If spaces or other special characters need to be included then the string must be enclosed in quotes.
+<P>
+If no parameters are given then the current settings are displayed.
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Example:</B></FONT></TD><TD><TT>PsiFSDriver<BR>-driver&nbsp;InternalPC<BR>-port&nbsp;0 -baud&nbsp;115200<BR>-autobaud&nbsp;-options&nbsp;&quot;&quot;</TT></TD><TD COLSPAN=2><I>Configure automatic baud rate identification with the internal serial port</I></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;commands:</B></FONT></TD><TD COLSPAN=3><TT>*<A HREF="disbl.html" TITLE="*PsiFSDisable">PsiFSDisable</A></TT>, <TT>*<A HREF="enabl.html" TITLE="*PsiFSEnable">PsiFSEnable</A></TT>, <TT>*<A HREF="list.html" TITLE="*PsiFSListDrivers">PsiFSListDrivers</A></TT>, <TT>*<A HREF="stats.html" TITLE="*PsiFSStatus">PsiFSStatus</A></TT></TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

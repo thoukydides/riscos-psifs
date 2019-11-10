@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : faq/print.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Frequently Asked Questions [Inaccurate Printing]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Frequently Asked Questions [Inaccurate Printing]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Frequently Asked Questions</H1>
+<B>Inaccurate Printing</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Why are print jobs rendered inaccurately?</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>There are two main reasons why <I>EPOC</I> print jobs are not rendered accurately by <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>:
+<UL>
+<LI>The <I>EPOC</I> print job file format is not entirely understood. In particular the purpose of some common primitives is not known, so they are simply ignored.
+<LI>The <I>RISC&nbsp;OS</I> graphics support does not match that of <I>EPOC</I>, especially when constrained to the features supported by <I>Draw</I> files. The most deficiency is the poor support for clipping.
+</UL>
+<P>
+The <I>Psion&nbsp;Link&nbsp;Protocol</I> document, available from the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> <A HREF="../contact/web.html" TITLE="Web Page">web page</A>, contains a description of the <I>EPOC</I> print job file format as currently understood. Please <A HREF="../contact/auth.html" TITLE="Contacting the Author">contact the author</A> with any additions or corrections.
+<P>
+Print jobs can be annotated by adding the line <TT>PrintJobLogDebug=True</TT> to the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> configuration file (either <TT>!Boot.Choices.PsiFS.Config</TT> or <TT>!PsiFS.Config.Config</TT>, depending upon the computer's configuration). This tags each rendered primitive with a list of the primitives that immediately precede it. The name of each primitive is prefixed by the file offset to that primitive in hexadecimal.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : start/index.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Getting Started</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="../index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Getting Started">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Getting Started</H1>
+</CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Getting Started</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> should be loaded by double-clicking on the <TT>!PsiFS</TT> icon in a filer window. This will add the <A HREF="../icon/idle.html" TITLE="Idle Icon">idle icon</A> to the left-hand side of the iconbar:
+<CENTER><A HREF="../icon/idle.html" TITLE="Idle Icon"><IMG SRC="../graphics/idle.gif" ALT="" BORDER=0 WIDTH="47" HEIGHT="21"></A></CENTER>
+<P>
+If the standard internal serial port is being used, then <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> can be used in remote link mode without changing the default configuration. However, to use the printer mirror mode, or if a third-party serial port card is being used, then it will be necessary to <A HREF="confg.html" TITLE="Configuring PsiFS">configure</A> the serial block driver first.
+<P>
+Connect a suitable serial cable between the two machines. The <I>Psion&nbsp;Series&nbsp;3/3a</I> and <I>Acorn&nbsp;PocketBook&nbsp;I</I> require a special <I>Psion&nbsp;3-Link</I> or <I>Acorn&nbsp;A-Link</I> cable; other machines use a simple serial cable like that supplied with the <I>Psion&nbsp;Series&nbsp;5</I> or <I>Oregon&nbsp;Scientific&nbsp;Osaris</I>. Note that only the <I>Psion&nbsp;3-Link</I> will work unmodified on early <I>Acorn&nbsp;Archimedes</I> computers.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Remote Link</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The main use of <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is to access files stored on a <I>SIBO</I> or <I>EPOC</I> device as if they were on a local drive. A remote link can be <A HREF="conct.html" TITLE="Connecting">connected</A> or <A HREF="disco.html" TITLE="Disconnecting">disconnected</A> as required by simply clicking on the <A HREF="../icon/index.html" TITLE="Iconbar Icons">icon</A>. The icon will change to reflect the current status.
+<P>
+The remote link can be used to perform a manual or automatic <A HREF="backu.html" TITLE="Backup">backup</A> of any available drive. <A HREF="restr.html" TITLE="Restoring Backups">Restoring backups</A> is slightly more complicated, but should rarely be required.
+<P>
+<I>EPOC</I> devices can also use the remote link to <A HREF="print.html" TITLE="Printing via the Remote Link">print</A> via the <I>RISC&nbsp;OS</I> printer drivers using the <TT>Printer&nbsp;via&nbsp;PC</TT> option.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Printer Mirror</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>As an alternative to using the remote link, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> can also be used to print via the <I>RISC&nbsp;OS</I> computer using the <I>SIBO</I> or <I>EPOC</I> device's own printer drivers. The printer mirror can also be <A HREF="enabl.html" TITLE="Enabling the Printer Mirror">enabled</A> or <A HREF="disbl.html" TITLE="Disabling the Printer Mirror">disabled</A> by simply clicking on the <A HREF="../icon/index.html" TITLE="Iconbar Icons">icon</A>. The icon will change to reflect the current status.
+<P>
+<I>EPOC</I> users are advised to use the <TT>Printer&nbsp;via&nbsp;PC</TT> driver to <A HREF="print.html" TITLE="Printing via the Remote Link">print</A> via the remote link in preference to the printer mirror.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">File Format Converters</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><I>SIBO</I> and <I>EPOC</I> devices use different file formats to common <I>RISC&nbsp;OS</I> applications. Hence, it is necessary to convert between different file formats to enable data to be usefully shared between the platforms.
+<P>
+<FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> allows third party tools to be integrated within a simple and consistent interface. These need to be <A HREF="seen.html" TITLE="Installing File Format Converters">seen</A> before they can be used to perform <A HREF="conv.html" TITLE="Performing File Format Conversions">conversions</A> or <A HREF="sis.html" TITLE="Install EPOC SIS Files">install <I>EPOC</I> SIS files</A>.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Clipboard</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> allows the clipboard of <I>EPOC</I> devices to be integrated into <I>RISC&nbsp;OS</I>'s global clipboard. This makes it possible to copy data from an application running on either device, and then to paste the data into an application on the other device. Third party file format converters will be used if available.
+<P>
+Once the clipboard support has been enabled in the <A HREF="confg.html" TITLE="Configuring PsiFS">configuration</A> it is possible to copy and paste between applications whenever there is an active connection.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

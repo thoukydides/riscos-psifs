@@ -1,0 +1,86 @@
+REM File        : Install
+REM Date        : 19-Sep-02
+REM Author      : © A.Thoukydides, 1998-2002, 2019
+REM Description : Start the installation of a SIS file.
+REM
+REM License     : PsiFS is free software: you can redistribute it and/or
+REM               modify it under the terms of the GNU General Public License
+REM               as published by the Free Software Foundation, either
+REM               version 3 of the License, or (at your option) any later
+REM               version.
+REM 
+REM               PsiFS is distributed in the hope that it will be useful,
+REM               but WITHOUT ANY WARRANTY; without even the implied warranty
+REM               of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+REM               the GNU General Public License for more details.
+REM 
+REM               You should have received a copy of the GNU General Public
+REM               License along with PsiFS. If not, see
+REM               <http://www.gnu.org/licenses/>.
+
+REM Read the command line
+SYS "OS_GetEnv" TO env$
+env$ = FNskip_ws(MID$(env$, INSTR(env$, """", INSTR(env$, """") + 1) + 2))
+
+REM Extract the filenames
+pos% = INSTR(env$, " ")
+input$ = LEFT$(env$, pos% - 1)
+env$ = FNskip_ws(MID$(env$, pos% + 1))
+pos2% = INSTR(env$, " ")
+remote$ = LEFT$(env$, pos2% - 1)
+output$ = FNskip_ws(MID$(env$, pos2% + 1))
+IF (pos% = 0) OR (pos2% = 0) THEN ERROR 0, "Syntax: Install <input> <original> <output>"
+
+REM Ensure that there is a connection to an EPOC device
+SYS "PsiFS_Get", &1000 TO , link%
+IF (link% AND 1) = 0 THEN ERROR 0, "The remote link must be active to install a SIS file. Establish a connection, and try again."
+IF (link% AND 32) = 0 THEN ERROR 0, "Must be connected to an EPOC device to install a SIS file. Establish a connection, and try again."
+
+REM Check that an installation is not already in progress
+handlevar$ = "PsiFS$ConverterInstallHandle"
+DIM handle% 4
+SYS "XOS_ReadVarVal", handlevar$, handle%, 4, 0, 0 TO ,,,, type%; flags%
+IF ((flags% AND 1) = 0) AND (type% = 1) THEN
+    SYS "XPsiFS_AsyncPoll", !handle% TO ; flags%
+    IF (flags% AND 1) = 0 THEN ERROR 0, "Installation of a SIS file is already in progress. Wait for the current installation to complete, and try again."
+ENDIF
+
+REM Create a temporary copy of the SIS file
+local$ = "<PsiFS$ConverterInstall>"
+SYS "OS_FSControl", 26, input$, local$, &4003, 0, 0, 0, 0, 0
+
+REM Ensure that the attributes for the file are sensible
+SYS "OS_File", 4, local$,,,, 3
+
+REM Start an asynchronous operation to perform the installation
+SYS "PsiFS_AsyncStart", 6, ":C.$.System.Apps.InstApp.InstApp/App", "<PsiFSConverter$PsiFS>.AddRemove", ":C.$.System.Programs.InstExe/exe", FALSE, local$, ":C.$.Documents." + remote$, TRUE TO !handle%
+SYS "OS_SetVarVal", handlevar$, handle%, 4, 0, 1
+
+REM Start as a WIMP task
+SYS "Wimp_Initialise", 310, &4B534154, "PsiFS Installer", 0
+
+REM Open an action window to handle the operation
+DIM block% 256
+!block% = 256
+block%!12 = 0
+block%!16 = &520C0
+block%!20 = !handle%
+block%!24 = -1
+block%!28 = -1
+block%!32 = FALSE
+block%!36 = TRUE
+block%!40 = TRUE
+$(block%+44) = "Installing SIS file" + CHR$0
+SYS "Wimp_SendMessage", 18, block%, 0
+
+REM Create a dummy output file to close the converter window
+SYS "OS_File", 11, output$, &FFD,, 0, 0
+
+END
+
+REM Skip over white space
+DEFFNskip_ws(str$)
+    WHILE LEFT$(str$, 1) = " "
+        str$ = MID$(str$, 2)
+    ENDWHILE
+= str$

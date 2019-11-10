@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : swi/apoll.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - SWI Calls [PsiFS_AsyncPoll]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - SWI Calls [PsiFS_AsyncPoll]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: SWI Calls</H1>
+<B>PsiFS_AsyncPoll</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncPoll</B></TT><BR><TT>(SWI&nbsp;&amp;520C7)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Poll the status of an asynchronous remote operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>the previously allocated handle for this operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>status of the operation</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to null terminated description of status</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>pointer to null terminated details, or 0 if none</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R3&nbsp;=</TD><TD COLSPAN=2>pointer to null terminated error text, or 0 if none</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R4&nbsp;=</TD><TD COLSPAN=2>operational time taken in centi-seconds</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R5&nbsp;=</TD><TD COLSPAN=2>estimated time to complete operation in centi-seconds, or 0 if no estimate available</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Interrupts:</B></FONT></TD><TD COLSPAN=3>Interrupt status is undefined<BR>Fast interrupts are enabled</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Processor&nbsp;mode:</B></FONT></TD><TD COLSPAN=3>Processor is in SVC mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Re-entrancy:</B></FONT></TD><TD COLSPAN=3>SWI is not re-entrant</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Poll the status of a previously started asynchronous remote operation. The possible values for the status are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Value</TH><TH>Meaning</TH><TH>Description</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0000</TD><TD>completed successfully</TD><TD ROWSPAN=3 VALIGN=MIDDLE>The operation has terminated</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0001</TD><TD>completed with error</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0002</TD><TD>aborted</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0100</TD><TD>operation starting</TD><TD ROWSPAN=3 VALIGN=MIDDLE>Internal status codes; these should not normally be returned</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0101</TD><TD>operation in progress</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0102</TD><TD>operation delegated</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0200</TD><TD>about to copy a file: waiting for <I>yes</I> or <I>no</I></TD><TD ROWSPAN=4 VALIGN=MIDDLE>A response is required via <TT>PsiFS_AsyncControl</TT> to continue the operation</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0201</TD><TD>file failed to open: waiting for <I>skip</I> or <I>retry</I></TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0202</TD><TD>previous backup contains newer file: waiting for <I>skip</I>, <I>copy</I> or <I>quiet</I></TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0202</TD><TD>file failed to read: waiting for <I>skip</I> or <I>retry</I></TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0300</TD><TD>operation paused</TD><TD VALIGN=MIDDLE> The operation should be resumed using <TT>PsiFS_AsyncControl</TT></TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1000</TD><TD>reading list of open files</TD><TD ROWSPAN=17 VALIGN=MIDDLE>The operation is progressing; the status code and description indicates the current activity</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1001</TD><TD>reading command line for an open file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1002</TD><TD>closing a task</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1003</TD><TD>opening a task</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1100</TD><TD>opening a file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1101</TD><TD>closing a file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1102</TD><TD>reading from a file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1103</TD><TD>writing to a file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1104</TD><TD>creating a directory</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1105</TD><TD>deleting a file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1200</TD><TD>reading catalogue entry</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1201</TD><TD>writing catalogue entry</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1300</TD><TD>keeping file from previous backup</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1301</TD><TD>scrapping file from previous backup</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1302</TD><TD>skipping over file from previous backup</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1303</TD><TD>adding file to backup</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1304</TD><TD>extracting file from backup</TD></TR>
+</TABLE>
+<P>
+The description pointed to be R1 is a summary of the current status (typically the operation being performed), or the question that requires a response. The details optionally pointed to by R2 is typically set to the name of the file or application being operated upon. Any error message or additional details of a problem are pointed to by R3.
+<P>
+The returned pointers only remain valid until the next call of this SWI. If the values need to be kept then they must be copied immediately.
+<P>
+The timings returned in R4 and R5 are estimates for guidance only; they are unlikely to be particularly accurate.
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;SWIs:</B></FONT></TD><TD COLSPAN=3><TT><A HREF="astrt.html" TITLE="PsiFS_AsyncStart">PsiFS_AsyncStart</A></TT>, <TT><A HREF="aend.html" TITLE="PsiFS_AsyncEnd">PsiFS_AsyncEnd</A></TT>, <TT><A HREF="actrl.html" TITLE="PsiFS_AsyncControl">PsiFS_AsyncControl</A></TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;vectors:</B></FONT></TD><TD COLSPAN=3>None</TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

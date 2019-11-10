@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : swi/astrt.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - SWI Calls [PsiFS_AsyncStart]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - SWI Calls [PsiFS_AsyncStart]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: SWI Calls</H1>
+<B>PsiFS_AsyncStart</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Start an asynchronous remote operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>reason code</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Other registers depend on reason code</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Interrupts:</B></FONT></TD><TD COLSPAN=3>Interrupt status is undefined<BR>Fast interrupts are enabled</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Processor&nbsp;mode:</B></FONT></TD><TD COLSPAN=3>Processor is in SVC mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Re-entrancy:</B></FONT></TD><TD COLSPAN=3>SWI is not re-entrant</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call starts an asynchronous remote operation, depending on the reason code in R0. Valid reason codes are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Value</TH><TH>Meaning</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER>0</TD><TD>Close the specified open files</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER>1</TD><TD>Open the specified files</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER>2</TD><TD>Read a single file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER>3</TD><TD>Write a single file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER>4</TD><TD>Backup a single directory tree</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER>5</TD><TD>Write and start a single file</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER>6</TD><TD>Write and install a file</TD></TR>
+</TABLE>
+<P>
+These operations may only be performed if the remote link is enabled and a connection has been established. If a connection has not been established, then the operation will complete with an error status.
+<P>
+Any <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> file names supplied as parameters must be of the form <TT>:<I>drive</I>.$.<I>file/directory</I></TT> where <TT><I>drive</I></TT> is a single character drive letter (<TT>A</TT> to <TT>Z</TT>), and <TT><I>file/directory</I></TT> is the path to the object. Other file names may be specified in any convenient form, although use of canonicalised paths is recommended.
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;SWIs:</B></FONT></TD><TD COLSPAN=3><TT><A HREF="aend.html" TITLE="PsiFS_AsyncEnd">PsiFS_AsyncEnd</A></TT>, <TT><A HREF="apoll.html" TITLE="PsiFS_AsyncPoll">PsiFS_AsyncPoll</A></TT>, <TT><A HREF="actrl.html" TITLE="PsiFS_AsyncControl">PsiFS_AsyncControl</A></TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;vectors:</B></FONT></TD><TD COLSPAN=3>None</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart 0</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Close the specified open files</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>0</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated pattern to match (0 for none)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R3&nbsp;=</TD><TD COLSPAN=2>append to end of file (0 overwrites)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Close all tasks with open files that match the specified wildcarded pattern. If no pattern is specified then all tasks are closed. A list of the files closed is written to the specified file in a suitable format for subsequently restarting the tasks.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart 1</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Open the specified files</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>1</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>delete file when finished (0 leaves it)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Restart the tasks listed in the specified file. Each line of the file should contain two file names separated by a space; the first is the application to start, and the second file is the file to open. If an application should be started without opening a file then the second file name should be left blank, but the space must still be included.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart 2</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Read a single file</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>2</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated source file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated destination file name</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Read the specified file from the <I>SIBO</I> or <I>EPOC</I> device.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart 3</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Write a single file</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>3</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated source file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated destination file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R3&nbsp;=</TD><TD COLSPAN=2>delete file when finished (0 leaves it)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Write the specified file to the <I>SIBO</I> or <I>EPOC</I> device.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart 4</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Backup a single directory tree</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>4</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated source directory</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated destination backup file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R3&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated previous backup file name (0 for none)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R4&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated scrap backup file name (0 for none)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R5&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated temporary file name</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Perform a backup of all files starting from the specified <I>SIBO</I> or <I>EPOC</I> directory. The output is written to a <I>tar</I> file to preserve long filenames, using the <I>fltar</I> (<TT>Archie</TT>) extensions to store datestamp and attribute information. If a previous backup file is specified then unmodified files are simply copied rather than being retrieved from the <I>SIBO</I> or <I>EPOC</I> device. If a scrap backup file is also specified then files not used from the previous backup file are copied to keep a record of previous versions.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart 5</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Write and start a single file</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>5</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated source file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated destination file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R3&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated executable file name (0 for none)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R4&nbsp;=</TD><TD COLSPAN=2>delete file when finished (0 leaves it)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Write the specified file to the <I>SIBO</I> or <I>EPOC</I> device and start it. If an executable file name is specified then that it used to open the file, otherwise the copied file is itself assumed to be executable.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_AsyncStart 6</B></TT><BR><TT>(SWI&nbsp;&amp;520C5)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Write and install a file</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>6</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated installer executable file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated installer source file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R3&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated installer destination file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R4&nbsp;=</TD><TD COLSPAN=2>delete installer file when finished (0 leaves it)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R5&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated package source file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R6&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated package destination file name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R7&nbsp;=</TD><TD COLSPAN=2>delete package file when finished (0 leaves it)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>handle for the operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+Ensure that the specified installer is present on the <I>SIBO</I> or <I>EPOC</I> device, and then use it to open the specified package.
+<P>
+This checks if the specified executable is present, and if not the installer file is copied and executed. Note that all drives are searched for the executable; the drive specified is only used if the installer file is executed. The package file itself is then copied, and the installer executable used to open it.
+<P>
+The typical use of this operation is to install SIS files on <I>EPOC</I> devices, ensuring first that the <TT>Add/remove</TT> icon is present on the <I>control&nbsp;panel</I>.
+</TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

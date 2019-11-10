@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : swi/get.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - SWI Calls [PsiFS_Get]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - SWI Calls [PsiFS_Get]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: SWI Calls</H1>
+<B>PsiFS_Get</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Read a <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> option or status value</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>option or status value to read</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD COLSPAN=3>If the value specified by R0 is a string</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD></TD><TD>R1&nbsp;=</TD><TD>pointer to buffer to contain null terminated string value</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD></TD><TD>R2&nbsp;=</TD><TD>size of buffer</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD COLSPAN=3>If the value specified by R0 is numeric</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD></TD><TD>R1&nbsp;=</TD><TD>value of the option</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD COLSPAN=3>If the value specified by R0 is a string</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD></TD><TD>R2&nbsp;=</TD><TD>
+number of spare bytes in the buffer <B>including</B> the null terminator, i.e.:
+<TABLE ALIGN=LEFT>
+<TR ALIGN=TOP VALIGN=TOP><TD NOWRAP>R2 &gt; 0</TD><TD>implies there are (R2-1) completely unused bytes in the buffer; so R2=1 implies there are 0 unused bytes in the buffer, and therefore the terminator just fitted</TD></TR>
+<TR ALIGN=TOP VALIGN=TOP><TD NOWRAP>R2 &lt; 1</TD><TD>implies there are (1-R2) too many bytes to fit in the buffer, which has consequently not been filled in; so R2=0 implies there is 1 byte too many - the terminator - to fit in the buffer</TD></TR>
+</TABLE>
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Interrupts:</B></FONT></TD><TD COLSPAN=3>Interrupt status is undefined<BR>Fast interrupts are enabled</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Processor&nbsp;mode:</B></FONT></TD><TD COLSPAN=3>Processor is in SVC mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Re-entrancy:</B></FONT></TD><TD COLSPAN=3>SWI is not re-entrant</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads a <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> option or status value. An error may be returned if an attempt is made to read the value of an option that is meaningless for the current mode of operation.
+<P>
+The values that may be read are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>R0</TH><TH>Type</TH><TH>Option</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0</TD><TD ALIGN=CENTER>numeric</TD><TD>mode of operation</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;100</TD><TD ALIGN=CENTER>string</TD><TD>name of the serial block driver</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;101</TD><TD ALIGN=CENTER>numeric</TD><TD>serial block driver port number</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;102</TD><TD ALIGN=CENTER>numeric</TD><TD>serial block driver baud rate</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;103</TD><TD ALIGN=CENTER>string</TD><TD>optional extra serial block driver options</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;104</TD><TD ALIGN=CENTER>numeric</TD><TD>automatic baud rate identification mode</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;108</TD><TD ALIGN=CENTER>numeric</TD><TD>active serial block driver baud rate</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;110</TD><TD ALIGN=CENTER>numeric</TD><TD>clock synchronization mode</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;120</TD><TD ALIGN=CENTER>numeric</TD><TD>remote link idle disconnect time</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;121</TD><TD ALIGN=CENTER>numeric</TD><TD>printer mirror idle disconnect time</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;122</TD><TD ALIGN=CENTER>numeric</TD><TD>idle disconnect external power mode</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;128</TD><TD ALIGN=CENTER>numeric</TD><TD>idle background operations mode</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;200</TD><TD ALIGN=CENTER>numeric</TD><TD>number of bytes of serial data received</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;201</TD><TD ALIGN=CENTER>numeric</TD><TD>number of bytes of serial data transmitted</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;210</TD><TD ALIGN=CENTER>numeric</TD><TD>number of valid protocol frames received</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;211</TD><TD ALIGN=CENTER>numeric</TD><TD>number of invalid protocol frames received</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;212</TD><TD ALIGN=CENTER>numeric</TD><TD>number of retries for received protocol frames</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;214</TD><TD ALIGN=CENTER>numeric</TD><TD>number of protocol frames transmitted</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;216</TD><TD ALIGN=CENTER>numeric</TD><TD>number of retries for transmitted protocol frames</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1000</TD><TD ALIGN=CENTER>numeric</TD><TD>status of the remote link</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1010</TD><TD ALIGN=CENTER>numeric</TD><TD>type of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1011</TD><TD ALIGN=CENTER>string</TD><TD>description of the remote machine type</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1012</TD><TD ALIGN=CENTER>numeric</TD><TD>language of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1018</TD><TD ALIGN=CENTER>numeric</TD><TD>major version of the remote machine operating system</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1019</TD><TD ALIGN=CENTER>numeric</TD><TD>minor version of the remote machine operating system</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;101A</TD><TD ALIGN=CENTER>numeric</TD><TD>build of remote machine operating system</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1020</TD><TD ALIGN=CENTER>numeric</TD><TD>low word of the unique identifier of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1021</TD><TD ALIGN=CENTER>numeric</TD><TD>high word of the unique identifier of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1030</TD><TD ALIGN=CENTER>string</TD><TD>owner information of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;11xx</TD><TD ALIGN=CENTER>numeric</TD><TD>status of the specified remote drive</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;12xx</TD><TD ALIGN=CENTER>string</TD><TD>name of the specified remote drive</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;13xx</TD><TD ALIGN=CENTER>numeric</TD><TD>unique identifier of the specified remote drive</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1800</TD><TD ALIGN=CENTER>numeric</TD><TD>status of the main battery</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1801</TD><TD ALIGN=CENTER>numeric</TD><TD>voltage of the main battery</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1802</TD><TD ALIGN=CENTER>numeric</TD><TD>maximum voltage of the main battery</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1810</TD><TD ALIGN=CENTER>numeric</TD><TD>status of the backup battery</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1811</TD><TD ALIGN=CENTER>numeric</TD><TD>voltage of the backup battery</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1812</TD><TD ALIGN=CENTER>numeric</TD><TD>maximum voltage of the backup battery</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1820</TD><TD ALIGN=CENTER>numeric</TD><TD>status of external power</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;2000</TD><TD ALIGN=CENTER>numeric</TD><TD>status of the printer mirror</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;2001</TD><TD ALIGN=CENTER>string</TD><TD>name of the printer mirror destination</TD></TR>
+</TABLE>
+<P>
+If a string value is specified this may be used as a two-pass process:
+<OL>
+<LI>On entry, set R0 to specify the value to read, and R1 and R2 (the pointer to, and the size of, the buffer) to zero. On exit, R2 = -(length of string)
+<LI>Claim a buffer of the right size (1-R2, not just -R2, as a space is needed for the terminator). On entry, ensure that R0 still specifies the value to read, that R1 is set to point to the buffer, and R2 contains the lenght of the buffer. On exit the buffer should be filled in, and R2 should be 1; but check to make sure.
+</OL>
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;SWIs:</B></FONT></TD><TD COLSPAN=3><TT><A HREF="set.html" TITLE="PsiFS_Set">PsiFS_Set</A></TT>, <TT><A HREF="mode.html" TITLE="PsiFS_Mode">PsiFS_Mode</A></TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;vectors:</B></FONT></TD><TD COLSPAN=3>None</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;0</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the mode of operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;0</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>mode of operation</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the current mode of operation. The possible values are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Value</TH><TH>Meaning</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>0</TD><TD>inactive</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>1</TD><TD>remote link mode</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>2</TD><TD>printer mirror mode</TD></TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;100</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the serial block driver name</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;100</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to buffer to contain null terminated serial block driver name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>size of buffer</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>number of spare bytes in the buffer <B>including</B> the null terminator</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the name of the configured serial block driver.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;101</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the serial block driver port number</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;101</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>port number (0 for the first)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the configured serial block driver port number.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;102</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the serial block driver baud rate</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;102</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>baud rate</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the configured serial block driver baud rate. The actual baud rate used may be different if either the requested baud rate is not available or automatic baud rate identification is active.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;103</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the serial block driver options</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;103</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to buffer to contain null terminated serial block driver options</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>size of buffer</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>number of spare bytes in the buffer <B>including</B> the null terminator</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the optional parameter string of the configured serial block driver.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;104</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the automatic baud rate identification mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;104</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>automatic baud rate identification (0 disables)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads whether automatic baud rate identification is enabled. Only the remote link is affected; the printer mirror always uses the configured baud rate.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;108</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the active serial block driver baud rate</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;108</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>active baud rate</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the serial block driver baud rate actively being used. This may be different to the configured baud rate if either the requested baud rate is not available or automatic baud rate identification is active.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;110</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the clock synchronization mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;110</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>clock synchronization mode (0 disables)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads whether synchronization of clocks on connection of the remote link is enabled. This only affects <I>EPOC</I> devices; it is not possible to synchronize the clock of <I>SIBO</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;120</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the remote link idle disconnect time</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;120</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>idle disconnect time in seconds (0 disables)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads whether automatic disconnection of the remote link after a period of activity is enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;121</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the printer mirror idle disconnect time</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;121</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>idle disconnect time in seconds (0 disables)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads whether automatic disconnection of the printer mirror after a period of activity is enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;122</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the idle disconnect external power mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;122</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>idle disconnect external power mode (0 disables)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads whether automatic disconnection after a period of inactivity if running on external power is enabled. This only affects <I>EPOC</I> devices; it is not possible to determine the status of external power for <I>SIBO</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;128</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the idle background operations mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;128</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>idle background operations mode (0 disables)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads whether throttling back of background operations when idle is enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;200</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the number of bytes of serial data received</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;200</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>number of bytes of serial data received</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the number of bytes of serial data received since the remote link or printer mirror was last enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;201</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the number of bytes of serial data transmitted</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;200</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>number of bytes of serial data trasmitted</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the number of bytes of serial data transmitted since the remote link or printer mirror was last enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;210</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the number of valid protocol frames received</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;210</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>number of valid protocol frames received</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the number of valid protocol frames received since the remote link was last enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;211</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the number of invalid protocol frames received</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;211</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>number of invalid protocol frames received</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the number of invalid protocol frames received since the remote link was last enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;212</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the number of retries for received protocol frames</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;212</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>number of retries for received protocol frames</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the number of retries for received protocol frames since the remote link was last enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;214</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the number of protocol frames transmitted</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;214</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>number of protocol frames transmitted</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the number of protocol frames transmitted since the remote link was last enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;216</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the number of retries for transmitted protocol frames</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;216</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>number of retries for transmitted protocol frames</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the number of retries for transmitted protocol frames since the remote link was last enabled.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1000</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the status of the remote link</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1000</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>remote link status</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the status of the remote link. The bits of the result have the following meaning:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Bit</TH><TH>Meaning when set</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>0</TD><TD ALIGN=LEFT>remote link active</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>4</TD><TD ALIGN=LEFT>connected to a <I>SIBO</I> device</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>5</TD><TD ALIGN=LEFT>connected to an <I>EPOC</I> device</TD></TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1010</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the type of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1010</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>type of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the type of the remote machine. The possible values are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Value</TH><TH>Meaning when set</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;00</TD><TD ALIGN=LEFT>Unknown</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;01</TD><TD ALIGN=LEFT>PC</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;02</TD><TD ALIGN=LEFT>MC</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;03</TD><TD ALIGN=LEFT>HC</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;04</TD><TD ALIGN=LEFT>Series 3</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;05</TD><TD ALIGN=LEFT>Series 3a, 3c, or 3mx</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;06</TD><TD ALIGN=LEFT>Workabout</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;07</TD><TD ALIGN=LEFT>Sienna</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;08</TD><TD ALIGN=LEFT>Series 3c</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;20</TD><TD ALIGN=LEFT>Series 5</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;21</TD><TD ALIGN=LEFT>WinC</TD></TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1011</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the description of the remote machine type</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1011</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to buffer to contain null terminated description</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>size of buffer</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>number of spare bytes in the buffer <B>including</B> the null terminator</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the description of the remote machine type.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1012</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the language of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1012</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>language</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the language of the remote machine. The possible values are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Value</TH><TH>Meaning</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;00</TD><TD ALIGN=LEFT>Test</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;01</TD><TD ALIGN=LEFT>English</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;02</TD><TD ALIGN=LEFT>French</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;03</TD><TD ALIGN=LEFT>German</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;04</TD><TD ALIGN=LEFT>Spanish</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;05</TD><TD ALIGN=LEFT>Italian</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;06</TD><TD ALIGN=LEFT>Swedish</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;07</TD><TD ALIGN=LEFT>Danish</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;08</TD><TD ALIGN=LEFT>Norwegian</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;09</TD><TD ALIGN=LEFT>Finnish</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0A</TD><TD ALIGN=LEFT>American</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0B</TD><TD ALIGN=LEFT>Swiss French</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0C</TD><TD ALIGN=LEFT>Swiss German</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0D</TD><TD ALIGN=LEFT>Portuguese</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0E</TD><TD ALIGN=LEFT>Turkish</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;0F</TD><TD ALIGN=LEFT>Icelandic</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;10</TD><TD ALIGN=LEFT>Russian</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;11</TD><TD ALIGN=LEFT>Hungarian</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;12</TD><TD ALIGN=LEFT>Dutch</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;13</TD><TD ALIGN=LEFT>Belgian Flemish</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;14</TD><TD ALIGN=LEFT>Australian</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;15</TD><TD ALIGN=LEFT>Belgian French</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;16</TD><TD ALIGN=LEFT>Austrian</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;17</TD><TD ALIGN=LEFT>New Zealand</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;18</TD><TD ALIGN=LEFT>International French</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;19</TD><TD ALIGN=LEFT>Czech</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1A</TD><TD ALIGN=LEFT>Slovak</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1B</TD><TD ALIGN=LEFT>Polish</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>&amp;1C</TD><TD ALIGN=LEFT>Slovenian</TD></TR>
+</TABLE>
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1018</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the major version of the remote machine operating system</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1018</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>major version</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the major version of the remote machine operating system.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1019</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the minor version of the remote machine operating system</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1019</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>minor version</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the minor version of the remote machine operating system.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;101A</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the build of the remote machine operating system</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;101A</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>build</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the build of the remote machine operating system.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1020</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the low word of the unique identifier of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1020</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>low word of unique identifier</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the low word of the unique identifier of the remote machine.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1021</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the high word of the unique identifier of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1021</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>high word of unique identifier</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the high word of the unique identifier of the remote machine.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1030</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the owner information of the remote machine</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1030</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to buffer to contain null terminated owner information</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>size of buffer</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>number of spare bytes in the buffer <B>including</B> the null terminator</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the owner information of the remote machine.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;11xx</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the status of the specified remote drive</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1100 + drive</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>remote drive status</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the status of a single remote drive. The bits of the result have the following meaning:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Bit</TH><TH>Meaning when set</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>0</TD><TD ALIGN=LEFT>drive present</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>8</TD><TD ALIGN=LEFT>ROM drive</TD></TR>
+</TABLE>
+<P>
+The drive may be specified in one of three ways:
+<UL>
+<LI>a zero based index (0 for drive A, through to 25 for drive Z)
+<LI>the ASCII code of the drive letter in upper case (65 for drive A, through to 90 for drive Z)
+<LI>the ASCII code of the drive letter in lower case (97 for drive A, through to 122 for drive Z)
+</UL>
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;12xx</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the name of the specified remote drive</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1200 + drive</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to buffer to contain null terminated drive name</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>size of buffer</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>number of spare bytes in the buffer <B>including</B> the null terminator</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the name of a single remote drive.
+<P>
+The drive may be specified in one of three ways:
+<UL>
+<LI>a zero based index (0 for drive A, through to 25 for drive Z)
+<LI>the ASCII code of the drive letter in upper case (65 for drive A, through to 90 for drive Z)
+<LI>the ASCII code of the drive letter in lower case (97 for drive A, through to 122 for drive Z)
+</UL>
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;13xx</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the unique identifier of the specified remote drive</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1300 + drive</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>remote drive unique identifier</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the unique identifier of a single remote drive.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1800</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the status of the main battery</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1800</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>main battery status</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the status of the main battery. The possible values are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Value</TH><TH>Meaning</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>0</TD><TD>dead</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>1</TD><TD>very low</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>2</TD><TD>low</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>3</TD><TD>good</TD></TR>
+</TABLE>
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1801</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the voltage of the main battery</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1801</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>main battery voltage</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the voltage of the main battery in milli-volts.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1802</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the maximum voltage of the main battery</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1802</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>main battery maximum voltage</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the maximum voltage of the main battery in milli-volts.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1810</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the status of the backup battery</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1810</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>backup battery status</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the status of the backup battery. The possible values are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Value</TH><TH>Meaning</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>0</TD><TD>dead</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>1</TD><TD>very low</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>2</TD><TD>low</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>3</TD><TD>good</TD></TR>
+</TABLE>
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1811</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the voltage of the backup battery</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1811</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>backup battery voltage</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the voltage of the backup battery in milli-volts.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1812</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the maximum voltage of the backup battery</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1812</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>backup battery maximum voltage</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the maximum voltage of the backup battery in milli-volts.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;1820</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the status of external power</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;1820</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>status of external power (0 not present)</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the status of external power.
+<P>
+This value is only available for <I>EPOC</I> devices.
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;2000</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the status of the printer mirror</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;2000</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>printer mirror status</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the status of the printer mirror. The bits of the result have the following meaning:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Bit</TH><TH>Meaning when set</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT>0</TD><TD ALIGN=LEFT>printer mirror active</TD></TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Get &amp;2001</B></TT><BR><TT>(SWI&nbsp;&amp;520C3)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Get the name of the printer mirror destination</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>&amp;2001</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>pointer to buffer to contain null terminated printer mirror destination</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>size of buffer</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R2&nbsp;=</TD><TD COLSPAN=2>number of spare bytes in the buffer <B>including</B> the null terminator</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call reads the name of the printer mirror destination.
+</TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

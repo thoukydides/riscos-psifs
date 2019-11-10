@@ -1,0 +1,89 @@
+REM File        : Print
+REM Date        : 19-Sep-02
+REM Author      : © A.Thoukydides, 1998-2002, 2019
+REM Description : Process a print job file.
+REM
+REM License     : PsiFS is free software: you can redistribute it and/or
+REM               modify it under the terms of the GNU General Public License
+REM               as published by the Free Software Foundation, either
+REM               version 3 of the License, or (at your option) any later
+REM               version.
+REM 
+REM               PsiFS is distributed in the hope that it will be useful,
+REM               but WITHOUT ANY WARRANTY; without even the implied warranty
+REM               of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+REM               the GNU General Public License for more details.
+REM 
+REM               You should have received a copy of the GNU General Public
+REM               License along with PsiFS. If not, see
+REM               <http://www.gnu.org/licenses/>.
+
+REM Cancel output redirection
+SYS "OS_ChangeRedirection", 0, 0
+
+REM Read the command line
+SYS "OS_GetEnv" TO env$
+env$ = FNskip_ws(MID$(env$, INSTR(env$, """", INSTR(env$, """") + 1) + 2))
+
+REM Extract the filenames
+pos% = INSTR(env$, " ")
+action$ = LEFT$(env$, pos% - 1)
+env$ = FNskip_ws(MID$(env$, pos% + 1))
+pos2% = INSTR(env$, " ")
+input$ = LEFT$(env$, pos2% - 1)
+output$ = FNskip_ws(MID$(env$, pos2% + 1))
+IF (pos% = 0) THEN ERROR 0, "Syntax: Print -control|-preview|-print <input> <output>"
+
+REM Decode the action
+CASE action$ OF
+    WHEN "-control": action% = 0
+    WHEN "-preview": action% = 1
+    WHEN "-print": action% = 2
+    OTHERWISE: ERROR 1, "Unsupported action '" + action$ + "'"
+ENDCASE
+
+REM Create a temporary copy of the print job file
+local$ = "<PsiFS$ConverterPrint>"
+SYS "OS_FSControl", 26, input$, local$, &4003, 0, 0, 0, 0, 0
+
+REM Ensure that the attributes for the file are sensible
+SYS "OS_File", 4, local$,,,, 3
+
+REM Start as a WIMP task
+SYS "Wimp_Initialise", 310, &4B534154, "PsiFS Print Job", 0 TO , task%
+
+REM Ask the PsiFS filer to process the print job file
+DIM block% 256
+!block% = 256
+block%!12 = 0
+block%!16 = &520C1
+block%!20 = action%
+block%!24 = -1
+block%!28 = -1
+$(block%+32) = local$ + CHR$0
+SYS "Wimp_SendMessage", 18, block%, 0
+
+REM Create a dummy output file to close the converter window
+SYS "OS_File", 11, output$, &FFD,, 0, 0
+
+REM Wait for a null poll before deleting the copy of the print job file
+done% = FALSE
+WHILE NOT done%
+    SYS "Wimp_Poll", 0, block% TO event%
+    CASE event% OF
+        WHEN 0: done% = TRUE
+        WHEN 17, 18: IF block%!16 = 0 THEN done% = TRUE
+    ENDCASE
+ENDWHILE
+
+REM Delete the temporary copy of the print job file
+SYS "XOS_FSControl", 27, local$, 0, 3
+
+END
+
+REM Skip over white space
+DEFFNskip_ws(str$)
+    WHILE LEFT$(str$, 1) = " "
+        str$ = MID$(str$, 2)
+    ENDWHILE
+= str$

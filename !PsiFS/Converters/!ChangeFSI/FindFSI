@@ -1,0 +1,32 @@
+REM File        : FindFSI
+REM Date        : 19-Sep-02
+REM Author      : © A.Thoukydides, 1998-2002, 2019
+REM Description : Attempt to locate and boot !ChangeFSI for use by !PsiFS.
+REM
+REM License     : PsiFS is free software: you can redistribute it and/or
+REM               modify it under the terms of the GNU General Public License
+REM               as published by the Free Software Foundation, either
+REM               version 3 of the License, or (at your option) any later
+REM               version.
+REM 
+REM               PsiFS is distributed in the hope that it will be useful,
+REM               but WITHOUT ANY WARRANTY; without even the implied warranty
+REM               of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+REM               the GNU General Public License for more details.
+REM 
+REM               You should have received a copy of the GNU General Public
+REM               License along with PsiFS. If not, see
+REM               <http://www.gnu.org/licenses/>.
+
+REM A general purpose buffer
+buffer_size% = 1024
+DIM buffer% buffer_size%
+
+REM Expand the search path
+SYS "XOS_GSTrans", "<PsiFS$Dir>.^.,<Boot$Dir>.^.Graphics.,<Boot$Dir>.^.Utilities.,<Boot$Dir>.^.Utils.,ADFS::4.$.Graphics.,ADFS::4.$.Utilities.,ADFS::4.$.Utils.", buffer%, buffer_size% TO , search$; flags%
+
+REM Attempt to locate a copy of ChangeFSI
+IF (flags% AND 1) = 0 THEN SYS "XOS_FSControl", 37, "!ChangeFSI.!Boot", buffer%, 0, search$, buffer_size% TO ,, path$,,, spare%; flags%
+
+REM Run the !Boot file if found
+IF ((flags% AND 1) = 0) AND (path$ <> "") THEN OSCLI path$

@@ -1,0 +1,156 @@
+File        : !PsiFS
+Date        : 19-Sep-02
+Author      : © Alexander Thoukydides, 1998-2002, 2019
+Description : Configuration file to allow the PsiFS module as a file
+              converter for !PsiFS.
+
+              PsiFS is free software: you can redistribute it and/or
+              modify it under the terms of the GNU General Public License
+              as published by the Free Software Foundation, either
+              version 3 of the License, or (at your option) any later
+              version.
+
+              PsiFS is distributed in the hope that it will be useful,
+              but WITHOUT ANY WARRANTY; without even the implied warranty
+              of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+              the GNU General Public License for more details.
+
+              You should have received a copy of the GNU General Public
+              License along with PsiFS. If not, see
+              <http://www.gnu.org/licenses/>.
+
+
+Default conversion options:
+
+PsiSIS conversion...
+Convert_155=
+Convert_155_Standard=PsiFSSISInstall
+Convert_155_InterceptLoad=PsiFSSISTextRecurse
+Convert_155_InterceptRun=PsiFSSISInstall
+Convert_155_InterceptSave=
+
+Psion conversion...
+Convert_158=
+Convert_158_Standard=
+Convert_158_InterceptLoad=
+Convert_158_InterceptRun=
+Convert_158_InterceptSave=
+
+tar conversion...
+Convert_C46=PsiFSTarDirectory
+Convert_C46_Standard=PsiFSTarDirectory
+Convert_C46_InterceptLoad=PsiFSTarText
+Convert_C46_InterceptRun=PsiFSTarText
+Convert_C46_InterceptSave=
+
+Data conversion...
+Convert_FFD=
+Convert_FFD_Standard=
+Convert_FFD_InterceptLoad=
+Convert_FFD_InterceptRun=
+Convert_FFD_InterceptSave=
+<EOF>
+
+Common converter definitions:
+
+Name=PsiFS
+Author=© A.Thoukydides, 1998, 1999, 2000, 2001, 2002
+Version=1.60 (19-Sep-02)
+WebSite=http://www.thouky.co.uk/software/psifs/
+<EOF>
+
+Individual converter definitions:
+
+Tag=PsiFSTarDirectory
+Description=Tar → Directory
+Purpose=Extract files from a tar archive
+Input=Tar
+InputUID=000000000000000000000000
+Output=Directory
+Convert=PsiFSTar <src> * <dest>
+<EOF>
+
+Tag=PsiFSTarText
+Description=Tar → Text
+Purpose=List files in a tar archive
+Input=Tar                        
+InputUID=000000000000000000000000
+Output=Text
+Convert=PsiFSCapture <dest> PsiFSTar <src> * -verbose
+<EOF>
+
+Tag=PsiFSSISDirectory
+Description=SIS file → Directory
+Purpose=Extract files from a SIS file
+Input=Data Psion PsiSIS
+InputName=*/sis
+Output=Directory
+Options=PsiFSS -drive S10 -recurse O11
+Convert=PsiFSSIS <src> -dir <dest> -scrap <PsiFS$ConverterScrap> -residual <orig> <opt>
+<EOF>
+
+Tag=PsiFSSISTar
+Description=SIS file → Tar
+Purpose=Extract files from a SIS file
+Input=Data Psion PsiSIS
+InputName=*/sis
+Output=Tar    
+Options=PsiFSS -drive S10 -recurse O11
+Convert=PsiFSSIS <src> -tar <dest> -scrap <PsiFS$ConverterScrap> -residual <orig> <opt>
+<EOF>
+
+Tag=PsiFSSISText
+Description=SIS file → Text
+Purpose=List files in a SIS file
+Input=Data Psion PsiSIS
+InputName=*/sis
+InterceptLoad=PsiSIS
+InterceptRun=PsiSIS
+Output=Text
+Options=PsiFSS -drive S10 -recurse O11
+Convert=PsiFSCapture <dest> PsiFSSIS <src> -verbose <opt>
+<EOF>
+
+Tag=PsiFSSISInstall
+Description=Install SIS file
+Purpose=Install SIS file on an EPOC device
+ButtonText=Install
+ButtonHelp=Click SELECT (or press RETURN) to start installation of the SIS file.|MClick ADJUST to start installation of the SIS file without closing the box.|MFollow the prompts on the EPOC device to complete installation.
+Input=Data Psion PsiSIS
+InputName=*/sis
+InterceptRun=PsiSIS
+Output=NoConversion
+Convert=PsiFSInstall <src> <orig> <dest>
+<EOF>
+
+Tag=PsiFSClipboardText
+Description=Clipboard → Text
+Purpose=Convert EPOC clipboard to text
+Input=Psion
+InputUID=100000371000003B00000000
+Output=Text
+Quality=10
+Convert=PsiFSConvert -totext <src> <dest>
+ConvertSilent=PsiFSConvert -silent -totext <src> <dest>
+<EOF>
+
+Tag=PsiFSTextClipboard
+Description=Text → Clipboard
+Purpose=Convert text to EPOC clipboard
+Input=Text
+Output=Psion
+Quality=10
+Convert=PsiFSConvert -toclip <src> <dest>
+ConvertSilent=PsiFSConvert -silent -toclip <src> <dest>
+<EOF>
+
+Tag=PsiFSPrint
+Description=Process print job file
+Purpose=Preview or print an EPOC print job file
+ButtonText=Print
+ButtonHelp=Click SELECT (or press RETURN) to preview or print the print job file.|MClick ADJUST to preview or print the print job file without closing the box.
+Input=Data
+Output=NoConversion
+Options=PsiFSP -control R10 -preview R11 -print R12
+Convert=PsiFSPrint <opt> <src> <dest>
+<EOF>

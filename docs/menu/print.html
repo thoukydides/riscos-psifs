@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : menu/print.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Menu Entries [Printer Mirror]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Menu Entries [Printer Mirror]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Menu Entries</H1>
+<B>Printer Mirror</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Printer mirror</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Selecting the <TT>Printer mirror</TT> menu entry enables the printer mirror with received data redirected to the <A HREF="confg.html" TITLE="Configure...">configured</A> default destination. The <A HREF="../icon/print.html" TITLE="Printer Mirror Icon">printer mirror icon</A> is displayed to indicate the new state.
+<P>
+This has the same effect as clicking on the iconbar icon with <I>Adjust</I>.
+<P>
+Moving the mouse pointer to the right over the <TT>Printer mirror</TT> sub-menu icon displays the following menu:
+<TABLE ALIGN=CENTER BORDER=1><TR><TD BGCOLOR="#CCCCCC" ALIGN=CENTER><TT>Printer mirror</TT></TD></TR><TR><TD>
+<TT><A HREF="#parallel" TITLE="Parallel printer">Parallel printer</A></TT><BR>
+<TT><A HREF="#serial" TITLE="Serial printer">Serial printer</A></TT><BR>
+<TT>----------------</TT><BR>
+<TT><A HREF="#file" TITLE="Print to file">Print to file</A></TT><BR>
+</TD></TR></TABLE>
+<P>
+More information is available on <A HREF="../start/enabl.html" TITLE="Enabling the Printer Mirror">enabling</A> and <A HREF="../start/disbl.html" TITLE="Disabling the Printer Mirror">disabling</A> the printer mirror. This includes details specific to printing from <A HREF="../start/prn16.html" TITLE="Printing from SIBO Devices"><I>SIBO</I></A> and <A HREF="../start/prn32.html" TITLE="Printing from EPOC Devices"><I>EPOC</I></A> devices.</TD></TR></TABLE>
+<H2><A NAME="settings"><FONT COLOR="#DD0000">Serial settings</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The printer mirror uses the <A HREF="confg.html" TITLE="Configure...">configured</A> serial block driver and baud rate. The <I>SIBO</I> or <I>EPOC</I> device must be configured to use the same baud rate, and the following data format and handshaking:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH COLSPAN=2 NOWRAP>Data format</TH><TH COLSPAN=2 NOWRAP>Handshaking</TH></TR>
+<TR VALIGN=TOP><TD NOWRAP>Data bits</TD><TD ALIGN=RIGHT>8</TD><TD NOWRAP>XON/XOFF</TD><TD ALIGN=RIGHT>No</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Stop bits</TD><TD ALIGN=RIGHT>1</TD><TD NOWRAP>RTS/CTS</TD><TD ALIGN=RIGHT>Yes</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Parity</TD><TD ALIGN=RIGHT>None</TD><TD NOWRAP>DSR/DTR</TD><TD ALIGN=RIGHT>Yes</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Ignore parity</TD><TD ALIGN=RIGHT>Yes</TD><TD NOWRAP>DCD</TD><TD ALIGN=RIGHT>No</TD></TR>
+</TABLE>
+<P>
+Note that the remote link must be switched off on the <I>SIBO</I> or <I>EPOC</I> device before attempting to use the printer mirror feature. Failure to do this will result in garbage being printed.</TD></TR></TABLE>
+<H2><A NAME="parallel"><FONT COLOR="#DD0000">Printer mirror &gt; Parallel printer</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Selecting the <TT>Parallel printer</TT> menu entry, from the <TT>Printer mirror</TT> menu, enables the printer mirror with received data redirected to the parallel printer port. The <A HREF="../icon/print.html" TITLE="Printer Mirror Icon">printer mirror icon</A> is displayed to indicate the new state.
+<P>
+This is equivalent to using the <TT><A HREF="#file" TITLE="Print to file">Print to file</A></TT> option with <TT>printer#parallel:</TT> selected as the filename.</TD></TR></TABLE>
+<H2><A NAME="serial"><FONT COLOR="#DD0000">Printer mirror &gt; Serial printer</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Selecting the <TT>Serial printer</TT> menu entry, from the <TT>Printer mirror</TT> menu, enables the printer mirror with received data redirected to the internal serial port. The <A HREF="../icon/print.html" TITLE="Printer Mirror Icon">printer mirror icon</A> is displayed to indicate the new state.
+<P>
+This is equivalent to using the <TT><A HREF="#file" TITLE="Print to file">Print to file</A></TT> option with <TT>printer#serial:</TT> selected as the filename. The current serial port settings are used; not those specified in the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> configuration. This option can only be used if <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is configured to use a different serial port for connecting to the <I>SIBO</I> or <I>EPOC</I> device.</TD></TR></TABLE>
+<H2><A NAME="file"><FONT COLOR="#DD0000">Printer mirror &gt; Print to file</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Selecting the <TT>Print to file</TT> menu entry or moving the mouse pointer to the right, from the <TT>Printer mirror</TT> menu, opens a <TT>Print&nbsp;to</TT> window allowing a filename to be specified. The printer mirror will be enabled with received data redirected to the specified file or device. The <A HREF="../icon/print.html" TITLE="Printer Mirror Icon">printer mirror icon</A> is displayed to indicate the new state.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,47 @@
+|   File        : !Boot
+|   Date        : 19-Sep-02
+|   Author      : © A.Thoukydides, 1998-2002, 2019
+|   Description : Script to prepare the PsiFS module as a file converter
+|                 for !PsiFS.
+|
+|   License     : PsiFS is free software: you can redistribute it and/or
+|                 modify it under the terms of the GNU General Public License
+|                 as published by the Free Software Foundation, either
+|                 version 3 of the License, or (at your option) any later
+|                 version.
+|   
+|                 PsiFS is distributed in the hope that it will be useful,
+|                 but WITHOUT ANY WARRANTY; without even the implied warranty
+|                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+|                 the GNU General Public License for more details.
+|   
+|                 You should have received a copy of the GNU General Public
+|                 License along with PsiFS. If not, see
+|                 <http://www.gnu.org/licenses/>.
+
+| Ensure that the file types used in the configuration file are known
+Set File$Type_155 PsiSIS
+Set File$Type_158 Psion
+Set File$Type_C46 Tar
+Set File$Type_FFD Data
+Set File$Type_FFF Text
+
+| Register the converter
+Set PsiFSConverter$PsiFS <Obey$Dir>
+
+| Scrap files to use
+Set PsiFS$ConverterScrap <PsiFSScrap$Dir>.Converter
+Set PsiFS$ConverterInstall <PsiFSScrap$Dir>.InstallSIS
+Set PsiFS$ConverterPrint <PsiFSScrap$Dir>.PrintJob
+
+| Define an alias to capture output from a command to a text file
+Set Alias$PsiFSCapture BASIC -quit "<Obey$Dir>.Capture" %%*0 <123> > null: }
+
+| Define an alias to start a SIS file installation
+Set Alias$PsiFSInstall BASIC -quit "<Obey$Dir>.Install" %%*0 <123> > null: }
+
+| Define an alias to convert to and from clipboard files
+Set Alias$PsiFSConvert BASIC -quit "<Obey$Dir>.Convert" %%*0 <123> > null: }
+
+| Define an alias to launch print job files
+Set Alias$PsiFSPrint BASIC -quit "<Obey$Dir>.Print" %%*0 <123> > null: }

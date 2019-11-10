@@ -1,0 +1,1597 @@
+//  File        : psifs.swi
+//  Date        : 19-Sep-02
+//  Author      : © A.Thoukydides, 1998-2002, 2019
+//  Description : Main module interface for the PsiFS module.
+//
+//  License     : PsiFS is free software: you can redistribute it and/or
+//                modify it under the terms of the GNU General Public License
+//                as published by the Free Software Foundation, either
+//                version 3 of the License, or (at your option) any later
+//                version.
+//  
+//                PsiFS is distributed in the hope that it will be useful,
+//                but WITHOUT ANY WARRANTY; without even the implied warranty
+//                of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+//                the GNU General Public License for more details.
+//  
+//                You should have received a copy of the GNU General Public
+//                License along with PsiFS. If not, see
+//                <http://www.gnu.org/licenses/>.
+
+// The module title and prefix
+TITLE PsiFS;
+
+// The author of the module
+AUTHOR "© Alexander Thoukydides, 1998, 1999, 2000, 2001, 2002";
+
+// Include oslib header files
+NEEDS OS, FileSwitch, Wimp;
+
+// Base error number
+CONST
+    // General error blocks
+    Error_PsifsNoDriver         = .Bits: 0x815900 "Block driver not found",
+    Error_PsifsBlockDriver      = .Bits: 0x815901 "Block driver error",
+    Error_PsifsDriverSize       = .Bits: 0x815902 "Block driver larger than 4kB - module workspace may be corrupt",
+    Error_PsifsDriverFull       = .Bits: 0x815903 "Block driver buffer full",
+    Error_PsifsLinkBusy         = .Bits: 0x815908 "Block driver is in use",
+    Error_PsifsNoLink           = .Bits: 0x815910 "Block driver not active",
+    Error_PsifsNoFrame          = .Bits: 0x815911 "Frame handler not active",
+    Error_PsifsNoConnect        = .Bits: 0x815912 "Connection manager not active",
+    Error_PsifsNoMux            = .Bits: 0x815913 "Multiplexor and fragmentation layer not active",
+    Error_PsifsNotConnected     = .Bits: 0x815914 "Not connected",
+    Error_PsifsNotPoll          = .Bits: 0x815915 "Not within a poll",
+    Error_PsifsConnectionBusy   = .Bits: 0x815916 "Connection is busy",
+    Error_PsifsChanExists       = .Bits: 0x815917 "Channel already exists",
+    Error_PsifsMuxFull          = .Bits: 0x815918 "Pending frame queue full",
+    Error_PsifsSvrNone          = .Bits: 0x815919 "Server channel not connected",
+    Error_PsifsSvrClosed        = .Bits: 0x81591a "Server channel disconnected",
+    Error_PsifsSvrTime          = .Bits: 0x81591b "Server time out",
+    Error_PsifsBadBuffer        = .Bits: 0x81591c "Bad buffer",
+    Error_PsifsBufferFull       = .Bits: 0x81591d "Buffer full",
+    Error_PsifsBufferEnd        = .Bits: 0x81591e "End of buffer reached",
+    Error_PsifsBadFrameState    = .Bits: 0x815920 "Invalid frame state",
+    Error_PsifsBadConnectState  = .Bits: 0x815921 "Invalid connection state",
+    Error_PsifsBadNCPEvent      = .Bits: 0x815922 "Invalid NCP event",
+    Error_PsifsBadNCPOp         = .Bits: 0x815923 "Unsupported NCP operation",
+    Error_PsifsNCPLen           = .Bits: 0x815924 "NCP string too long",
+    Error_PsifsNCPTooMany       = .Bits: 0x815925 "Too many applications",
+    Error_PsifsBadRfsvOp        = .Bits: 0x815928 "Unsupported RFSV operation",
+    Error_PsifsNotRfsvReply     = .Bits: 0x815929 "Not a RFSV reply",
+    Error_PsifsBadRfsvReply     = .Bits: 0x81592a "Mismatched RFSV reply",
+    Error_PsifsRfsvLen          = .Bits: 0x81592b "RFSV string too long",
+    Error_PsifsRfsvStr          = .Bits: 0x81592c "Unsupported RFSV string type",
+    Error_PsifsRfsvTooMany      = .Bits: 0x81592d "Too many directory entries",
+    Error_PsifsBadUnifiedOp     = .Bits: 0x81592e "Unsupported unified file operation",
+    Error_PsifsBadCacheOp       = .Bits: 0x81592f "Unsupported cached file operation",
+    Error_PsifsTimeout          = .Bits: 0x815930 "Operation timed out",
+    Error_PsifsComms            = .Bits: 0x815931 "Communications failure",
+    Error_PsifsCacheInactive    = .Bits: 0x815932 "Connection not active",
+    Error_PsifsCacheBusy        = .Bits: 0x815933 "Connection is busy",
+    Error_PsifsNotLinkReply     = .Bits: 0x815938 "Not a LINK reply",
+    Error_PsifsBadLinkReply     = .Bits: 0x815939 "Mismatched LINK reply",
+    Error_PsifsLinkLen          = .Bits: 0x81593a "LINK name too long",
+    Error_PsifsBadUid           = .Bits: 0x815940 "Invalid file UID",
+    Error_PsifsBadExt           = .Bits: 0x815941 "Invalid file extension",
+    Error_PsifsBadUploadOp      = .Bits: 0x815948 "Unsupported upload operation",
+    Error_PsifsBadAsyncHandle   = .Bits: 0x815950 "Invalid asynchronous operation handle",
+    Error_PsifsBadAsyncOp       = .Bits: 0x815951 "Unsupported asynchronous operation",
+    Error_PsifsBadAsyncState    = .Bits: 0x815952 "Invalid asynchronous operation state",
+    Error_PsifsBadTarChecksum   = .Bits: 0x815960 "Bad tar header checksum",
+    Error_PsifsBadTarHeader     = .Bits: 0x815961 "Bad format tar header",
+    Error_PsifsTarEOF           = .Bits: 0x815962 "Unexpected end of tar file",
+    Error_PsifsBadTarOp         = .Bits: 0x815963 "Unsupported tar file operation",
+    Error_PsifsRemoteUnknown    = .Bits: 0x815980 "Unknown error received from remote system",
+    Error_PsifsRemoteGeneral    = .Bits: 0x815981 "General remote system error",
+    Error_PsifsRemoteOs         = .Bits: 0x815982 "Remote operating system error",
+    Error_PsifsRemoteNotSup     = .Bits: 0x815983 "Remote system does not support operation",
+    Error_PsifsRemoteInUse      = .Bits: 0x815984 "Remote system in use",
+    Error_PsifsRemoteNoMemory   = .Bits: 0x815985 "Remote system out of memory",
+    Error_PsifsRemoteFs         = .Bits: 0x815986 "Remote file system error",
+    Error_PsifsRemoteNotReady   = .Bits: 0x815987 "Remote system not ready",
+    Error_PsifsRemoteCancel     = .Bits: 0x815988 "Remote system cancelled operation",
+    Error_PsifsRemoteDiscon     = .Bits: 0x815989 "Remote system disconnected",
+    Error_PsifsRemoteNoCon      = .Bits: 0x81598a "Remote system failed to connect",
+    Error_PsifsRemoteAbort      = .Bits: 0x81598b "Remote system aborted operation",
+    Error_PsifsRemotePower      = .Bits: 0x81598c "Remote system power failure",
+    Error_PsifsKillClients      = .Bits: 0x815990 "PsiFS module cannot be killed while clients are registered",
+    Error_PsifsBadInterceptHandle= .Bits: 0x8159a0 "Invalid file transfer intercept handle",
+    Error_PsifsBadInterceptType = .Bits: 0x8159a1 "Invalid file transfer intercept type",
+    Error_PsifsBadInterceptMsg  = .Bits: 0x8159a2 "Unexpected message during file transfer intercept",
+    Error_PsifsInterceptDied    = .Bits: 0x8159a3 "Receiver died during file transfer intercept",
+    Error_PsifsBadInterceptState= .Bits: 0x8159a4 "Invalid file transfer intercept state",
+    Error_PsifsInterceptRun     = .Bits: 0x8159a5 "No active application can load a file of this type. Run the required application and try again.",
+    Error_PsifsLangUnknown      = .Bits: 0x8159b0 "Unknown language",
+    Error_PsifsTooManyLang      = .Bits: 0x8159b1 "Too many languages",
+    Error_PsifsSISWriteOutside  = .Bits: 0x8159b8 "Attempt to write outside SIS file",
+    Error_PsifsSISReadOutside   = .Bits: 0x8159b9 "Attempt to read outside SIS file",
+    Error_PsifsBadSISHeader     = .Bits: 0x8159ba "Bad format SIS file header",
+    Error_PsifsBadSISType       = .Bits: 0x8159bb "Unsupported SIS file type",
+    Error_PsifsBadSISChecksum   = .Bits: 0x8159bc "Incorrect SIS file checksum",
+    Error_PsifsClipboardNotActive  = .Bits: 0x8159c0 "Clipboard server is not active",
+    Error_PsifsClipboardNotSync = .Bits: 0x8159c1 "Clipboard file is not synchronized",
+    Error_PsifsClipboardState   = .Bits: 0x8159c2 "Invalid clipboard state",
+    Error_PsifsPrintJobNoPage   = .Bits: 0x8159d0 "No page data available for print job",
+
+    // File system error blocks
+    Error_PsifsEof              = .Bits: 0x19a02 "End of file",
+    Error_PsifsExtEscape        = .Bits: 0x19a11 "Escape",
+    Error_PsifsCantDelCsd       = .Bits: 0x19a96 "Can't delete current directory",
+    Error_PsifsCantDelLib       = .Bits: 0x19a97 "Can't delete library",
+    Error_PsifsBadDisc          = .Bits: 0x19a9a "Disc not formatted",
+    Error_PsifsTooManyDiscs     = .Bits: 0x19a9b "Too many discs",
+    Error_PsifsBadUp            = .Bits: 0x19a9d "Illegal use of ^",
+    Error_PsifsAmbigDisc        = .Bits: 0x19a9e "Ambiguous disc name",
+    Error_PsifsNotRefDisc       = .Bits: 0x19a9f "Not same disc",
+    Error_PsifsInUse            = .Bits: 0x19aa0 "PsiFS in use",
+    Error_PsifsBadParms         = .Bits: 0x19aa1 "Bad parameters",
+    Error_PsifsCantDelUrd       = .Bits: 0x19aa2 "Can't delete user root directory",
+    Error_PsifsBuffer           = .Bits: 0x19aa5 "No room for buffer",
+    Error_PsifsWorkspace        = .Bits: 0x19aa6 "PsiFS workspace corrupt",
+    Error_PsifsMultipleClose    = .Bits: 0x19aa7 "Multiple file closing errors",
+    Error_PsifsBadDrive         = .Bits: 0x19aac "Bad drive",
+    Error_PsifsBadRename        = .Bits: 0x19ab0 "Bad rename",
+    Error_PsifsDirFull          = .Bits: 0x19ab3 "Directory full",
+    Error_PsifsDirNotEmpty      = .Bits: 0x19ab4 "Directory not empty",
+    Error_PsifsOutside          = .Bits: 0x19ab7 "Outside file",
+    Error_PsifsAccess           = .Bits: 0x19abd "Access violation",
+    Error_PsifsTooManyOpen      = .Bits: 0x19ac0 "Too many open files",
+    Error_PsifsOpen             = .Bits: 0x19ac2 "File open",
+    Error_PsifsLocked           = .Bits: 0x19ac3 "Locked",
+    Error_PsifsExists           = .Bits: 0x19ac4 "Already exists",
+    Error_PsifsTypes            = .Bits: 0x19ac5 "Types don't match",
+    Error_PsifsDiscFull         = .Bits: 0x19ac6 "Disc full",
+    Error_PsifsDisc             = .Bits: 0x19ac7 "Disc error",
+    Error_PsifsWriteProt        = .Bits: 0x19ac9 "Protected disc",
+    Error_PsifsDataLost         = .Bits: 0x19aca "Data lost",
+    Error_PsifsBadName          = .Bits: 0x19acc "Bad name",
+    Error_PsifsBadAtt           = .Bits: 0x19acf "Bad attribute",
+    Error_PsifsDriveEmpty       = .Bits: 0x19ad3 "Drive empty",
+    Error_PsifsDiscNotFound     = .Bits: 0x19ad4 "Disc not found",
+    Error_PsifsDiscNotPresent   = .Bits: 0x19ad5 "Disc not present",
+    Error_PsifsNotFound         = .Bits: 0x19ad6 "Not found",
+    Error_PsifsChannel          = .Bits: 0x19ade "Channel",
+    Error_PsifsNotSupported     = .Bits: 0x19af8 "Bad operation on PsiFS",
+    Error_PsifsFSWriteOnly      = .Bits: 0x19afa "PsiFS is a write only filing system",
+    Error_PsifsFSReadOnly       = .Bits: 0x19afc "PsiFS is a read only filing system",
+    Error_PsifsWildCards        = .Bits: 0x19afd "Wild cards",
+    Error_PsifsBadCom           = .Bits: 0x19afe "Bad command";
+
+// Filing system number
+CONST
+    PsiFS_FSNumberPsifs         = FileSwitch_FSNo: 154;
+
+// Mask for changes of interest
+TYPE
+    PsiFS_Mask                  = .Bits "Mask specifying changes of interest";
+CONST
+    PsiFS_MaskMode              = PsiFS_Mask: 0x00000001,
+    PsiFS_MaskBlockDriver       = PsiFS_Mask: 0x00000002,
+    PsiFS_MaskStatsBytes        = PsiFS_Mask: 0x00000010,
+    PsiFS_MaskLinkConfig        = PsiFS_Mask: 0x00000100,
+    PsiFS_MaskLinkStatus        = PsiFS_Mask: 0x00000200,
+    PsiFS_MaskLinkDrives        = PsiFS_Mask: 0x00000400,
+    PsiFS_MaskLinkAsyncEnd      = PsiFS_Mask: 0x00001000,
+    PsiFS_MaskLinkAsyncState    = PsiFS_Mask: 0x00002000,
+    PsiFS_MaskPrinterConfig     = PsiFS_Mask: 0x00010000,
+    PsiFS_MaskInterceptStatus   = PsiFS_Mask: 0x00100000,
+    PsiFS_MaskClipboardStatus   = PsiFS_Mask: 0x00200000,
+    PsiFS_MaskPrintJobStatus    = PsiFS_Mask: 0x00400000;
+
+// Modes of operation
+TYPE
+    PsiFS_Mode                  = .Bits "Modes of operation";
+CONST
+    PsiFS_ModeInactive          = PsiFS_Mode: 0x00,
+    PsiFS_ModeLink              = PsiFS_Mode: 0x01,
+    PsiFS_ModePrinter           = PsiFS_Mode: 0x02;
+
+// A drive letter
+TYPE
+    PsiFS_Drive                 = .Byte "A drive letter (0 to 25, 'A' to 'Z', or 'a' to 'z')";
+CONST
+    PsiFS_DriveFirst            = PsiFS_Drive: 0,
+    PsiFS_DriveLast             = PsiFS_Drive: 25,
+    PsiFS_DriveFirstUpper       = PsiFS_Drive: 'A',
+    PsiFS_DriveLastUpper        = PsiFS_Drive: 'Z',
+    PsiFS_DriveFirstLower       = PsiFS_Drive: 'a',
+    PsiFS_DriveLastLower        = PsiFS_Drive: 'z',
+    PsiFS_DriveMask             = PsiFS_Drive: 0xff;
+
+// Option or status selector
+TYPE
+    PsiFS_Selector              = .Bits "Option or status selector";
+CONST
+    PsiFS_SelectMode            = PsiFS_Selector: 0x0000,
+    PsiFS_SelectDriverName      = PsiFS_Selector: 0x0100,
+    PsiFS_SelectDriverPort      = PsiFS_Selector: 0x0101,
+    PsiFS_SelectDriverBaud      = PsiFS_Selector: 0x0102,
+    PsiFS_SelectDriverOptions   = PsiFS_Selector: 0x0103,
+    PsiFS_SelectDriverAutoBaud  = PsiFS_Selector: 0x0104,
+    PsiFS_SelectDriverActiveBaud = PsiFS_Selector: 0x0108,
+    PsiFS_SelectSyncClocks      = PsiFS_Selector: 0x0110,
+    PsiFS_SelectIdleDisconnectLink = PsiFS_Selector: 0x0120,
+    PsiFS_SelectIdleDisconnectPrinter = PsiFS_Selector: 0x0121,
+    PsiFS_SelectIdleBackgroundThrottle = PsiFS_Selector: 0x0128,
+    PsiFS_SelectStatisticsReceivedBytes = PsiFS_Selector: 0x0200,
+    PsiFS_SelectStatisticsTransmittedBytes = PsiFS_Selector: 0x0201,
+    PsiFS_SelectStatisticsReceivedValidFrames = PsiFS_Selector: 0x0210,
+    PsiFS_SelectStatisticsReceivedInvalidFrames = PsiFS_Selector: 0x0211,
+    PsiFS_SelectStatisticsReceivedRetriedFrames = PsiFS_Selector: 0x0212,
+    PsiFS_SelectStatisticsTransmittedFrames = PsiFS_Selector: 0x0214,
+    PsiFS_SelectStatisticsTransmittedRetriedFrames = PsiFS_Selector: 0x0216,
+    PsiFS_SelectLinkStatus      = PsiFS_Selector: 0x1000,
+    PsiFS_SelectMachineType     = PsiFS_Selector: 0x1010,
+    PsiFS_SelectMachineDescription = PsiFS_Selector: 0x1011,
+    PsiFS_SelectMachineLanguage = PsiFS_Selector: 0x1012,
+    PsiFS_SelectMachineOSMajor  = PsiFS_Selector: 0x1018,
+    PsiFS_SelectMachineOSMinor  = PsiFS_Selector: 0x1019,
+    PsiFS_SelectMachineOSBuild  = PsiFS_Selector: 0x101a,
+    PsiFS_SelectMachineIDLow    = PsiFS_Selector: 0x1020,
+    PsiFS_SelectMachineIDHigh   = PsiFS_Selector: 0x1021,
+    PsiFS_SelectMachineOwner    = PsiFS_Selector: 0x1030,
+    PsiFS_SelectDriveStatus     = PsiFS_Selector: 0x1100,
+    PsiFS_SelectDriveName       = PsiFS_Selector: 0x1200,
+    PsiFS_SelectDriveID         = PsiFS_Selector: 0x1300,
+    PsiFS_SelectPowerMainStatus = PsiFS_Selector: 0x1800,
+    PsiFS_SelectPowerMainVoltage = PsiFS_Selector: 0x1801,
+    PsiFS_SelectPowerMainMaxVoltage = PsiFS_Selector: 0x1802,
+    PsiFS_SelectPowerBackupStatus = PsiFS_Selector: 0x1810,
+    PsiFS_SelectPowerBackupVoltage = PsiFS_Selector: 0x1811,
+    PsiFS_SelectPowerBackupMaxVoltage = PsiFS_Selector: 0x1812,
+    PsiFS_SelectPowerExternal   = PsiFS_Selector: 0x1820,
+    PsiFS_SelectPrinterStatus   = PsiFS_Selector: 0x2000,
+    PsiFS_SelectPrinterDevice   = PsiFS_Selector: 0x2001;
+
+// Remote link status
+TYPE
+    PsiFS_LinkStatus            = .Bits "Remote link status";
+CONST
+    PsiFS_LinkStatusActive      = PsiFS_LinkStatus: 0x00000001,
+    PsiFS_LinkStatusEPOC16      = PsiFS_LinkStatus: 0x00000010,
+    PsiFS_LinkStatusEPOC32      = PsiFS_LinkStatus: 0x00000020;
+
+// Machine type
+TYPE
+    PsiFS_MachineType           = .Bits "Machine type";
+CONST
+    PsiFS_MachineTypeUnknown    = PsiFS_MachineType: 0x00,
+    PsiFS_MachineTypePC         = PsiFS_MachineType: 0x01,
+    PsiFS_MachineTypeMC         = PsiFS_MachineType: 0x02,
+    PsiFS_MachineTypeHC         = PsiFS_MachineType: 0x03,
+    PsiFS_MachineTypeS3         = PsiFS_MachineType: 0x04,
+    PsiFS_MachineTypeS3A        = PsiFS_MachineType: 0x05,
+    PsiFS_MachineTypeWorkabout  = PsiFS_MachineType: 0x06,
+    PsiFS_MachineTypeSienna     = PsiFS_MachineType: 0x07,
+    PsiFS_MachineTypeS3C        = PsiFS_MachineType: 0x08,
+    PsiFS_MachineTypeS5         = PsiFS_MachineType: 0x20,
+    PsiFS_MachineTypeWINC       = PsiFS_MachineType: 0x21;
+
+// Language
+TYPE
+    PsiFS_Language              = .Bits "Language";
+CONST
+    PsiFS_LanguageUnknown       = PsiFS_Language: 0xffffffff,
+    PsiFS_LanguageTest          = PsiFS_Language: 0x00,
+    PsiFS_LanguageUKEnglish     = PsiFS_Language: 0x01,
+    PsiFS_LanguageFrench        = PsiFS_Language: 0x02,
+    PsiFS_LanguageGerman        = PsiFS_Language: 0x03,
+    PsiFS_LanguageSpanish       = PsiFS_Language: 0x04,
+    PsiFS_LanguageItalian       = PsiFS_Language: 0x05,
+    PsiFS_LanguageSwedish       = PsiFS_Language: 0x06,
+    PsiFS_LanguageDanish        = PsiFS_Language: 0x07,
+    PsiFS_LanguageNorwegian     = PsiFS_Language: 0x08,
+    PsiFS_LanguageFinnish       = PsiFS_Language: 0x09,
+    PsiFS_LanguageAmericanEnglish = PsiFS_Language: 0x0a,
+    PsiFS_LanguageSwissFrench   = PsiFS_Language: 0x0b,
+    PsiFS_LanguageSwissGerman   = PsiFS_Language: 0x0c,
+    PsiFS_LanguagePortuguese    = PsiFS_Language: 0x0d,
+    PsiFS_LanguageTurkish       = PsiFS_Language: 0x0e,
+    PsiFS_LanguageIcelandic     = PsiFS_Language: 0x0f,
+    PsiFS_LanguageRussian       = PsiFS_Language: 0x10,
+    PsiFS_LanguageHungarian     = PsiFS_Language: 0x11,
+    PsiFS_LanguageDutch         = PsiFS_Language: 0x12,
+    PsiFS_LanguageBelgianFlemish = PsiFS_Language: 0x13,
+    PsiFS_LanguageAustralianEnglish = PsiFS_Language: 0x14,
+    PsiFS_LanguageBelgianFrench = PsiFS_Language: 0x15,
+    PsiFS_LanguageAustrianGerman = PsiFS_Language: 0x16,
+    PsiFS_LanguageNewZealandEnglish = PsiFS_Language: 0x17,
+    PsiFS_LanguageInternationalFrench = PsiFS_Language: 0x18,
+    PsiFS_LanguageCzech         = PsiFS_Language: 0x19,
+    PsiFS_LanguageSlovak        = PsiFS_Language: 0x1a,
+    PsiFS_LanguagePolish        = PsiFS_Language: 0x1b,
+    PsiFS_LanguageSlovenian     = PsiFS_Language: 0x1c,
+    PsiFS_LanguageTaiwanChinese = PsiFS_Language: 0x1d,
+    PsiFS_LanguageHongKongChinese = PsiFS_Language: 0x1e,
+    PsiFS_LanguagePRCChinese    = PsiFS_Language: 0x1f,
+    PsiFS_LanguageJapanese      = PsiFS_Language: 0x20,
+    PsiFS_LanguageThai          = PsiFS_Language: 0x21;
+
+// Drive status
+TYPE
+    PsiFS_DriveStatus           = .Bits "Remote drive status";
+CONST
+    PsiFS_DriveStatusPresent    = PsiFS_DriveStatus: 0x00000001,
+    PsiFS_DriveStatusROM        = PsiFS_DriveStatus: 0x00000100;
+
+// Drive identifier
+TYPE
+    PsiFS_DriveID               = .Bits "Remote drive unique identifier";
+
+// Battery status
+TYPE
+    PsiFS_BatteryStatus         = .Bits "Battery status";
+CONST
+    PsiFS_BatteryStatusDead     = PsiFS_BatteryStatus: 0,
+    PsiFS_BatteryStatusVeryLow  = PsiFS_BatteryStatus: 1,
+    PsiFS_BatteryStatusLow      = PsiFS_BatteryStatus: 2,
+    PsiFS_BatteryStatusGood     = PsiFS_BatteryStatus: 3;
+
+// Printer mirror status
+TYPE
+    PsiFS_PrinterStatus         = .Bits "Printer mirror status";
+CONST
+    PsiFS_PrinterStatusActive   = PsiFS_PrinterStatus: 0x00000001;
+
+// An asynchronous operation handle
+TYPE
+    PsiFS_AsyncHandle           = .Bits "Asynchronous operation handle";
+CONST
+    PsiFS_AsyncInvalid          = PsiFS_AsyncHandle: 0;
+
+// Possible asynchronous operations
+TYPE
+    PsiFS_AsyncOp               = .Bits "Asynchronous operation reason code";
+CONST
+    PsiFS_AsyncShutdown         = PsiFS_AsyncOp: 0,
+    PsiFS_AsyncRestart          = PsiFS_AsyncOp: 1,
+    PsiFS_AsyncRead             = PsiFS_AsyncOp: 2,
+    PsiFS_AsyncWrite            = PsiFS_AsyncOp: 3,
+    PsiFS_AsyncBackup           = PsiFS_AsyncOp: 4,
+    PsiFS_AsyncWriteStart       = PsiFS_AsyncOp: 5,
+    PsiFS_AsyncInstall          = PsiFS_AsyncOp: 6;
+
+// The status of an asynchronous operation
+TYPE
+    PsiFS_AsyncStatus           = .Bits "Asynchronous operation status";
+CONST
+    PsiFS_AsyncSuccess          = PsiFS_AsyncStatus: 0x0000,
+    PsiFS_AsyncError            = PsiFS_AsyncStatus: 0x0001,
+    PsiFS_AsyncAborted          = PsiFS_AsyncStatus: 0x0002,
+    PsiFS_AsyncBusy             = PsiFS_AsyncStatus: 0x0101,
+    PsiFS_AsyncDelegate         = PsiFS_AsyncStatus: 0x0102,
+    PsiFS_AsyncWaitCopy         = PsiFS_AsyncStatus: 0x0200,
+    PsiFS_AsyncWaitRestart      = PsiFS_AsyncStatus: 0x0201,
+    PsiFS_AsyncWaitNewer        = PsiFS_AsyncStatus: 0x0202,
+    PsiFS_AsyncWaitRead         = PsiFS_AsyncStatus: 0x0203,
+    PsiFS_AsyncPaused           = PsiFS_AsyncStatus: 0x0300,
+    PsiFS_AsyncProgList         = PsiFS_AsyncStatus: 0x1000,
+    PsiFS_AsyncProgDetail       = PsiFS_AsyncStatus: 0x1001,
+    PsiFS_AsyncProgClose        = PsiFS_AsyncStatus: 0x1002,
+    PsiFS_AsyncProgOpen         = PsiFS_AsyncStatus: 0x1003,
+    PsiFS_AsyncFileOpen         = PsiFS_AsyncStatus: 0x1100,
+    PsiFS_AsyncFileClose        = PsiFS_AsyncStatus: 0x1101,
+    PsiFS_AsyncFileRead         = PsiFS_AsyncStatus: 0x1102,
+    PsiFS_AsyncFileWrite        = PsiFS_AsyncStatus: 0x1103,
+    PsiFS_AsyncFileMkdir        = PsiFS_AsyncStatus: 0x1104,
+    PsiFS_AsyncFileDelete       = PsiFS_AsyncStatus: 0x1105,
+    PsiFS_AsyncCatRead          = PsiFS_AsyncStatus: 0x1200,
+    PsiFS_AsyncCatWrite         = PsiFS_AsyncStatus: 0x1201,
+    PsiFS_AsyncTarKeep          = PsiFS_AsyncStatus: 0x1300,
+    PsiFS_AsyncTarScrap         = PsiFS_AsyncStatus: 0x1301,
+    PsiFS_AsyncTarSkip          = PsiFS_AsyncStatus: 0x1302,
+    PsiFS_AsyncTarAdd           = PsiFS_AsyncStatus: 0x1303,
+    PsiFS_AsyncTarExtract       = PsiFS_AsyncStatus: 0x1304;
+
+// Asynchronous operation control actions
+TYPE
+    PsiFS_AsyncControlOp        = .Bits "Asynchronous control operation reason code";
+CONST
+    PsiFS_AsyncSimpleResponse   = PsiFS_AsyncControlOp: 0,
+    PsiFS_AsyncPause            = PsiFS_AsyncControlOp: 1,
+    PsiFS_AsyncResume           = PsiFS_AsyncControlOp: 2;
+
+// Response codes for a waiting asynchronous operation
+TYPE
+    PsiFS_AsyncResponse         = .Bits "Asynchronous operation response";
+CONST
+    PsiFS_AsyncResponseContinue = PsiFS_AsyncResponse: 0x0000,
+    PsiFS_AsyncResponseYes      = PsiFS_AsyncResponse: 0x0001,
+    PsiFS_AsyncResponseNo       = PsiFS_AsyncResponse: 0x0002,
+    PsiFS_AsyncResponseQuiet    = PsiFS_AsyncResponse: 0x0003,
+    PsiFS_AsyncResponseSkip     = PsiFS_AsyncResponse: 0x0004,
+    PsiFS_AsyncResponseRestart  = PsiFS_AsyncResponse: 0x0005,
+    PsiFS_AsyncResponseRetry    = PsiFS_AsyncResponse: 0x0006,
+    PsiFS_AsyncResponseCopy     = PsiFS_AsyncResponse: 0x0007;
+
+// File system operation codes
+TYPE
+    PsiFS_FileOpReason          = .Bits "Miscellaneous file system operation reason code";
+CONST
+    PsiFS_FileOpNameDisc        = PsiFS_FileOpReason: 0x00;
+
+// Mask of file transfer intercepts
+TYPE
+    PsiFS_InterceptType         = .Bits "File transfer intercept mask";
+CONST
+    PsiFS_InterceptForced       = PsiFS_InterceptType: 0x00000001,
+    PsiFS_InterceptLoad         = PsiFS_InterceptType: 0x00000002,
+    PsiFS_InterceptSave         = PsiFS_InterceptType: 0x00000004,
+    PsiFS_InterceptTransfer     = PsiFS_InterceptType: 0x00000008,
+    PsiFS_InterceptRunAll       = PsiFS_InterceptType: 0x00000010,
+    PsiFS_InterceptRunUnclaimed = PsiFS_InterceptType: 0x00000020;
+
+// A file intercept handle
+TYPE
+    PsiFS_InterceptHandle       = .Bits "File transfer intercept handle";
+CONST
+    PsiFS_InterceptInvalid      = PsiFS_InterceptHandle: 0;
+
+// File intercept control actions
+TYPE
+    PsiFS_InterceptControlOp    = .Bits "File transfer intercept control reason code";
+CONST
+    PsiFS_InterceptRestart      = PsiFS_InterceptControlOp: 0,
+    PsiFS_InterceptReplace      = PsiFS_InterceptControlOp: 1,
+    PsiFS_InterceptCancel       = PsiFS_InterceptControlOp: 2;
+
+// Mask of file transfer intercepts
+TYPE
+    PsiFS_ClipboardFlags        = .Bits "Remote clipboard flags";
+CONST
+    PsiFS_ClipboardServerActive = PsiFS_ClipboardFlags: 0x00000001,
+    PsiFS_ClipboardRemoteChanged = PsiFS_ClipboardFlags: 0x00000100,
+    PsiFS_ClipboardRemoteSync   = PsiFS_ClipboardFlags: 0x00000200,
+    PsiFS_ClipboardLocalChanged = PsiFS_ClipboardFlags: 0x00010000,
+    PsiFS_ClipboardLocalSync    = PsiFS_ClipboardFlags: 0x00020000;
+
+// Clipboard control actions
+TYPE
+    PsiFS_ClipboardControlOp    = .Bits "Remote clipboard control reason code";
+CONST
+    PsiFS_ClipboardLock         = PsiFS_ClipboardControlOp: 0,
+    PsiFS_ClipboardUnlock       = PsiFS_ClipboardControlOp: 1,
+    PsiFS_ClipboardCopy         = PsiFS_ClipboardControlOp: 2;
+
+// Print job sequence number
+TYPE
+    PsiFS_PrintJobHandle        = .Bits "Print job handle";
+CONST
+    PsiFS_PrintJobInvalid       = PsiFS_PrintJobHandle: 0;
+
+// Print job status
+TYPE
+    PsiFS_PrintJobStatus        = .Bits "Print job status";
+CONST
+    PsiFS_PrintJobIdle          = PsiFS_PrintJobStatus: 0,
+    PsiFS_PrintJobStart         = PsiFS_PrintJobStatus: 1,
+    PsiFS_PrintJobReceiving     = PsiFS_PrintJobStatus: 2,
+    PsiFS_PrintJobComplete      = PsiFS_PrintJobStatus: 3,
+    PsiFS_PrintJobCancelled     = PsiFS_PrintJobStatus: 4;
+
+// Print action
+TYPE
+    PsiFS_PrintAction           = .Bits "Print action";
+CONST
+    PsiFS_PrintControl          = PsiFS_PrintAction: 0,
+    PsiFS_PrintPreview          = PsiFS_PrintAction: 1,
+    PsiFS_PrintPrint            = PsiFS_PrintAction: 2;
+
+// Character sets
+TYPE
+    PsiFS_CharacterSet          = .Bits "Character set";
+CONST
+    PsiFS_Latin1                = PsiFS_CharacterSet: 0,
+    PsiFS_WindowsANSI           = PsiFS_CharacterSet: 1,
+    PsiFS_CodePage_850          = PsiFS_CharacterSet: 2;
+
+// Translation table between two character sets
+TYPE
+    PsiFS_TranslationTable      = .Struct
+    (
+        [256] .Char: mapping
+    );
+
+// WIMP messages
+CONST
+    Message_PsifsAsyncStart     = .Bits: 0x000520c0,
+    Message_PsifsPrint          = .Bits: 0x000520c1;
+
+TYPE
+    PsiFS_MessageAsyncStart     = .Struct
+    (
+        PsiFS_AsyncHandle: handle,
+        OS_Coord: top_left,
+        .Bool: close,
+        .Bool: abort,
+        .Bool: pause,
+        [212] .Char: title
+    ),
+    PsiFS_MessagePrint          = .Struct
+    (
+        PsiFS_PrintAction: op,
+        OS_Coord: top_left,
+        [224] .Char: file
+    );
+
+TYPE
+    PsiFS_FullMessageAsyncStart = .Struct: Wimp_MessageHeader
+    (
+        PsiFS_AsyncHandle: handle,
+        OS_Coord: top_left,
+        .Bool: close,
+        .Bool: abort,
+        .Bool: pause,
+        [212] .Char: title
+    ),
+    PsiFS_FullMessagePrint      = .Struct: Wimp_MessageHeader
+    (
+        PsiFS_PrintAction: op,
+        OS_Coord: top_left,
+        [224] .Char: file
+    );
+
+// Module SWIs
+SWI
+    PsiFS_Register =
+    (
+        NUMBER 0x000520c0 "Register a client to be informed of changes",
+        ENTRY
+        (
+            R0 -> .String: name,
+            R1 = PsiFS_Mask: mask
+        ),
+        EXIT
+        (
+            R0! = .Ref .Int: pollword
+        )
+    ),
+
+    PsiFS_Unregister =
+    (
+        NUMBER 0x000520c1 "Unregister a previously registered client",
+        ENTRY
+        (
+            R0 = .Ref .Int: pollword
+        )
+    ),
+
+    PsiFS_Set =
+    (
+        NUMBER 0x000520c2 "Modify a PsiFS option",
+        ABSENT
+    ),
+
+    PsiFSSet_DriverName =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverName "Set the block driver name",
+            R1 -> .String: name
+        )
+    ),
+
+    PsiFSSet_DriverPort =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverPort "Set the block driver port number",
+            R1 = .Bits: port
+        )
+    ),
+
+    PsiFSSet_DriverBaud =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverBaud "Set the block driver baud rate",
+            R1 = .Bits: baud
+        )
+    ),
+
+    PsiFSSet_DriverOptions =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverOptions "Set the block driver options",
+            R1 -> .String: options
+        )
+    ),
+
+    PsiFSSet_DriverAutoBaud =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverAutoBaud "Set the block driver automatic baud rate identification mode",
+            R1 = .Bool: autobaud
+        )
+    ),
+
+    PsiFSSet_SyncClocks =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectSyncClocks "Set the clock synchronization mode",
+            R1 = .Bool: sync
+        )
+    ),
+
+    PsiFSSet_IdleDisconnectLink =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectIdleDisconnectLink "Set the remote link idle disconnect time",
+            R1 = .Bits: seconds
+        )
+    ),
+
+    PsiFSSet_IdleDisconnectPrinter =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectIdleDisconnectPrinter "Set the printer mirror idle disconnect time",
+            R1 = .Bits: seconds
+        )
+    ),
+
+    PsiFSSet_IdleBackgroundThrottle =
+    (
+        NUMBER 0x000520c2,
+        ENTRY
+        (
+            R0 # PsiFS_SelectIdleBackgroundThrottle "Set the idle background operations mode",
+            R1 = .Bool: throttle
+        )
+    ),
+
+    PsiFS_Get =
+    (
+        NUMBER 0x000520c3 "Read a PsiFS option or status value",
+        ABSENT
+    ),
+
+    PsiFSGet_Mode =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMode "Get the mode of operation"
+        ),
+        EXIT
+        (
+            R1! = PsiFS_Mode: mode
+        )
+    ),
+
+    PsiFSGet_DriverName =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverName "Get the block driver name",
+            R1 = .Ref .String: buffer,
+            R2 = .Int: size
+        ),
+        EXIT
+        (
+            R2! = .Int: spare
+        )
+    ),
+
+    PsiFSGet_DriverPort =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverPort "Get the block driver port number"
+        ),
+        EXIT
+        (
+            R1! = .Bits: port
+        )
+    ),
+
+    PsiFSGet_DriverBaud =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverBaud "Get the block driver baud rate"
+        ),
+        EXIT
+        (
+            R1! = .Bits: baud
+        )
+    ),
+
+    PsiFSGet_DriverOptions =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverOptions "Get the block driver options",
+            R1 = .Ref .String: buffer,
+            R2 = .Int: size
+        ),
+        EXIT
+        (
+            R2! = .Int: spare
+        )
+    ),
+
+    PsiFSGet_DriverAutoBaud =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverAutoBaud "Get the block driver automatic baud rate identification mode"
+        ),
+        EXIT
+        (
+            R1! = .Bool: autobaud
+        )
+    ),
+
+    PsiFSGet_DriverActiveBaud =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriverActiveBaud "Get the active block driver baud rate"
+        ),
+        EXIT
+        (
+            R1! = .Bits: baud
+        )
+    ),
+
+    PsiFSGet_SyncClocks =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectSyncClocks "Get the clock synchronization mode"
+        ),
+        EXIT
+        (
+            R1! = .Bool: sync
+        )
+    ),
+
+    PsiFSGet_IdleDisconnectLink =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectIdleDisconnectLink "Get the remote link idle disconnect time"
+        ),
+        EXIT
+        (
+            R1! = .Bits: seconds
+        )
+    ),
+
+    PsiFSGet_IdleDisconnectPrinter =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectIdleDisconnectPrinter "Get the printer mirror idle disconnect time"
+        ),
+        EXIT
+        (
+            R1! = .Bits: seconds
+        )
+    ),
+
+    PsiFSGet_IdleBackgroundThrottle =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectIdleBackgroundThrottle "Get the idle background operations mode"
+        ),
+        EXIT
+        (
+            R1! = .Bool: throttle
+        )
+    ),
+
+    PsiFSGet_StatisticsReceivedBytes =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectStatisticsReceivedBytes "Get the number of bytes of serial data received"
+        ),
+        EXIT
+        (
+            R1! = .Bits: rx_bytes
+        )
+    ),
+
+    PsiFSGet_StatisticsTransmittedBytes =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectStatisticsTransmittedBytes "Get the number of bytes of serial data transmitted"
+        ),
+        EXIT
+        (
+            R1! = .Bits: tx_bytes
+        )
+    ),
+
+    PsiFSGet_StatisticsReceivedValidFrames =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectStatisticsReceivedValidFrames "Get the number of valid protocol frames received"
+        ),
+        EXIT
+        (
+            R1! = .Bits: rx_frames
+        )
+    ),
+
+    PsiFSGet_StatisticsReceivedInvalidFrames =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectStatisticsReceivedInvalidFrames "Get the number of invalid protocol frames received"
+        ),
+        EXIT
+        (
+            R1! = .Bits: rx_err_frames
+        )
+    ),
+
+    PsiFSGet_StatisticsReceivedRetriedFrames =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectStatisticsReceivedRetriedFrames "Get the number of retries for received protocol frames"
+        ),
+        EXIT
+        (
+            R1! = .Bits: rx_retry_frames
+        )
+    ),
+
+    PsiFSGet_StatisticsTransmittedValidFrames =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectStatisticsTransmittedFrames "Get the number of protocol frames transmitted"
+        ),
+        EXIT
+        (
+            R1! = .Bits: tx_frames
+        )
+    ),
+
+    PsiFSGet_StatisticsTransmittedRetriedFrames =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectStatisticsTransmittedRetriedFrames "Get the number of retries for transmitted protocol frames"
+        ),
+        EXIT
+        (
+            R1! = .Bits: tx_retry_frames
+        )
+    ),
+
+    PsiFSGet_LinkStatus =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectLinkStatus "Get the status of the remote link"
+        ),
+        EXIT
+        (
+            R1! = PsiFS_LinkStatus: status
+        )
+    ),
+
+    PsiFSGet_MachineType =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineType "Get the type of the remote machine"
+        ),
+        EXIT
+        (
+            R1! = PsiFS_MachineType: type
+        )
+    ),
+
+    PsiFSGet_MachineDescription =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineDescription "Get the description of the remote machine type",
+            R1 = .Ref .String: buffer,
+            R2 = .Int: size
+        ),
+        EXIT
+        (
+            R2! = .Int: spare
+        )
+    ),
+
+    PsiFSGet_MachineLanguage =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineLanguage "Get the language of the remote machine"
+        ),
+        EXIT
+        (
+            R1! = PsiFS_Language: language
+        )
+    ),
+
+    PsiFSGet_MachineOSMajor =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineOSMajor "Get the major version of the remote machine operating system"
+        ),
+        EXIT
+        (
+            R1! = .Bits: major
+        )
+    ),
+
+    PsiFSGet_MachineOSMinor =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineOSMinor "Get the minor version of the remote machine operating system"
+        ),
+        EXIT
+        (
+            R1! = .Bits: minor
+        )
+    ),
+
+    PsiFSGet_MachineOSBuild =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineOSBuild "Get the build of the remote machine operating system"
+        ),
+        EXIT
+        (
+            R1! = .Bits: build
+        )
+    ),
+
+    PsiFSGet_MachineIDLow =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineIDLow "Get the low word of the unique identifier of the remote machine"
+        ),
+        EXIT
+        (
+            R1 = .Bits: low_id
+        )
+    ),
+
+    PsiFSGet_MachineIDHigh =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineIDHigh "Get the high word of the unique identifier of the remote machine"
+        ),
+        EXIT
+        (
+            R1 = .Bits: high_id
+        )
+    ),
+
+    PsiFSGet_MachineOwner =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectMachineOwner "Get the owner information of the remote machine",
+            R1 = .Ref .String: buffer,
+            R2 = .Int: size
+        ),
+        EXIT
+        (
+            R2! = .Int: spare
+        )
+    ),
+
+    PsiFSGet_DriveStatus =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriveStatus "Get the status of the specified remote drive",
+            R0 | PsiFS_Drive: drive
+        ),
+        EXIT
+        (
+            R1! = PsiFS_DriveStatus: status
+        )
+    ),
+
+    PsiFSGet_DriveName =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriveName "Get the name of the specified remote drive",
+            R0 | PsiFS_Drive: drive,
+            R1 = .Ref .String: buffer,
+            R2 = .Int: size
+        ),
+        EXIT
+        (
+            R2! = .Int: spare
+        )
+    ),
+
+    PsiFSGet_DriveID =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectDriveID "Get the unique identifier of the specified remote drive",
+            R0 | PsiFS_Drive: drive
+        ),
+        EXIT
+        (
+            R1! = PsiFS_DriveID: id
+        )
+    ),
+
+    PsiFSGet_PowerMainStatus =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPowerMainStatus "Get the status of the main battery"
+        ),
+        EXIT
+        (
+            R1! = PsiFS_BatteryStatus: status
+        )
+    ),
+
+    PsiFSGet_PowerMainVoltage =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPowerMainVoltage "Get the voltage of the main battery"
+        ),
+        EXIT
+        (
+            R1! = .Bits: millivolts
+        )
+    ),
+
+    PsiFSGet_PowerMainMaxVoltage =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPowerMainMaxVoltage "Get the maximum voltage of the main battery"
+        ),
+        EXIT
+        (
+            R1! = .Bits: millivolts
+        )
+    ),
+
+    PsiFSGet_PowerBackupStatus =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPowerBackupStatus "Get the status of the backup battery"
+        ),
+        EXIT
+        (
+            R1! = PsiFS_BatteryStatus: status
+        )
+    ),
+
+    PsiFSGet_PowerBackupVoltage =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPowerBackupVoltage "Get the voltage of the backup battery"
+        ),
+        EXIT
+        (
+            R1! = .Bits: millivolts
+        )
+    ),
+
+    PsiFSGet_PowerBackupMaxVoltage =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPowerBackupMaxVoltage "Get the maximum voltage of the backup battery"
+        ),
+        EXIT
+        (
+            R1! = .Bits: millivolts
+        )
+    ),
+
+    PsiFSGet_PowerExternal =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPowerExternal "Get the status of external power"
+        ),
+        EXIT
+        (
+            R1! = .Bool: external
+        )
+    ),
+
+    PsiFSGet_PrinterStatus =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPrinterStatus "Get the status of the printer mirror"
+        ),
+        EXIT
+        (
+            R1! = PsiFS_PrinterStatus: status
+        )
+    ),
+
+    PsiFSGet_PrinterDevice =
+    (
+        NUMBER 0x000520c3,
+        ENTRY
+        (
+            R0 # PsiFS_SelectPrinterDevice "Get the name of the printer mirror destination",
+            R1 = .Ref .String: buffer,
+            R2 = .Int: size
+        ),
+        EXIT
+        (
+            R2! = .Int: spare
+        )
+    ),
+
+    PsiFS_Mode =
+    (
+        NUMBER 0x000520c4 "Set the mode of operation",
+        ABSENT
+    ),
+
+    PsiFSMode_Inactive =
+    (
+        NUMBER 0x000520c4,
+        ENTRY
+        (
+            R0 # PsiFS_ModeInactive "Set PsiFS to inactive mode",
+            R1 = .Bool: abort
+        )
+    ),
+
+    PsiFSMode_Link =
+    (
+        NUMBER 0x000520c4,
+        ENTRY
+        (
+            R0 # PsiFS_ModeLink "Set PsiFS to remote link mode"
+        )
+    ),
+
+    PsiFSMode_Printer =
+    (
+        NUMBER 0x000520c4,
+        ENTRY
+        (
+            R0 # PsiFS_ModePrinter "Set PsiFS to printer mirror mode",
+            R1 -> .String: device
+        )
+    ),
+
+    PsiFS_AsyncStart =
+    (
+        NUMBER 0x000520c5 "Start an asynchronous remote operation",
+        ABSENT
+    ),
+
+    PsiFSAsyncStart_Shutdown =
+    (
+        NUMBER 0x000520c5,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncShutdown "Close all open files on a drive",
+            R1 -> .String: pattern,
+            R2 -> .String: file,
+            R3 = .Bool: append
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFSAsyncStart_Restart =
+    (
+        NUMBER 0x000520c5,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncRestart "Open the specified files",
+            R1 -> .String: file,
+            R2 = .Bool: remove
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFSAsyncStart_Read =
+    (
+        NUMBER 0x000520c5,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncRead "Read a single file",
+            R1 -> .String: src,
+            R2 -> .String: dest
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFSAsyncStart_Write =
+    (
+        NUMBER 0x000520c5,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncWrite "Write a single file",
+            R1 -> .String: src,
+            R2 -> .String: dest,
+            R3 = .Bool: remove
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFSAsyncStart_Backup =
+    (
+        NUMBER 0x000520c5,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncBackup "Backup a single directory tree",
+            R1 -> .String: src,
+            R2 -> .String: dest,
+            R3 -> .String: prev,
+            R4 -> .String: scrap,
+            R5 -> .String: temp
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFSAsyncStart_WriteStart =
+    (
+        NUMBER 0x000520c5,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncWriteStart "Write and start a single file",
+            R1 -> .String: src,
+            R2 -> .String: dest,
+            R3 -> .String: exe,
+            R4 = .Bool: remove
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFSAsyncStart_Install =
+    (
+        NUMBER 0x000520c5,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncInstall "Write and install a file",
+            R1 -> .String: inst_exe,
+            R2 -> .String: inst_src,
+            R3 -> .String: inst_dest,
+            R4 = .Bool: inst_remove,
+            R5 -> .String: pkg_src,
+            R6 -> .String: pkg_dest,
+            R7 = .Bool: pkg_remove
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFS_AsyncEnd =
+    (
+        NUMBER 0x000520c6 "End an asynchronous remote operation",
+        ENTRY
+        (
+            R0 = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFS_AsyncPoll =
+    (
+        NUMBER 0x000520c7 "Poll the status of an asynchronous remote operation",
+        ENTRY
+        (
+            R0 = PsiFS_AsyncHandle: handle
+        ),
+        EXIT
+        (
+            R0! = PsiFS_AsyncStatus: status,
+            R1 -> .String: desc,
+            R2 -> .String: detail,
+            R3 -> .String: error,
+            R4 = .Bits: taken,
+            R5 = .Bits: remain
+        )
+    ),
+
+    PsiFS_AsyncControl =
+    (
+        NUMBER 0x000520c8 "Control an asynchronous remote operation",
+        ABSENT
+    ),
+
+    PsiFSAsyncControl_SimpleResponse =
+    (
+        NUMBER 0x000520c8,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncSimpleResponse "Simple response to query",
+            R1 = PsiFS_AsyncHandle: handle,
+            R2 = PsiFS_AsyncResponse: response
+        )
+    ),
+
+    PsiFSAsyncControl_Pause =
+    (
+        NUMBER 0x000520c8,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncPause "Pause operation",
+            R1 = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFSAsyncControl_Resume =
+    (
+        NUMBER 0x000520c8,
+        ENTRY
+        (
+            R0 # PsiFS_AsyncResume "Resume operation",
+            R1 = PsiFS_AsyncHandle: handle
+        )
+    ),
+
+    PsiFS_FileOp =
+    (
+        NUMBER 0x000520c9 "Perform a miscellaneous file system operation",
+        ABSENT
+    ),
+
+    PsiFSFileOp_NameDisc =
+    (
+        NUMBER 0x000520c9,
+        ENTRY
+        (
+            R0 # PsiFS_FileOpNameDisc "Change the name of the specified remote drive",
+            R1 = PsiFS_Drive: drive,
+            R2 -> .String: name
+        )
+    ),
+
+    PsiFS_InterceptClaim =
+    (
+        NUMBER 0x000520ca "Claim an intercepted file type",
+        ENTRY
+        (
+            R0 = .Ref .Int: pollword,
+            R1 = .Bits: type,
+            R2 = PsiFS_InterceptType: mask
+        )
+    ),
+
+    PsiFS_InterceptRelease =
+    (
+        NUMBER 0x000520cb "Release all intercepted file types",
+        ENTRY
+        (
+            R0 = .Ref .Int: pollword
+        )
+    ),
+
+    PsiFS_InterceptPoll =
+    (
+        NUMBER 0x000520cc "Poll for any new intercepted file transfers",
+        ENTRY
+        (
+            R0 = .Ref .Int: pollword
+        ),
+        EXIT
+        (
+            R0! = PsiFS_InterceptHandle: handle,
+            R1 = .Bits: type,
+            R2 = PsiFS_InterceptType: mask,
+            R3 -> .String: orig,
+            R4 -> .String: temp,
+            R5 = Wimp_T: sender,
+            R6 = Wimp_T: receiver
+        )
+    ),
+
+    PsiFS_InterceptControl =
+    (
+        NUMBER 0x000520cd "Control a file transfer intercept",
+        ABSENT
+    ),
+
+    PsiFSInterceptControl_Restart =
+    (
+        NUMBER 0x000520cd,
+        ENTRY
+        (
+            R0 # PsiFS_InterceptRestart "Restart an intercepted file transfer",
+            R1 = PsiFS_InterceptHandle: handle
+        )
+    ),
+
+    PsiFSInterceptControl_Replace =
+    (
+        NUMBER 0x000520cd,
+        ENTRY
+        (
+            R0 # PsiFS_InterceptReplace "Replace an intercepted file transfer",
+            R1 = PsiFS_InterceptHandle: handle
+        )
+    ),
+
+    PsiFSInterceptControl_Cancel =
+    (
+        NUMBER 0x000520cd,
+        ENTRY
+        (
+            R0 # PsiFS_InterceptCancel "Cancel an intercepted file transfer",
+            R1 = PsiFS_InterceptHandle: handle
+        )
+    ),
+
+    PsiFS_CheckUID =
+    (
+        NUMBER 0x000520ce "Calculate the checksum for a UID",
+        ENTRY
+        (
+            R0 = .Bits: uid1,
+            R1 = .Bits: uid2,
+            R2 = .Bits: uid3
+        ),
+        EXIT
+        (
+            R0! = .Bits: uid4
+        )
+    ),
+
+    PsiFS_ClipboardCopy =
+    (
+        NUMBER 0x000520cf "Write to the remote clipboard",
+        ENTRY
+        (
+            R0 -> .String: name
+        ),
+        EXIT
+        (
+            R0! = PsiFS_ClipboardFlags: flags,
+            R1 = OS_T: timestamp
+        )
+    ),
+
+    PsiFS_ClipboardPaste =
+    (
+        NUMBER 0x000520d0 "Read from the remote clipboard",
+        ENTRY
+        (
+            R0 -> .String: name
+        ),
+        EXIT
+        (
+            R0! = PsiFS_ClipboardFlags: flags,
+            R1 = OS_T: timestamp
+        )
+    ),
+
+    PsiFS_GetTranslationTable =
+    (
+        NUMBER 0x000520d1 "Obtain a character translation table",
+        ENTRY
+        (
+            R0 = PsiFS_CharacterSet: from,
+            R1 = PsiFS_CharacterSet: to,
+            R2 = .Ref PsiFS_TranslationTable: table
+        )
+    ),
+
+    PsiFS_PrintJobPoll =
+    (
+        NUMBER 0x000520d2 "Poll the status of a print job",
+        ENTRY
+        (
+            R0 = PsiFS_PrintJobHandle: handle_in
+        ),
+        EXIT
+        (
+            R0 = PsiFS_PrintJobHandle: handle_out,
+            R1! = PsiFS_PrintJobStatus: status,
+            R2 = .Bits: received,
+            R3 = .Bits: read
+        )
+    ),
+
+    PsiFS_PrintJobData =
+    (
+        NUMBER 0x000520d3 "Read a page from a print job",
+        ENTRY
+        (
+            R0 = PsiFS_PrintJobHandle: handle,
+            R1 -> .String: name
+        )
+    ),
+
+    PsiFS_PrintJobCancel =
+    (
+        NUMBER 0x000520d4 "Cancel a print job",
+        ENTRY
+        (
+            R0 = PsiFS_PrintJobHandle: handle
+        )
+    )

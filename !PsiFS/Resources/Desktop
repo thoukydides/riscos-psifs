@@ -1,0 +1,72 @@
+|   File        : Desktop
+|   Date        : 19-Sep-02
+|   Author      : © A.Thoukydides, 1998-2002, 2019
+|   Description : Script to load and configure PsiFS from within the
+|                 desktop.
+|
+|   License     : PsiFS is free software: you can redistribute it and/or
+|                 modify it under the terms of the GNU General Public License
+|                 as published by the Free Software Foundation, either
+|                 version 3 of the License, or (at your option) any later
+|                 version.
+|   
+|                 PsiFS is distributed in the hope that it will be useful,
+|                 but WITHOUT ANY WARRANTY; without even the implied warranty
+|                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+|                 the GNU General Public License for more details.
+|   
+|                 You should have received a copy of the GNU General Public
+|                 License along with PsiFS. If not, see
+|                 <http://www.gnu.org/licenses/>.
+
+| Check that there is sufficient memory to run
+WimpSlot -min 360K -max 360K
+
+| Directory to contain scrap files
+If "<Wimp$ScrapDir>" = "" Then Error 0 Scrap folder could not be found. Please double-click on a copy of !Scrap and try again.
+If "<Wimp$Scrap>" = "" Then Set Wimp$Scrap <Wimp$ScrapDir>.ScrapFile
+Set PsiFSScrap$Dir <Wimp$ScrapDir>.PsiFS
+Set PsiFSScrap$Path <PsiFSScrap$Dir>.
+
+| Directory to contain configuration files
+If "<Choices$Write>" = "" Then Set PsiFSConfig$Dir <PsiFS$Dir>.Config Else Set PsiFSConfig$Dir <Choices$Write>.PsiFS
+Set PsiFSConfig$Path <PsiFS$Dir>.Config.
+If "<Choices$Write>" <> "" Then Set PsiFSConfig$Path <Choices$Write>.PsiFS.,<PsiFSConfig$Path>
+If "<Choices$Path>" <> "" Then Set PsiFSConfig$Path Choices:PsiFS.,<PsiFSConfig$Path>
+
+| Directory containing file converters
+Set PsiFSConverters$Dir <PsiFS$Dir>.Converters
+
+| Load the PsiFS module if required
+RMEnsure PsiFS 1.60 Run <PsiFS$Dir>.Resources.Load
+RMEnsure PsiFS 1.60 Error 0 Failed to load the PsiFS module
+
+| Ensure that the correct versions of system modules are loaded
+Run <PsiFS$Dir>.Resources.Ensure MessageTrans 0.27 MsgTrans
+Run <PsiFS$Dir>.Resources.Ensure ColourTrans  0.52 Colours
+Run <PsiFS$Dir>.Resources.Ensure Toolbox      1.45 Toolbox.Toolbox
+Run <PsiFS$Dir>.Resources.Ensure DCS          1.08 Toolbox.DCS_Quit
+Run <PsiFS$Dir>.Resources.Ensure Iconbar      1.18 Toolbox.IconBar
+Run <PsiFS$Dir>.Resources.Ensure Menu         0.35 Toolbox.Menu
+Run <PsiFS$Dir>.Resources.Ensure ProgInfo     0.15 Toolbox.ProgInfo
+Run <PsiFS$Dir>.Resources.Ensure SaveAs       0.16 Toolbox.SaveAs
+Run <PsiFS$Dir>.Resources.Ensure Scale        0.14 Toolbox.Scale
+Run <PsiFS$Dir>.Resources.Ensure Window       1.59 Toolbox.Window
+
+| Attempt to load the ArtWorks rendering modules
+Set PsiFSArtWorks$Path ""
+If "<ImpressionPublisher$Resources>" <> "" Then Set PsiFSArtWorks$Path <ImpressionPublisher$Resources>.RMStore.,<PsiFSArtWorks$Path>
+If "<ImpressionPublisherOPI$Resources>" <> "" Then Set PsiFSArtWorks$Path <ImpressionPublisherOPI$Resources>.RMStore.,<PsiFSArtWorks$Path>
+If "<ImpressionPublisher+$Resources>" <> "" Then Set PsiFSArtWorks$Path <ImpressionPublisher+$Resources>.RMStore.,<PsiFSArtWorks$Path>
+If "<ImpressionStyle$Resources>" <> "" Then Set PsiFSArtWorks$Path <ImpressionStyle$Resources>.RMStore.,<PsiFSArtWorks$Path>
+If "<CCShared$Dir>" <> "" Then Set PsiFSArtWorks$Path <CCShared$Dir>.RMStore.,<PsiFSArtWorks$Path>
+If "<ArtWorks$Dir>" <> "" Then Set PsiFSArtWorks$Path <ArtWorks$Dir>.RMStore.,<PsiFSArtWorks$Path>
+If "<ArtWorksModules$Path>" <> "" Then Set PsiFSArtWorks$Path ArtWorksModules:,<PsiFSArtWorks$Path>
+If "<PsiFSArtWorks$Path>" <> "" Then RMEnsure DitherExtend 0.40 Run PsiFSArtWorks:DitherExt
+If "<PsiFSArtWorks$Path>" <> "" Then RMEnsure GDraw 2.94 Run PsiFSArtWorks:GDraw
+
+| Check again that there is sufficient memory to run
+WimpSlot -min 360K -max 360K
+
+| Start the desktop filer
+Run <PsiFS$Dir>.Resources.!RunImage %*0 2>null:

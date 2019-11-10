@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : conv/psifs.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - File Format Converters [!PsiFS]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - File Format Converters [!PsiFS]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: File Format Converters</H1>
+<B>!PsiFS</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000"><TT>!PsiFS</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>A file called <TT>!PsiFS</TT> is required to describe the characteristics of each file format converter.
+<P>
+The <TT>!PsiFS</TT> file is split into several sections, each terminated by a line containing <TT>&lt;EOF&gt;</TT> on its own. Within each section, lines of the form <TT><I>tag</I>=<I>value</I></TT> are used to associate a value with a tag. Any other lines are treated as comments which are ignored; no special prefix character is required.
+<P>
+Note that both case and spaces are significant. In particular, trailing spaces prevent recognition of the <TT>&lt;EOF&gt;</TT> token, so if problems are encountered it is worth checking that there are no invisible trailing spaces.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Defaults</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The first section of the <TT>!PsiFS</TT> file specifies default options. These are automatically copied to the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> options file (either <TT>!Boot.Choices.PsiFS.Options</TT> or <TT>!PsiFS.Config.Options</TT>, depending upon the computer's configuration) if the associated tag is not already defined.
+<P>
+The tags currently associated with selecting file format converters are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Tag</TH><TH>Description</TH></TR>
+<TR VALIGN=TOP><TD><TT>Convert</TT></TD><TD>Any conversion.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I></TT></TD><TD>Any conversion of <TT><I>type</I></TT> file.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_Standard</TT></TD><TD>Stand-alone conversion of <TT><I>type</I></TT> file.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_InterceptLoad</TT></TD><TD ROWSPAN=2>Loading a <TT><I>type</I></TT> file into <TT><I>receiver</I></TT>.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_InterceptLoad_<I>receiver</I></TT></TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_InterceptRun</TT></TD><TD ROWSPAN=2>Running a <TT><I>type</I></TT> file from <TT><I>sender</I></TT>.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_InterceptRun_<I>sender</I></TT></TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_InterceptSave</TT></TD><TD ROWSPAN=3>Saving a <TT><I>type</I></TT> file from <TT><I>sender</I></TT> to <TT><I>receiver</I></TT>.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_InterceptSave_<I>sender</I></TT></TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert_<I>type</I>_InterceptSave_<I>sender</I>_<I>receiver</I></TT></TD></TR>
+</TABLE>
+<P>
+In these tags <TT><I>type</I></TT> is the file type as a three digit upper-case hexadecimal number, <TT><I>sender</I></TT> is the name of the task sending the file, and <TT><I>receiver</I></TT> is the name of the task receiving the file. Both <TT><I>sender</I></TT> and <TT><I>receiver</I></TT> are the task names displayed by the Task Manager, but with any spaces or equals signs removed.
+<P>
+The value associated with each of these tags is the <TT>Tag</TT> of the file format converter to use, or blank if no conversion should be applied.
+<P>
+When a conversion is required, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> uses these options to select the default file format converter, starting from the most specific matching option and continuing until a selectable file format converter is found. This behaviour is especially important if automatic conversions are enabled.
+<P>
+The following additional tags are associated with the options for the file format converters:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Tag</TH><TH>Description</TH></TR>
+<TR VALIGN=TOP><TD><TT>ConvertOptions_<I>Tag</I></TT></TD><TD>The most recently used options.</TD></TR>
+<TR VALIGN=TOP><TD><TT>ConvertOptions_<I>Tag</I>_Version</TT></TD><TD>The <TT><I>Options</I></TT> value of the converter, used to detect changes and prevent use of incompatible options.</TD></TR>
+</TABLE>
+<P>
+It should not be necessary to include these tags within the <TT>!PsiFS</TT> file; they are described here for completeness. It is more effective to set default options within the <A HREF="res.html" TITLE="!PsiFSRes"><TT>!PsiFSRes</TT></A> toolbox resource file.
+<P>
+Each time a conversion is performed, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> automatically updates the appropriate defaults to ensure that the most suitable conversion and options are selected for successive operations.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Shared Characteristics</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The second section of the <TT>!PsiFS</TT> file defines tags that apply to all converters. These definitions are overridden by a tag of the same name specified for an individual file format converter.
+<P>
+See the individual characteristics defined below for details of the available options.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Individual Characteristics</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The following tags may be defined for each converter:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Tag</TH><TH>Type</TH><TH>Description</TH></TR>
+<TR VALIGN=TOP><TD><TT>Tag</TT></TD><TD ALIGN=CENTER>Required</TD><TD>Name to use for the converter in <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> configuration files. This is currently only used to specify the default converter, but in the future it may also be used to store converter specific options.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Name</TT></TD><TD ALIGN=CENTER>Recommended</TD><TD>Text to display in the Name field of the Info window. This should normally be the name of the tool used to perform the conversion.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Author</TT></TD><TD ALIGN=CENTER>Recommended</TD><TD>Text to display in the Author field of the Info window. This should normally include any copyright message.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Version</TT></TD><TD ALIGN=CENTER>Recommended</TD><TD>Text to display in the Version field of the Info window.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Purpose</TT></TD><TD ALIGN=CENTER>Recommended</TD><TD>Text to display in the Purpose field of the Info window. This should normally describe the individual file format conversion.</TD></TR>
+<TR VALIGN=TOP><TD><TT>WebSite</TT></TD><TD ALIGN=CENTER>Recommended</TD><TD>URL to launch if the Web site button in the Info window is clicked. This should normally be the site associated with the converter.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Description</TT></TD><TD ALIGN=CENTER>Recommended</TD><TD>Menu entry for this file format converter. This should normally include both the source and destination file types.</TD></TR>
+<TR VALIGN=TOP><TD><TT>ButtonText</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>Text to display on the button used to start the conversion. This should normally only be specified if the main purpose of the file format converter is a side-effect.</TD></TR>
+<TR VALIGN=TOP><TD><TT>ButtonHelp</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>Interactive help text for the button used to start the conversion. This should normally only be specified if the main purpose of the file format converter is a side-effect.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Input</TT></TD><TD ALIGN=CENTER>Required</TD><TD>List of supported input file types.</TD></TR>
+<TR VALIGN=TOP><TD><TT>InputUID</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>Space separated list of supported input file UIDs. The UIDs should be specified in the same format as for <TT>*<A HREF="../command/map.html" TITLE="*PsiFSMap">PsiFSMap</A></TT>, i.e. as 24 digit hexadecimal numbers. If this tag is left blank then no restrictions are placed on the input UID.</TD></TR>
+<TR VALIGN=TOP><TD><TT>InputName</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>Space separated list of supported input leaf names. Standard wildcards may be used, for example to check for specific extensions. If this tag is left blank then no restrictions are placed on the input file name.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Output</TT></TD><TD ALIGN=CENTER>Required</TD><TD>Single file type produced by the file format converter.</TD></TR>
+<TR VALIGN=TOP><TD><TT>InterceptLoad</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>List of file types to intercept when loaded by dragging within the desktop.</TD></TR>
+<TR VALIGN=TOP><TD><TT>InterceptRun</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>List of file types to intercept when run by double-clicking within the desktop.</TD></TR>
+<TR VALIGN=TOP><TD><TT>InterceptSave</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>List of file types to intercept when saved or transferred between applications by dragging within the desktop.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Quality</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>The quality of the conversion specified as an integer between 0 (for very bad) to 100 (for perfect). This is used to help choose the most appropriate converter for invisible conversions such as global clipboard support. If this tag is not specified then a value of 25 is assumed.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Options</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>Definition of user selectable options.</TD></TR>
+<TR VALIGN=TOP><TD><TT>Convert</TT></TD><TD ALIGN=CENTER>Required</TD><TD>The <TT>Convert</TT> tag specifies the command used to perform the conversion. The source and destination filenames and the original leafname are substituted for the character sequences <TT>&lt;src&gt;</TT>, <TT>&lt;dest&gt;</TT> and <TT>&lt;orig&gt;</TT> respectively. Any options specified using the <TT>Options</TT> tag are substituted for the character sequence <TT>&lt;opt&gt;</TT></TD></TR>
+<TR VALIGN=TOP><TD><TT>ConvertSilent</TT></TD><TD ALIGN=CENTER>Optional</TD><TD>The <TT>ConvertSilent</TT> tag specifies an alternative command for performing the conversion. This is similar to the <TT>Convert</TT> tag, except that the converter should not report any errors and no options will be substituted for any <TT>&lt;opt&gt;</TT> character sequence. This is used for invisible conversions such as global clipboard support.</TD></TR>
+</TABLE>
+<P>
+File type lists consist of a space separated list of <I>RISC&nbsp;OS</I> file types, specified in either numeric or textual form. The following special file types are also supported: <TT>Directory</TT>, <TT>Application</TT> and <TT>Untyped</TT>. However, although they are fully supported, it is recommended that these special file types are not used to trigger file transfer intercepts. An additional special file type of <TT>NoConversion</TT> is also supported for the <TT>Output</TT> tag to indicate that no output file will be produced; some other side-effect will occur instead.
+<P>
+The list of files to intercept only apply if enabled within the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> configuration, and may be overridden by the user pressing <TT>Left&nbsp;Alt</TT> to force an intercept or <TT>Right&nbsp;Alt</TT> to prevent an intercept.
+<P>
+The <TT>Options</TT> value starts with the name of a toolbox template from the <TT>!PsiFSRes</TT> file, followed by a space separated list of &quot;<TT>-<I>keyword</I>&nbsp;<I>gadget</I></TT>&quot; pairs. The <TT>-<I>keyword</I></TT> is the option that will be substituted for the <TT>&lt;opt&gt;</TT> character sequence within the <TT>Convert</TT> string, and <TT><I>gadget</I></TT> consists of a single letter gadget type followed by the component ID of the gadget in hexadecimal. Note that the options are sorted before use; ordering is not preserved.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Running Converter</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The file format converter is run using <TT>Wimp_StartTask</TT>, so almost any command may be used. However, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> assumes that the conversion will have been performed when control is returned, so multi-tasking converters are not supported.
+<P>
+The behaviour of the converter if unable to handle the supplied file depends on whether the command specified by the <TT>Convert</TT> or <TT>ConvertSilent</TT> tag is used. In both cases the converter must exit without producing an output file. If the <TT>Convert</TT> was used then the converter should generate an error using either <TT>OS_GenerateError</TT> or <TT>Wimp_ReportError</TT> before exiting, but if the <TT>ConvertSilent</TT> was used then no error should be reported. Error messages should not be output via the VDU drivers (<TT>stdout</TT>/<TT>stderr</TT> for a C program); if necessary output should be redirected to a file and post-processed to convert any messages to <I>RISC&nbsp;OS</I> errors.
+<P>
+Future versions may support converters running in a TaskWindow; this will be controlled by additional tags specifying the capabilities of individual converters.
+<P></TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

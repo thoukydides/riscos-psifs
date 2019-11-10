@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : fs/index.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - File System</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="../index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - File System">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: File System</H1>
+</CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Paths</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>All paths under <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> are of the form:
+<CENTER><TT>PsiFS::<I>discname</I>.$.<I>file/directory</I></TT></CENTER>
+where <TT><I>discname</I></TT> is either a disc name or a single character drive letter (<TT>A</TT> to <TT>Z</TT> or <TT>@</TT>), and <TT><I>file/directory</I></TT> is the path to the object being accessed.
+<P>
+The special drive letter <TT>@</TT> refers to a virtual drive with all of the physical drives represented as subdirectories. The special disc name <TT>AllDrives</TT> also refers to this virtual drive.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Mappings</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><I>RISC&nbsp;OS</I> and <I>SIBO</I> or <I>EPOC</I> use different formats for <A HREF="chars.html" TITLE="Character Mappings">filenames</A>, <A HREF="type.html" TITLE="File Types">file types</A>, <A HREF="date.html" TITLE="Dates and Times">dates</A>, and <A HREF="attr.html" TITLE="Atributes">attributes</A>. <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> attempts to perform sensible mappings for all of these values when transferring files.
+<P>
+Copying a file from a <I>SIBO</I> or <I>EPOC</I> device to <I>RISC&nbsp;OS</I> and back again should not result in any loss of information, providing that the intermediate <I>RISC&nbsp;OS</I> file system supports long filenames and all necessary attributes. This ensures that it is possible to use <I>RISC&nbsp;OS</I> backup tools to preserve the contents of <I>SIBO</I> or <I>EPOC</I> drives.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

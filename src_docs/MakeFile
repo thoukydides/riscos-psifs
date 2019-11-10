@@ -1,0 +1,355 @@
+#   File        : MakeFile
+#   Date        : 19-Sep-02
+#   Author      : © A.Thoukydides, 1998-2002, 2019
+#   Description : Makefile for the PsiFS documentation.
+#
+#   License     : PsiFS is free software: you can redistribute it and/or
+#                 modify it under the terms of the GNU General Public License
+#                 as published by the Free Software Foundation, either
+#                 version 3 of the License, or (at your option) any later
+#                 version.
+#   
+#                 PsiFS is distributed in the hope that it will be useful,
+#                 but WITHOUT ANY WARRANTY; without even the implied warranty
+#                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+#                 the GNU General Public License for more details.
+#   
+#                 You should have received a copy of the GNU General Public
+#                 License along with PsiFS. If not, see
+#                 <http://www.gnu.org/licenses/>.
+
+# Options
+DestDir         = ../!PsiFS/Docs/
+Project         = Project
+Includes        = macros.hsc
+HSCFlags        = compact getsize mode=pedantic \
+                  rplcent rplcquote smartent status=quiet stripbadws \
+                  prjfile=$(Project) to=$(DestDir) $(Includes)
+
+# Fake target to build all pages
+all             : all_hsc
+
+# Copy files for the alternative formats
+.INIT           :
+                  @echo Starting build
+
+# Update dependencies
+.DONE           :
+                  @echo Updating dependencies
+                  @hscdepp file=MakeFile prjfile=$(Project)
+                  @echo Finished
+
+# Add a new file
+new             :
+                  @echo Adding $@
+                  @hsc $(HSCFlags) from=$(file).hsc
+
+# General rules
+.SUFFIXES       : .hsc .c++
+.hsc.html       :
+                  @echo Building $@
+                  @hsc $(HSCFlags) $<
+
+# Extra dependencies
+Release         : ../!PsiFS/Docs/vers.html
+
+# --- DO NOT MODIFY THIS LINE -- hsc-dependencies follow ---
+
+# dependencies updated: Thursday 19-Sep-2002 19:15:03
+
+all_hsc : ../!PsiFS/Docs/contact/form.hsc ../!PsiFS/Docs/fs/chars.html \
+    ../!PsiFS/Docs/fs/chars.html ../!PsiFS/Docs/wimp/astrt.html \
+    ../!PsiFS/Docs/command/drive.html ../!PsiFS/Docs/command/free.html \
+    ../!PsiFS/Docs/command/list.html ../!PsiFS/Docs/command/psifs.html \
+    ../!PsiFS/Docs/command/name.html ../!PsiFS/Docs/fs/date.html \
+    ../!PsiFS/Docs/fs/type.html ../!PsiFS/Docs/fs/index.html \
+    ../!PsiFS/Docs/fs/attr.html ../!PsiFS/Docs/menu/disco.html \
+    ../!PsiFS/Docs/menu/free.html ../!PsiFS/Docs/start/disbl.html \
+    ../!PsiFS/Docs/start/conct.html ../!PsiFS/Docs/start/prn16.html \
+    ../!PsiFS/Docs/menu/quit.html ../!PsiFS/Docs/legal/trade.html \
+    ../!PsiFS/Docs/menu/name.html ../!PsiFS/Docs/menu/index.html \
+    ../!PsiFS/Docs/menu/link.html ../!PsiFS/Docs/menu/print.html \
+    ../!PsiFS/Docs/menu/help.html ../!PsiFS/Docs/faq/drvrs.html \
+    ../!PsiFS/Docs/command/drivr.html ../!PsiFS/Docs/start/baud.html \
+    ../!PsiFS/Docs/command/disbl.html ../!PsiFS/Docs/start/disco.html \
+    ../!PsiFS/Docs/command/map.html ../!PsiFS/Docs/cred.html \
+    ../!PsiFS/Docs/swi/aend.html ../!PsiFS/Docs/contact/index.html \
+    ../!PsiFS/Docs/faq/tar.html ../!PsiFS/Docs/faq/arc.html \
+    ../!PsiFS/Docs/menu/async.html ../!PsiFS/Docs/faq/seral.html \
+    ../!PsiFS/Docs/command/stats.html ../!PsiFS/Docs/contact/web.html \
+    ../!PsiFS/Docs/swi/mode.html ../!PsiFS/Docs/swi/actrl.html \
+    ../!PsiFS/Docs/swi/fsop.html ../!PsiFS/Docs/menu/backu.html \
+    ../!PsiFS/Docs/start/backu.html ../!PsiFS/Docs/start/restr.html \
+    ../!PsiFS/Docs/swi/unreg.html ../!PsiFS/Docs/icon/index.html \
+    ../!PsiFS/Docs/icon/drive.html ../!PsiFS/Docs/icon/idle.html \
+    ../!PsiFS/Docs/swi/irlse.html ../!PsiFS/Docs/swi/ictrl.html \
+    ../!PsiFS/Docs/swi/ipoll.html ../!PsiFS/Docs/swi/iclam.html \
+    ../!PsiFS/Docs/faq/old.html ../!PsiFS/Docs/conv/boot.html \
+    ../!PsiFS/Docs/icon/act.html ../!PsiFS/Docs/icon/print.html \
+    ../!PsiFS/Docs/swi/apoll.html ../!PsiFS/Docs/start/conv.html \
+    ../!PsiFS/Docs/command/index.html ../!PsiFS/Docs/command/tar.html \
+    ../!PsiFS/Docs/start/seen.html ../!PsiFS/Docs/compt.html \
+    ../!PsiFS/Docs/command/enabl.html ../!PsiFS/Docs/command/sis.html \
+    ../!PsiFS/Docs/swi/cuid.html ../!PsiFS/Docs/conv/index.html \
+    ../!PsiFS/Docs/conv/exfsi.html ../!PsiFS/Docs/menu/conv.html \
+    ../!PsiFS/Docs/legal/gpl.html ../!PsiFS/Docs/legal/copy.html \
+    ../!PsiFS/Docs/legal/index.html ../!PsiFS/Docs/compile/libs.html \
+    ../!PsiFS/Docs/compile/index.html ../!PsiFS/Docs/start/sis.html \
+    ../!PsiFS/Docs/swi/astrt.html ../!PsiFS/Docs/contact/lists.html \
+    ../!PsiFS/Docs/faq/dst.html ../!PsiFS/Docs/swi/cpste.html \
+    ../!PsiFS/Docs/swi/ccopy.html ../!PsiFS/Docs/swi/index.html \
+    ../!PsiFS/Docs/swi/trans.html ../!PsiFS/Docs/conv/psifs.html \
+    ../!PsiFS/Docs/swi/set.html ../!PsiFS/Docs/swi/get.html \
+    ../!PsiFS/Docs/faq/ant.html ../!PsiFS/Docs/faq/baud.html \
+    ../!PsiFS/Docs/faq/sis.html ../!PsiFS/Docs/faq/conv.html \
+    ../!PsiFS/Docs/faq/modem.html ../!PsiFS/Docs/menu/info.html \
+    ../!PsiFS/Docs/swi/pdata.html ../!PsiFS/Docs/swi/pcncl.html \
+    ../!PsiFS/Docs/swi/reg.html ../!PsiFS/Docs/swi/ppoll.html \
+    ../!PsiFS/Docs/start/prn32.html ../!PsiFS/Docs/start/enabl.html \
+    ../!PsiFS/Docs/start/index.html ../!PsiFS/Docs/faq/port.html \
+    ../!PsiFS/Docs/contact/auth.html ../!PsiFS/Docs/start/confg.html \
+    ../!PsiFS/Docs/compile/tools.html ../!PsiFS/Docs/start/print.html \
+    ../!PsiFS/Docs/menu/confg.html ../!PsiFS/Docs/probs.html \
+    ../!PsiFS/Docs/wimp/index.html ../!PsiFS/Docs/wimp/print.html \
+    ../!PsiFS/Docs/conv/res.html ../!PsiFS/Docs/conv/expsi.html \
+    ../!PsiFS/Docs/faq/index.html ../!PsiFS/Docs/faq/print.html \
+    ../!PsiFS/Docs/vers.html ../!PsiFS/Docs/index.html \
+    ../!PsiFS/Docs/contact/form.html ../!PsiFS/Docs/xref.html \
+    ../!PsiFS/Docs/cntnt.html
+
+../!PsiFS/Docs/contact/form.hsc : contact/form.hsc macros.hsc Release
+
+../!PsiFS/Docs/fs/chars.html : fs/chars.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/fs/chars.html : fs/chars.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/wimp/astrt.html : wimp/astrt.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/drive.html : command/drive.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/free.html : command/free.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/list.html : command/list.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/psifs.html : command/psifs.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/name.html : command/name.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/fs/date.html : fs/date.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/fs/type.html : fs/type.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/fs/index.html : fs/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/fs/attr.html : fs/attr.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/disco.html : menu/disco.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/free.html : menu/free.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/disbl.html : start/disbl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/conct.html : start/conct.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/prn16.html : start/prn16.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/quit.html : menu/quit.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/legal/trade.html : legal/trade.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/name.html : menu/name.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/index.html : menu/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/link.html : menu/link.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/print.html : menu/print.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/help.html : menu/help.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/drvrs.html : faq/drvrs.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/drivr.html : command/drivr.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/baud.html : start/baud.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/disbl.html : command/disbl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/disco.html : start/disco.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/map.html : command/map.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/cred.html : cred.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/aend.html : swi/aend.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/contact/index.html : contact/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/tar.html : faq/tar.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/arc.html : faq/arc.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/async.html : menu/async.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/seral.html : faq/seral.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/stats.html : command/stats.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/contact/web.html : contact/web.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/mode.html : swi/mode.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/actrl.html : swi/actrl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/fsop.html : swi/fsop.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/backu.html : menu/backu.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/backu.html : start/backu.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/restr.html : start/restr.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/unreg.html : swi/unreg.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/icon/index.html : icon/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/icon/drive.html : icon/drive.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/icon/idle.html : icon/idle.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/irlse.html : swi/irlse.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/ictrl.html : swi/ictrl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/ipoll.html : swi/ipoll.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/iclam.html : swi/iclam.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/old.html : faq/old.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/conv/boot.html : conv/boot.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/icon/act.html : icon/act.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/icon/print.html : icon/print.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/apoll.html : swi/apoll.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/conv.html : start/conv.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/index.html : command/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/tar.html : command/tar.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/seen.html : start/seen.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/compt.html : compt.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/enabl.html : command/enabl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/command/sis.html : command/sis.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/cuid.html : swi/cuid.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/conv/index.html : conv/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/conv/exfsi.html : conv/exfsi.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/conv.html : menu/conv.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/legal/gpl.html : legal/gpl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/legal/copy.html : legal/copy.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/legal/index.html : legal/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/compile/libs.html : compile/libs.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/compile/index.html : compile/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/sis.html : start/sis.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/astrt.html : swi/astrt.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/contact/lists.html : contact/lists.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/dst.html : faq/dst.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/cpste.html : swi/cpste.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/ccopy.html : swi/ccopy.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/index.html : swi/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/trans.html : swi/trans.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/conv/psifs.html : conv/psifs.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/set.html : swi/set.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/get.html : swi/get.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/ant.html : faq/ant.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/baud.html : faq/baud.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/sis.html : faq/sis.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/conv.html : faq/conv.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/modem.html : faq/modem.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/info.html : menu/info.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/pdata.html : swi/pdata.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/pcncl.html : swi/pcncl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/reg.html : swi/reg.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/swi/ppoll.html : swi/ppoll.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/prn32.html : start/prn32.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/enabl.html : start/enabl.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/index.html : start/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/port.html : faq/port.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/contact/auth.html : contact/auth.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/confg.html : start/confg.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/compile/tools.html : compile/tools.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/start/print.html : start/print.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/menu/confg.html : menu/confg.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/probs.html : probs.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/wimp/index.html : wimp/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/wimp/print.html : wimp/print.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/conv/res.html : conv/res.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/conv/expsi.html : conv/expsi.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/index.html : faq/index.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/faq/print.html : faq/print.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/vers.html : vers.hsc brand.hsc macros.hsc
+
+../!PsiFS/Docs/index.html : index.hsc brand.hsc macros.hsc Release
+
+../!PsiFS/Docs/contact/form.html : contact/form.hsc brand.hsc macros.hsc \
+    Release
+
+../!PsiFS/Docs/xref.html : xref.hsc brand.hsc macros.hsc database
+
+../!PsiFS/Docs/cntnt.html : cntnt.hsc brand.hsc macros.hsc database
+
+# --- DO NOT MODIFY THIS LINE -- hsc-dependencies precede ---

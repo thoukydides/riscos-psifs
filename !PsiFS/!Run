@@ -1,0 +1,44 @@
+|   File        : !Run
+|   Date        : 19-Sep-02
+|   Author      : © A.Thoukydides, 1998-2002, 2019
+|   Description : Script to load and configure PsiFS.
+|
+|   License     : PsiFS is free software: you can redistribute it and/or
+|                 modify it under the terms of the GNU General Public License
+|                 as published by the Free Software Foundation, either
+|                 version 3 of the License, or (at your option) any later
+|                 version.
+|   
+|                 PsiFS is distributed in the hope that it will be useful,
+|                 but WITHOUT ANY WARRANTY; without even the implied warranty
+|                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+|                 the GNU General Public License for more details.
+|   
+|                 You should have received a copy of the GNU General Public
+|                 License along with PsiFS. If not, see
+|                 <http://www.gnu.org/licenses/>.
+
+| Set a system variable to point to the current directory
+Set PsiFS$Dir <Obey$Dir>
+
+| Load the application sprites
+If "<Boot$OSVersion>" < "400" Then IconSprites <PsiFS$Dir>.!Sprites Else IconSprites <PsiFS$Dir>.4Sprites
+
+| Check that it is a sufficiently recent version of the operating system
+RMEnsure UtilityModule 3.10 Error 0 PsiFS requires RISC OS 3.10 or later.
+
+| Special case if running from a command line
+If "<Wimp$State>" <> "desktop" Then Run <PsiFS$Dir>.Resources.Command
+If "<Wimp$State>" <> "desktop" Then Obey
+
+| Ensure that there is likely to be sufficient memory for both programs
+WimpSlot -min 444K -max 444K
+
+| Start the next part of the program loading once the banner has initialised
+Filer_Run <PsiFS$Dir>.Resources.Desktop %*0
+
+| Ensure that there is sufficient memory for the banner program
+WimpSlot -min 84K -max 84K
+
+| Run the banner program, leaving window open for 5 seconds
+Run <PsiFS$Dir>.Resources.Banner 500 -sprites <PsiFS$Dir>.Resources.Logo

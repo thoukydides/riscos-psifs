@@ -1,0 +1,239 @@
+#   File        : Messages
+#   Date        : 19-Sep-02
+#   Author      : © A.Thoukydides, 1998-2002, 2019
+#   Description : Text messages for PsiFS.
+#
+#   License     : PsiFS is free software: you can redistribute it and/or
+#                 modify it under the terms of the GNU General Public License
+#                 as published by the Free Software Foundation, either
+#                 version 3 of the License, or (at your option) any later
+#                 version.
+#   
+#                 PsiFS is distributed in the hope that it will be useful,
+#                 but WITHOUT ANY WARRANTY; without even the implied warranty
+#                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+#                 the GNU General Public License for more details.
+#   
+#                 You should have received a copy of the GNU General Public
+#                 License along with PsiFS. If not, see
+#                 <http://www.gnu.org/licenses/>.
+
+# Version number
+Version:1.60 (19-Sep-02)
+
+# Task name for the filer
+_TaskName:PsiFS Filer
+
+# Serious error handling
+SigBut:Continue,Quit
+SigTpl:%0 Click Continue to attempt to carry on, or Quit to exit immediately.
+SigTplO:%0 Click OK to attempt to carry on, or Cancel to exit immediately.
+SigFPE:Internal error: '%0'
+SigStak:There is insufficient free memory: A stack overflow has occurred.
+SigIll:Internal error: An illegal instruction has been executed at %1.
+SigErr1:Internal error: Abort on instruction prefetch at %1.
+SigErr2:Internal error: Abort on data transfer at %1.
+SigErr3:Internal error: Address exception at %1.
+SigErr5:Internal error: Branch through zero.
+SigSegV:Internal error at %1: '%0'.
+SigErr:An unexpected error has occurred: '%0'
+SigUnk:Internal error: Unexpected signal %0 raised.
+
+# Other error messages
+ErrShrt:Disc name must be at least two characters long
+ErrSave:Unable to write the configuration file. Ensure that the disc is not write protected, and try again.
+ErrSaveB:Unable to write the backup options file. Ensure that the disc is not write protected, and try again.
+ErrLeaf:To save, drag the icon to a directory display.
+ErrPrnt:The printer is busy. Wait for the current print job to complete and then try again.
+
+# Quit confirmation
+QuitPrj:print jobs
+QuitCon:file format conversions
+QuitAsn:action windows
+QuitAc1:%0
+QuitAc2:%0 and %1
+QuitAc3:%0, %1 and %2
+QuitQst:There are active %0. Do you wish to quit?
+
+# Text under the icon bar icons
+IcnLink:Connecting
+IcnE16:SIBO
+IcnE32:EPOC
+
+# Backup windows
+BkLsNvr:Never
+BkLsFul:%0
+BkLsPrt:%0 (P)
+BkStCnt:Starting backup in %0 seconds
+BkStWat:Starting backup
+BkStPrg:Backup in progress
+BkStSuc:Backup completed successfully
+BkStErr:Backup error
+BkStAbt:Backup aborted
+BkStDsc:Disc not present
+BkStOpt:No valid options for this disc
+BkStIdl:Click Backup to start
+BkOpTCl:PsiFS closing files
+BkOpTOp:PsiFS opening files
+BkOpTBk:PsiFS backup %0
+BkWnDsc:Disc %0 in drive %1 was named %2 when the backup options were set
+BkWnMed:Disc %0 in drive %1 has the same name as another disc for which backup options have been set
+BkWnDrv:Disc %0 in drive %1 was in drive %2 when the backup options were set
+BkWnMch:Disc %0 in drive %1 was in a different device when the backup options were set
+BkDfNam:%0 in drive %1
+
+# Asynchronous operation window
+OpActOK:OK
+OpActOKH:Click SELECT to acknowledge the information and close the window.
+OpActAbt:Abort
+OpActAbtH:Click SELECT to abort this operation.
+OpActPse:Pause
+OpActPseH:Click SELECT to pause this operation.
+OpActCnt:Continue
+OpActCntH:Click SELECT to resume this operation.
+OpActYes:Yes
+OpActYesH:Click SELECT to give an affirmative answer to the question.
+OpActNo:No
+OpActNoH:Click SELECT to give a negative answer to the question.
+OpActQet:Quiet
+OpActQetH:Click SELECT to select the default answer to this and future questions at the current or lower levels.
+OpActSkp:Skip
+OpActSkpH:Click SELECT to skip over this object.
+OpActRst:Restart
+OpActRstH:Click SELECT to restart the operation on this object.
+OpActRty:Retry
+OpActRtyH:Click SELECT to retry the activity that failed.
+OpActCpy:Copy
+OpActCpyH:Click SELECT to copy the current object from the SIBO or EPOC device.
+OpActUnk:?
+OpActUnkH:No help is available for this option.
+OpTTkn:Time taken so far
+OpTRmn:Time remaining
+OpTTok:Total time taken
+OpTUnk:-
+OpAbt:Operation aborted
+OpInact:Not active
+
+# Machine details
+MchOS16:SIBO
+MchOS32:EPOC
+MchLnEN:UK English
+MchLnFR:French
+MchLnGE:German
+MchLnSP:Spanish
+MchLnIT:Italian
+MchLnSW:Swedish
+MchLnDA:Danish
+MchLnNO:Norwegian
+MchLnFI:Finnish
+MchLnAM:American English
+MchLnSF:Swiss French
+MchLnSG:Swiss German
+MchLnPO:Portuguese
+MchLnTU:Turkish
+MchLnIC:Icelandic
+MchLnRU:Russian
+MchLnHU:Hungarian
+MchLnDU:Dutch
+MchLnBL:Belgian Flemish
+MchLnAU:Australian English
+MchLnBG:Belgian French
+MchLnAS:Austrian German
+MchLnNZ:New Zealand English
+MchLnIF:International French
+MchLnCS:Czech
+MchLnSK:Slovak
+MchLnPL:Polish
+MchLnSL:Slovenian
+MchLnTC:Taiwan Chinese
+MchLnHK:Hong Kong Chinese
+MchLnZH:PRC Chinese
+MchLnJA:Japanese
+MchLnTH:Thai
+MchLnUn:Unknown (%0)
+MchLnTs/MchLnUv/MchIdUv:(not available)
+
+# Power and battery status
+PowExtP:Present
+PowExtN:Not present
+PowStDd:dead
+PowStVl:very low
+PowStLw:low
+PowStGd:good
+PowStUn:unknown (%0)
+PowVolt:%0V
+PowWnMn:The main batteries are %0
+PowWnBk:The backup battery is %0
+
+# Link statistics
+LnkKBps:%0 kB/s
+
+# File converters
+CnvNone:No conversion
+CnvUnTk:Unknown task
+CnvMenu:%0  %1 (%2)
+CnvUnAt/CnvUnVr:(not known)
+
+# Clipboard status
+ClpSEmt:Clipboard empty
+ClpSLMA:Copying from %0 to EPOC device
+ClpSLMU:Copying to EPOC device
+ClpSLSA:Copied from %0 to EPOC device
+ClpSLSU:Copied to EPOC device
+ClpSRME:Pasting from EPOC device
+ClpSRSE:Pasted from EPOC device
+ClpSRIE:Pasted from EPOC device (not shared)
+ClpSCCT:Copying via '%0'
+ClpSCCS:Copied via '%0'
+ClpSCCF:No suitable conversion for copy
+ClpSCCN:Copied without conversion
+ClpSPCT:Pasting via '%0'
+ClpSPCS:Pasted via '%0'
+ClpSPCF:No suitable conversion for paste
+
+# Device claim protocol
+ClmClLk:%0
+ClmClPr:%0
+ClmUsLk:Serial port is being used by the PsiFS remote link
+ClmUsPr:Serial port is being used by the PsiFS printer mirror
+ClmErLk:Unable to claim serial port for the remote link: '%0'
+ClmErPr:Unable to claim serial port for the printer mirror: '%0'
+
+# Print jobs
+PrnCtRx:Receiving print job
+PrnCtCp:Print job complete
+PrnJbFn:Declaring fonts used in job
+PrnJbPr:Printing page %0
+PrnPdNo:Not present
+PrnPdDr:Printer: %0
+PrnPdWn:Warning: %0
+PrnPdEr:Error: %0
+PrnSaAT:PrintJob
+PrnSaPD:DrawPage%0
+PrnSaPT:TextPage%0
+PrnSaPR:RawPage%0
+PrnPrJb:PsiFS print job
+PrnTxEr:*** PROBLEMS DETECTED DURING PARSING OF PRINT JOB ***
+PrnTxAt:%0 near byte %1 of print job
+PrnEFOp:Unable to open print job file: '%0'
+PrnEFEf:Unexpected end of print job file
+PrnEFIn:Processing of print job file incomplete
+PrnEHW1:First word of header mismatch
+PrnEHW2:Second word of header mismatch
+PrnECmU:Unknown primitive
+PrnEDMU:Unsupported draw mode
+PrnE06P:Parameter for unknown primitive &06 not expected value
+PrnEFnS:Unknown font style bits set
+PrnEFnP:Parameter for font primitive not expected value
+PrnEUlP:Parameter for underline primitive not expected value
+PrnESkP:Parameter for strikethrough primitive not expected value
+PrnECrP:Parameter for carriage return primitive not expected value
+PrnEPZP:Unexpected aspect ratio for pen size
+PrnEBSP:Unsupported brush style
+PrnEDPP:Unexpected fill style
+PrnE1BP:Parameter for unknown primitive &1B not expected value
+PrnEBiD:Unsupported bitmap display mode
+PrnEBiP:Parameter for bitmap primitive not expected value
+PrnEBiE:Unknown bitmap encoding
+PrnEDTA:Unknown text alignment
+PrnELnB:Unknown length field encoding

@@ -1,0 +1,1156 @@
+SerialBuff
+index.html
+Serial Buffer
+David Pilling
+Serial Buffer
+Distribution
+Email
+Copyright
+*SerialBufferSize
+Legal Matters
+Serial Port
+
+cntnt.html
+index.html
+Documentation: Contents
+Documentation
+Contents
+Index
+
+command/disbl.html
+command/index.html
+*Commands: *PsiFSDisable
+*Commands
+Command Line Usage
+*PsiFSDisable
+Disconnect
+Block Driver
+Serial Port
+Printer Mirror
+Remote Link
+Printing
+
+command/drive.html
+command/index.html
+*Commands: *Drive
+*Commands
+Command Line Usage
+*Drive
+Current Drive
+
+command/drivr.html
+command/index.html
+*Commands: *PsiFSDriver
+*Commands
+Command Line Usage
+*PsiFSDriver
+Block Driver
+Serial Port
+Baud Rate
+Auto Baud Rate
+Printer Mirror
+Data Format
+Configuration
+
+command/enabl.html
+command/index.html
+*Commands: *PsiFSEnable
+*Commands
+Command Line Usage
+*PsiFSEnable
+Block Driver
+Printer Mirror
+Remote Link
+Connect
+Serial Port
+Printing
+
+command/free.html
+command/index.html
+*Commands: *Free
+*Commands
+Command Line Usage
+*Free
+Free Space
+
+command/index.html
+index.html
+*Commands
+*Commands
+Command Line Usage
+File System
+
+command/list.html
+command/index.html
+*Commands: *PsiFSListDrivers
+*Commands
+Command Line Usage
+*PsiFSListDrivers
+Block Driver
+Version
+Baud Rate
+
+command/map.html
+command/index.html
+*Commands: *PsiFSMap
+*Commands
+Command Line Usage
+*PsiFSMap
+File Type
+File Extension
+UID
+MimeMap
+File System
+
+command/name.html
+command/index.html
+*Commands: *NameDisc
+*Commands
+Command Line Usage
+*NameDisc
+*NameDisk
+Disc Name
+Disk Name
+File System
+
+command/psifs.html
+command/index.html
+*Commands: *PsiFS
+*Commands
+Command Line Usage
+*PsiFS
+File System
+Current File System
+
+command/sis.html
+command/index.html
+*Commands: *PsiFSSIS
+*Commands
+Command Line Usage
+*PsiFSSIS
+SIS File
+
+command/stats.html
+command/index.html
+*Commands: *PsiFSStatus
+*Commands
+Command Line Usage
+*PsiFSStatus
+Status
+Block Driver
+Serial Port
+Printer Mirror
+
+command/tar.html
+command/index.html
+*Commands: *PsiFSTar
+*Commands
+Command Line Usage
+*PsiFSTar
+Tar
+Backup
+Restore
+!SparkFS
+
+compile/index.html
+index.html
+Compiling
+Compiling
+
+compile/libs.html
+compile/index.html
+Compiling: Libraries
+Compiling
+Libraries
+
+compile/tools.html
+compile/index.html
+Compiling: Tools
+Compiling
+Tools
+
+compt.html
+index.html
+Compatibility
+Compatibility
+Serial Port
+RISC OS
+Psion
+Xemplar
+The Serial Port
+Philips
+Oregon Scientific
+EPOC
+SIBO
+Atomwide
+Geofox
+Acorn
+Ericsson
+
+contact/auth.html
+contact/index.html
+Contact Details: Contacting the Author
+Address
+Email
+Fault Report
+Bugs
+Problems
+
+contact/form
+contact/index.html
+Contact Details: Textual Fault Report Form
+Email
+Fault Report
+Bugs
+Problems
+
+contact/form.html
+contact/index.html
+Contact Details: Fault Report Form
+Email
+Web Page
+Fault Report
+Bugs
+Problems
+
+contact/index.html
+index.html
+Contact Details
+Email
+Frequently Asked Questions
+Web Page
+Fault Report
+Mailing Lists
+Bugs
+Problems
+
+contact/lists.html
+contact/index.html
+Contact Details: Mailing Lists
+Email
+Mailing Lists
+Bugs
+Problems
+
+contact/web.html
+contact/index.html
+Contact Details: Web Page
+Email
+Web Page
+Download
+Toolbox Modules
+Version
+Psion Link Protocol
+
+conv/boot.html
+conv/index.html
+File Format Converters: !Boot
+File Converters
+File Formats
+
+conv/exfsi.html
+conv/index.html
+File Format Converters: !ChangeFSI Example
+File Converters
+File Formats
+
+conv/expsi.html
+conv/index.html
+File Format Converters: PsiFS Module Example
+File Converters
+File Formats
+Tar
+SIS File
+*PsiFSTar
+*PsiFSSIS
+
+conv/index.html
+index.html
+File Format Converters
+File Converters
+File Formats
+
+conv/psifs.html
+conv/index.html
+File Format Converters: !PsiFS
+File Converters
+File Formats
+
+conv/res.html
+conv/index.html
+File Format Converters: !PsiFSRes
+File Converters
+File Formats
+
+cred.html
+index.html
+Credits
+Credits
+Copyright
+Email
+Block Driver
+Serial Buffer
+CathLibCPP
+Psion Link Protocol
+Hugo Fiennes
+Mark Gretton
+David Pilling
+Miles Sabin
+George Thucydides
+John Woodthorpe
+
+faq/ant.html
+faq/index.html
+Frequently Asked Questions: Serial Port Clashes
+Frequently Asked Questions
+Problems
+!InetSuite
+Serial Port
+Device Claim Protocol
+
+faq/arc.html
+faq/index.html
+Frequently Asked Questions: Unsuitable Dearchiver
+Frequently Asked Questions
+Problems
+!SparkFS
+!SparkPlug
+Dearchiving
+Documentation
+David Pilling
+Email
+
+faq/baud.html
+faq/index.html
+Frequently Asked Questions: Baud Rate Too High
+Frequently Asked Questions
+Problems
+Serial Port
+Block Driver
+Remote Link
+Baud Rate
+Configuration
+
+faq/conv.html
+faq/index.html
+Frequently Asked Questions: File Format Converters
+Frequently Asked Questions
+Problems
+File Converters
+File Formats
+Gert-Jan de Vos
+Frodo Looijaard
+Thomas Milius
+Paul Vigay
+Email
+
+faq/drvrs.html
+faq/index.html
+Frequently Asked Questions: !SerialDev Not Seen
+Frequently Asked Questions
+Problems
+Block Driver
+InternalPC
+SP_DualPC
+!SerialDev
+
+faq/dst.html
+faq/index.html
+Frequently Asked Questions: Summer Time
+Frequently Asked Questions
+Problems
+Summer Time
+Date Stamp
+Backup
+
+faq/index.html
+index.html
+Frequently Asked Questions
+Frequently Asked Questions
+Bugs
+Problems
+
+faq/modem.html
+faq/index.html
+Frequently Asked Questions: Online Media Internal Modem
+Frequently Asked Questions
+Problems
+Online Media
+Internal Modem
+SWI &amp;83901 not known
+Block Driver
+!SerialDev
+
+faq/old.html
+faq/index.html
+Frequently Asked Questions: Old Serial Block Driver
+Frequently Asked Questions
+Problems
+Block Driver
+InternalPC
+SP_DualPC
+!SerialDev
+
+faq/port.html
+faq/index.html
+Frequently Asked Questions: Unable To Open Port For Printing
+Frequently Asked Questions
+Problems
+Printer Mirror
+Serial Port
+Printing
+Unable To Open Port For Printing
+
+faq/print.html
+faq/index.html
+Frequently Asked Questions: Inaccurate Printing
+Frequently Asked Questions
+Problems
+Printing
+
+faq/seral.html
+faq/index.html
+Frequently Asked Questions: Early Archimedes Serial Ports
+Frequently Asked Questions
+Problems
+Serial Port
+Block Driver
+Toby Smith
+Jonathan Allin
+
+faq/sis.html
+faq/index.html
+Frequently Asked Questions: SIS File Attributes
+Frequently Asked Questions
+Problems
+SIS File
+Installation
+Attributes
+File System
+EPOC
+Access Denied
+
+faq/tar.html
+faq/index.html
+Frequently Asked Questions: Unsuitable Tar File Extractor
+Frequently Asked Questions
+Problems
+Tar
+!SparkFS
+David Pilling
+*PsiFSTar
+Backup
+Restore
+Frank Lancaster
+Email
+
+fs/attr.html
+fs/index.html
+File System: Attributes
+File System
+Attributes
+
+fs/chars.html
+fs/index.html
+File System: Character Mappings
+File System
+Character Mapping
+File Name
+Latin1
+Code Page 850
+Windows ANSI
+
+fs/date.html
+fs/index.html
+File System: Date and Times
+File System
+Date Stamp
+
+fs/index.html
+index.html
+File System
+File System
+File Name
+File Type
+Attributes
+Date Stamp
+Disc Name
+Disk Name
+Virtual Drive
+Character Mapping
+
+fs/type.html
+fs/index.html
+File System: File Types
+File System
+File Type
+*PsiFSMap
+File Extension
+UID
+
+icon/act.html
+icon/index.html
+Iconbar Icons: Remote Link
+Icon
+Iconbar
+Status
+Connect
+Disconnect
+Remote Link
+Menu
+Help
+Quit
+Info
+File Converters
+
+icon/drive.html
+icon/index.html
+Iconbar Icons: SIBO or EPOC drive
+Icon
+Iconbar
+Status
+Disconnect
+Remote Link
+Drive
+Disc Name
+Disk Name
+Help
+Backup
+Free Space
+Menu
+Quit
+Filer Window
+Info
+Connect
+File Converters
+
+icon/idle.html
+icon/index.html
+Iconbar Icons: Idle
+Icon
+Iconbar
+Status
+Connect
+Disconnect
+Idle
+Menu
+Configuration
+Remote Link
+Printer Mirror
+Help
+Quit
+Info
+File Converters
+
+icon/index.html
+index.html
+Iconbar Icons
+Icon
+Iconbar
+Status
+File Converters
+
+icon/print.html
+icon/index.html
+Iconbar Icons: Printer Mirror
+Icon
+Iconbar
+Printer Mirror
+Printing
+Menu
+Disconnect
+Status
+Help
+Quit
+Info
+Connect
+File Converters
+
+index.html
+
+PsiFS Documentation
+Documentation
+Contents
+Index
+Psion Link Protocol
+EPOC
+SIBO
+EPOC16
+EPOC32
+Legal Matters
+FreeWare
+Copyright
+Version
+Distribution
+
+legal/copy.html
+legal/index.html
+Legal Matters: Copyright
+Legal Matters
+Copyright
+CathLibCPP
+Hewlett-Packard
+Serial Buffer
+David Pilling
+InternalPC
+SP_DualPC
+The Serial Port
+Email
+Credits
+
+legal/gpl.html
+legal/index.html
+Legal Matters: GNU General Public License
+Legal Matters
+Distribution
+Copyright
+Disclaimer
+GNU General Public License
+
+legal/index.html
+index.html
+Legal Matters
+Legal Matters
+Trademarks
+FreeWare
+Distribution
+Disclaimer
+Copyright
+
+legal/trade.html
+legal/index.html
+Legal Matters: Trademarks
+Legal Matters
+Trademarks
+Acorn
+Psion
+Symbian
+Xemplar
+StrongARM
+Geofox
+Oregon Scientific
+Philips
+Ericsson
+IrDA
+Microsoft
+Credits
+
+menu/async.html
+menu/index.html
+Menu Entries: Action Windows
+Action Windows
+Asynchronous Remote Operation
+Backup
+
+menu/backu.html
+menu/index.html
+Menu Entries: Backup...
+Menu
+Backup
+Restore
+Tar
+!SparkFS
+Configuration
+Drive
+Disc Name
+Disk Name
+*PsiFSTar
+Action Windows
+
+menu/confg.html
+menu/index.html
+Menu Entries: Configure...
+Menu
+Configuration
+Block Driver
+Serial Port
+Printer Mirror
+Backup
+Filer Window
+File Converters
+*PsiFSEnable
+*PsiFSDriver
+Auto Baud Rate
+Virtual Drive
+
+menu/conv.html
+menu/index.html
+Menu Entries: File Conversion
+File Converters
+
+menu/disco.html
+menu/index.html
+Menu Entries: Disconnect
+Menu
+Disconnect
+Remote Link
+Printer Mirror
+Idle
+Serial Port
+
+menu/free.html
+menu/index.html
+Menu Entries: Free...
+Menu
+Drive
+Free Space
+*Free
+
+menu/help.html
+menu/index.html
+Menu Entries: Help
+Menu
+Idle
+Drive
+Quit
+Printer Mirror
+Help
+Documentation
+
+menu/index.html
+index.html
+Menu Entries
+Menu
+Iconbar
+Icon
+
+menu/info.html
+menu/index.html
+Menu Entries: Info
+Menu
+Info
+Version
+Help
+Batteries
+Power status
+
+menu/link.html
+menu/index.html
+Menu Entries: Remote Link
+Menu
+Idle
+Remote Link
+Connect
+Idle
+
+menu/name.html
+menu/index.html
+Menu Entries: Name disc
+Menu
+Name Disc
+Name Disk
+*NameDisc
+*NameDisk
+Disc Name
+Disk Name
+
+menu/print.html
+menu/index.html
+Menu Entries: Printer Mirror
+Menu
+Printer Mirror
+Printing
+Data Format
+Connect
+Idle
+
+menu/quit.html
+menu/index.html
+Menu Entries: Quit
+Menu
+Quit
+Disconnect
+
+probs.html
+index.html
+Known Problems
+Problems
+Bugs
+Version
+Missing Features
+Serial Port
+Device Claim Protocol
+
+start/backu.html
+start/index.html
+Getting Started: Backup
+Backup
+Configuration
+Connect
+Action Windows
+Drive
+Disc Name
+Disk Name
+
+start/baud.html
+start/index.html
+Getting Started: Baud Rate
+Baud Rate
+Remote Link
+Printer Mirror
+Auto Baud Rate
+Configuration
+
+start/conct.html
+start/index.html
+Getting Started: Connecting
+Remote Link
+Connect
+Drive
+Idle
+
+start/confg.html
+start/index.html
+Getting Started: Configuration
+Configuration
+Baud Rate
+Block Driver
+Serial Port
+Backup
+Printer Mirror
+Printing
+Connect
+Disconnect
+File Converters
+
+start/conv.html
+start/index.html
+Getting Started: Performing File Format Conversions
+File Converters
+
+start/disbl.html
+start/index.html
+Getting Started: Disabling the Printer Mirror
+Printer Mirror
+Printing
+Disconnect
+Idle
+
+start/disco.html
+start/index.html
+Getting Started: Disconnecting
+Remote Link
+Disconnect
+Serial Port
+Quit
+Idle
+
+start/enabl.html
+start/index.html
+Getting Started: Enabling the Printer Mirror
+Printer Mirror
+Printing
+Configuration
+Connect
+Data Format
+Idle
+
+start/index.html
+index.html
+Getting Started
+Remote Link
+Printer Mirror
+Printing
+Configuration
+Connect
+Disconnect
+Backup
+Restore
+
+start/print.html
+start/index.html
+Getting Started: Printing via the Remote Link
+Printing
+Configuration
+
+start/prn16.html
+start/enabl.html
+Getting Started: Printing from SIBO Devices
+Printer Mirror
+Printing
+Configuration
+SIBO
+
+start/prn32.html
+start/enabl.html
+Getting Started: Printing from EPOC Devices
+Printer Mirror
+Printing
+Configuration
+EPOC
+
+start/restr.html
+start/index.html
+Getting Started: Restoring Backups
+Backup
+Restore
+Configuration
+Tar
+!SparkFS
+David Pilling
+*PsiFSTar
+Drive
+Disc Name
+Disk Name
+Frank Lancaster
+Email
+
+start/seen.html
+start/index.html
+Getting Started: Installing File Format Converters
+File Converters
+Tar
+SIS File
+
+start/sis.html
+start/index.html
+Getting Started: Installing EPOC SIS Files
+File Converters
+SIS File
+
+swi/actrl.html
+swi/index.html
+SWI Calls: PsiFS_AsyncControl
+SWI
+Software Interrupt
+PsiFS_Async_Control
+Asynchronous Remote Operation
+Backup
+Action Windows
+
+swi/aend.html
+swi/index.html
+SWI Calls: PsiFS_AsyncEnd
+SWI
+Software Interrupt
+PsiFS_AsyncEnd
+Asynchronous Remote Operation
+Backup
+Action Windows
+
+swi/apoll.html
+swi/index.html
+SWI Calls: PsiFS_AsyncPoll
+SWI
+Software Interrupt
+PsiFS_AsyncPoll
+Asynchronous Remote Operation
+Backup
+Action Windows
+
+swi/astrt.html
+swi/index.html
+SWI Calls: PsiFS_AsyncStart
+SWI
+Software Interrupt
+PsiFS_AsyncStart
+Asynchronous Remote Operation
+Backup
+Action Windows
+
+swi/ccopy.html
+swi/index.html
+SWI Calls: PsiFS_ClipboardCopy
+SWI
+Software Interrupt
+PsiFS_ClipboardCopy
+Clipboard
+File Converters
+
+swi/cpste.html
+swi/index.html
+SWI Calls: PsiFS_ClipboardPaste
+SWI
+Software Interrupt
+PsiFS_ClipboardPaste
+Clipboard
+File Converters
+
+swi/cuid.html
+swi/index.html
+SWI Calls: PsiFS_CheckUID
+SWI
+Software Interrupt
+PsiFS_CheckUID
+UID
+
+swi/fsop.html
+swi/index.html
+SWI Calls: PsiFS_FileOp
+SWI
+Software Interrupt
+PsiFS_FileOp
+
+swi/get.html
+swi/index.html
+SWI Calls: PsiFS_Get
+SWI
+Software Interrupt
+PsiFS_Get
+Status
+Configuration
+Block Driver
+Baud Rate
+Auto Baud Rate
+Disc Name
+Disk Name
+EPOC
+SIBO
+Printer Mirror
+Remote Link
+Drive
+
+swi/iclam.html
+swi/index.html
+SWI Calls: PsiFS_InterceptClaim
+SWI
+Software Interrupt
+PsiFS_InterceptClaim
+File Converters
+
+swi/ictrl.html
+swi/index.html
+SWI Calls: PsiFS_InterceptControl
+SWI
+Software Interrupt
+PsiFS_InterceptControl
+File Converters
+
+swi/index.html
+index.html
+SWI Calls
+SWI
+Software Interrupt
+OSLib Interface
+C Veneer
+Assembler Header File
+
+swi/ipoll.html
+swi/index.html
+SWI Calls: PsiFS_InterceptPoll
+SWI
+Software Interrupt
+PsiFS_InterceptPoll
+File Converters
+
+swi/irlse.html
+swi/index.html
+SWI Calls: PsiFS_InterceptRelease
+SWI
+Software Interrupt
+PsiFS_InterceptRelease
+File Converters
+
+swi/mode.html
+swi/index.html
+SWI Calls: PsiFS_Mode
+SWI
+Software Interrupt
+PsiFS_Mode
+Connect
+Disconnect
+Printer Mirror
+Remote Link
+*PsiFSEnable
+
+swi/pcncl.html
+swi/index.html
+SWI Calls: PsiFS_PrintJobCancel
+SWI
+Software Interrupt
+PsiFS_PrintJobCancel
+Printing
+
+swi/pdata.html
+swi/index.html
+SWI Calls: PsiFS_PrintJobData
+SWI
+Software Interrupt
+PsiFS_PrintJobData
+Printing
+
+swi/ppoll.html
+swi/index.html
+SWI Calls: PsiFS_PrintJobPoll
+SWI
+Software Interrupt
+PsiFS_PrintJobPoll
+Printing
+
+swi/reg.html
+swi/index.html
+SWI Calls: PsiFS_Register
+SWI
+Software Interrupt
+PsiFS_Register
+Status
+
+swi/set.html
+swi/index.html
+SWI Calls: PsiFS_Set
+SWI
+Software Interrupt
+PsiFS_Set
+Configuration
+Block Driver
+Baud Rate
+Auto Baud Rate
+Synchronize Clocks
+
+swi/trans.html
+swi/index.html
+SWI Calls: PsiFS_GetTranslationTable
+SWI
+Software Interrupt
+PsiFS_GetTranslationTable
+Character Mapping
+Latin1
+Code Page 850
+Windows ANSI
+
+swi/unreg.html
+swi/index.html
+SWI Calls: PsiFS_Unregister
+SWI
+Software Interrupt
+PsiFS_Unregister
+Status
+
+vers.html
+index.html
+Version History
+Version
+History
+Bugs
+Problems
+
+wimp/astrt.html
+wimp/index.html
+WIMP Messages: Message_PsifsAsyncStart
+WIMP Messages
+PsiFS_AsyncStart
+Asynchronous Remote Operation
+Action Windows
+
+wimp/index.html
+index.html
+WIMP Messages
+WIMP Messages
+OSLib Interface
+C Veneer
+Assembler Header File
+
+wimp/print.html
+wimp/index.html
+WIMP Messages: Message_PsifsPrint
+WIMP Messages
+Printing
+
+xref.html
+index.html
+Documentation: Index
+Documentation
+Contents
+Index
+Keywords
+

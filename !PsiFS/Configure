@@ -1,0 +1,129 @@
+|   File        : Configure
+|   Date        : 19-Sep-02
+|   Author      : © A.Thoukydides, 1998-2002, 2019
+|   Description : Script to configure PsiFS. This file may be modified
+|                 to change the serial link settings or file type mappings.
+|
+|   License     : PsiFS is free software: you can redistribute it and/or
+|                 modify it under the terms of the GNU General Public License
+|                 as published by the Free Software Foundation, either
+|                 version 3 of the License, or (at your option) any later
+|                 version.
+|   
+|                 PsiFS is distributed in the hope that it will be useful,
+|                 but WITHOUT ANY WARRANTY; without even the implied warranty
+|                 of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+|                 the GNU General Public License for more details.
+|   
+|                 You should have received a copy of the GNU General Public
+|                 License along with PsiFS. If not, see
+|                 <http://www.gnu.org/licenses/>.
+
+| Serial link configuration if started outside the desktop
+PsiFSDriver -driver InternalPC -port 0 -baud 115200 -autobaud -options ""
+
+| Set the file type mappings for untyped and unrecognised files
+Set File$Type_158 Psion
+PsiFSMap -other -type Psion
+
+| Set the file type mappings for SIS files
+Set File$Type_155 PsiSIS
+PsiFSMap -ext SIS -type PsiSIS
+
+| Set the file type mappings for Word files
+Set File$Type_156 PsiWord
+PsiFSMap -ext WRD -type PsiWord
+PsiFSMap -uid 100000371000006D1000007F -type PsiWord
+
+| Set the file type mappings for Sheet files
+Set File$Type_157 PsiSheet
+PsiFSMap -ext SHT -type PsiSheet
+PsiFSMap -ext SPR -type PsiSheet
+PsiFSMap -uid 100000371000006D10000088 -type PsiSheet
+
+| Set the file type mappings for Record files
+Set File$Type_159 PsiRecrd
+PsiFSMap -ext REC -type PsiRecrd
+PsiFSMap -uid 100000371000006D1000007E -type PsiRecrd
+
+| Set the file type mappings for OPL files
+Set File$Type_15A PsiOPL
+PsiFSMap -ext OPL -type PsiOPL
+PsiFSMap -ext OXH -type PsiOPL
+PsiFSMap -uid 100000371000006D10000085 -type PsiOPL
+
+| Set the file type mappings for Data files
+Set File$Type_15B PsiData
+PsiFSMap -ext DAT -type PsiData
+PsiFSMap -ext DBF -type PsiData
+PsiFSMap -ext HLP -type PsiData
+PsiFSMap -uid 100000501000006D10000086 -type PsiData
+
+| Set the file type mappings for Agenda files
+Set File$Type_15C PsiAgnda
+PsiFSMap -ext AGN -type PsiAgnda
+PsiFSMap -uid 100000501000006D10000084 -type PsiAgnda
+
+| Set the file type mappings for GIF files
+Set File$Type_695 GIF
+PsiFSMap -ext GIF -type GIF
+
+| Set the file type mappings for Portable BitMap, PixMap and GrayMap files
+Set File$Type_69E PBM
+PsiFSMap -ext PBM -type PBM
+PsiFSMap -ext PPM -type PBM
+PsiFSMap -ext PGM -type PBM
+
+| Set the file type mappings for Sketch files
+Set File$Type_AD8 PsiMBM
+PsiFSMap -ext MBM -type PsiMBM
+PsiFSMap -uid 100000371000006D1000007D -type PsiMBM
+
+| Set the file type mappings for Picture files
+Set File$Type_B1E PsionPIC
+PsiFSMap -ext PIC -type PsionPIC
+
+| Set the file type mappings for Rich Text Format files
+Set File$Type_C32 RTF
+PsiFSMap -ext RTF -type RTF
+
+| Set the file type mappings for tar files
+Set File$Type_C46 Tar      
+PsiFSMap -ext TAR -type Tar
+
+| Set the file type mappings for JPEG files
+Set File$Type_C85 JPEG
+PsiFSMap -ext JIF -type JPEG
+PsiFSMap -ext JPG -type JPEG
+PsiFSMap -ext JPEG -type JPEG
+
+| Set the file type mappings for Lotus123 files
+Set File$Type_DB0 Lotus123
+PsiFSMap -ext WK1 -type Lotus123
+
+| Set the file type mappings for archive files
+Set File$Type_DDC Archive
+PsiFSMap -ext ARC -type Archive
+PsiFSMap -ext SPK -type Archive
+PsiFSMap -ext ZIP -type Archive
+
+| Set the file type mappings for CSV files
+Set File$Type_DFE CSV
+PsiFSMap -ext CSV -type CSV
+
+| Set the file type mappings for HTML files
+Set File$Type_FAF HTML
+PsiFSMap -ext HTL -type HTML
+PsiFSMap -ext HTM -type HTML
+PsiFSMap -ext HTML -type HTML
+
+| Set the file type for printout files
+Set File$Type_FF4 Printout
+PsiFSMap -ext LIS -type Printout
+
+| Set the filetype mappings for plain text files
+Set File$Type_FFF Text
+PsiFSMap -ext TXT -type Text
+
+| Enable use of the MimeMap module for any other extensions
+PsiFSMap -mimemap

@@ -1,0 +1,205 @@
+REM File        : Convert
+REM Date        : 19-Sep-02
+REM Author      : © A.Thoukydides, 1998-2002, 2019
+REM Description : Convert to and from EPOC clipboard format.
+REM
+REM License     : PsiFS is free software: you can redistribute it and/or
+REM               modify it under the terms of the GNU General Public License
+REM               as published by the Free Software Foundation, either
+REM               version 3 of the License, or (at your option) any later
+REM               version.
+REM 
+REM               PsiFS is distributed in the hope that it will be useful,
+REM               but WITHOUT ANY WARRANTY; without even the implied warranty
+REM               of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+REM               the GNU General Public License for more details.
+REM 
+REM               You should have received a copy of the GNU General Public
+REM               License along with PsiFS. If not, see
+REM               <http://www.gnu.org/licenses/>.
+
+REM Read the command line
+SYS "OS_GetEnv" TO env$
+env$ = FNskip_ws(MID$(env$, INSTR(env$, """", INSTR(env$, """") + 1) + 2))
+
+REM Check whether a silent conversion is required
+silent% = (INSTR(env$, "-silent ") = 1)
+IF silent% THEN env$ = FNskip_ws(MID$(env$, 9))
+
+REM Extract the conversion and filenames
+pos1% = INSTR(env$, " ")
+conversion$ = LEFT$(env$, pos1% - 1)
+env$ = FNskip_ws(MID$(env$, pos1% + 1))
+pos2% = INSTR(env$, " ")
+in$ = LEFT$(env$, pos2% - 1)
+out$ = FNskip_ws(MID$(env$, pos2% + 1))
+IF (pos1% = 0) OR (pos2% = 0) THEN ERROR 0, "Syntax: Convert [-silent] -toclip|-totext <src> <dest>"
+
+REM Global variables used by conversion routines
+in% = 0
+out% = 0
+DIM table% 256
+
+REM Ensure files are closed and the output gets deleted if there is an error
+ON ERROR ON ERROR OFF:PROCerror
+
+REM Open the files
+in% = OPENIN(in$)
+IF in% = 0 THEN ERROR 1, "Unable to open input file '" + in$ + "'"
+out% = OPENOUT(out$ + ".")
+IF out% = 0 THEN ERROR 1, "Unable to open output file '" + out$ + "'"
+
+REM Attempt to perform the conversion
+CASE conversion$ OF
+    WHEN "-toclip": type% = FNtext_to_clip
+    WHEN "-totext": type% = FNclip_to_text
+    OTHERWISE: ERROR 1, "Unsupported conversion '" + conversion$ + "'"
+ENDCASE
+
+REM Close the files
+CLOSE#out%
+out% = 0
+CLOSE#in%
+in% = 0
+
+REM Set the type of the converted file
+SYS "OS_File", 18, out$, type%
+
+END
+
+REM Tidy up from errors
+DEFPROCerror
+    IF in% THEN CLOSE#in%
+    IF out% THEN CLOSE#out%
+    SYS "XOS_FSControl", 27, out$, 0, 3
+    IF NOT(silent%) THEN ERROR 0, REPORT$ + " - "+ STR$ERL
+    END
+
+REM Skip over white space
+DEFFNskip_ws(str$)
+    WHILE LEFT$(str$, 1) = " "
+        str$ = MID$(str$, 2)
+    ENDWHILE
+= str$
+
+REM Read a zero terminated string
+DEFFNread_string(ptr%)
+    LOCAL str$
+    WHILE ptr% AND (31 < ?ptr%)
+        str$ += CHR$?ptr%
+        ptr% += 1
+    ENDWHILE
+= str$
+
+REM Convert from text to clipboard format
+DEFFNtext_to_clip
+
+    REM Write the file header
+    PROCwrite(&10000037)        : REM UID1
+    PROCwrite(&1000003B)        : REM UID2
+    PROCwrite(&00000000)        : REM UID3
+    PROCwrite(&4739D53B)        : REM UID4
+    PROCwrite(&00000014)        : REM Section table offset
+    BPUT#out%, &02              : REM Section table length
+    PROCwrite(&10000033)        : REM Section type
+    PROCwrite(&0000001D)        : REM Section offset
+    PROCwrite(EXT#in%)          : REM Text length
+
+    REM Convert the text
+    PROCtranslate(TRUE, EXT#in%)
+    
+    REM Append an extra zero byte to keep EPOC happy
+    BPUT#out%, 0
+    
+= &158
+
+REM Convert from clipboard to text format
+DEFFNclip_to_text
+
+    LOCAL section_table%, entries%, found%, section%, type%, ptr%
+
+    REM The UIDs will already have been checked by the PsiFS filer
+    PTR#in% = 16
+    
+    REM Find the section table
+    section_table% = FNread
+    PTR#in% = section_table%
+    entries% = BGET#in% / 2
+    
+    REM Process all of the sections
+    found% = FALSE
+    FOR section% = 0 TO entries% -1
+        PTR#in% = section_table% + section% * 8 + 1
+        type% = FNread
+        ptr% = FNread
+        IF type% = &10000033 THEN
+            found% = TRUE
+            PTR#in% = ptr%
+            PROCtranslate(FALSE, FNread)
+        ENDIF
+    NEXT
+    
+    REM Generate an error if no data extracted
+    IF NOT found% THEN ERROR 1, "No text found in clipboard file"
+    
+= &FFF
+
+REM Copy and translate a block of text
+DEFPROCtranslate(encode%, length%)
+
+    LOCAL offset%, from%, to%
+
+    REM Obtain a character translation table
+    IF encode% THEN
+        SYS "PsiFS_GetTranslationTable", 0, 1, table%
+        RESTORE +1
+        DATA  13,   6           : REM Paragraph
+        DATA  10,   7           : REM New line
+        DATA  12,   8           : REM Hard page break
+        DATA  45,  11           : REM Hard hyphen
+        DATA 160,  16           : REM Hard space
+        DATA   0,   0
+    ELSE
+        SYS "PsiFS_GetTranslationTable", 1, 0, table%
+        RESTORE +1
+        DATA   6,  10           : REM Paragraph
+        DATA   7,  10           : REM New line
+        DATA   8,  12           : REM Hard page break
+        DATA  10,   9           : REM Unbreakable tab
+        DATA  11,  45           : REM Hard hyphen
+        DATA  12,  45           : REM Soft hyphen
+        DATA  15,  32           : REM Visible space
+        DATA  16, 160           : REM Hard space
+        DATA   0,   0
+    ENDIF
+    
+    REM Include the additional mappings
+    READ from%, to%
+    WHILE from%
+        table%?from% = to%
+        READ from%, to%
+    ENDWHILE
+    
+    REM Convert all of the text
+    FOR offset% = 1 TO length%
+        BPUT#out%, table%?BGET#in%
+    NEXT
+    
+ENDPROC
+
+REM Read a word from the input file
+DEFFNread
+    LOCAL word%
+    word% = BGET#in%
+    word% += BGET#in% << 8
+    word% += BGET#in% << 16
+    word% += BGET#in% << 24
+= word%
+
+REM Write a word to the output file
+DEFPROCwrite(word%)
+    BPUT#out%, word% AND &FF
+    BPUT#out%, (word% >> 8) AND &FF
+    BPUT#out%, (word% >> 16) AND &FF
+    BPUT#out%, (word% >> 24) AND &FF
+ENDPROC

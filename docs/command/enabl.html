@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : command/enabl.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - *Commands [*PsiFSEnable]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - *Commands [*PsiFSEnable]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: *Commands</H1>
+<B>*PsiFSEnable</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>*PsiFSEnable</B></TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Enable use of the configured block driver</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Syntax:</B></FONT></TD><TD COLSPAN=3><TT>*PsiFSEnable [-link | [-print] [<I>device</I>]]</TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Parameters:</B></FONT></TD><TD><TT>-link&nbsp;</TT></TD><TD COLSPAN=2>connect remote link (the default)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>-print&nbsp;</TT></TD><TD COLSPAN=2>connect remote device to a printer</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>device</I>&nbsp;</TT></TD><TD COLSPAN=2>the name of a file or device to send data to</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+<TT>*PsiFSEnable</TT> activates the configured block driver for either the remote link or connecting to a printer.
+<P>
+The <TT>-link</TT> switch attempts to initiate a connection to a remote <I>SIBO</I> or <I>EPOC</I> device using the <I>Psion&nbsp;Link&nbsp;Protocol</I>. This option is assumed if no parameters are specified.
+<P>
+The <TT>-print</TT> switch results in all characters received over the serial link being copied to <TT><I>device</I></TT>. Any valid file or output device may be specified. The default is to use <TT>printer:</TT> which allows a <I>SIBO</I> or <I>EPOC</I> device to print to the active <I>RISC&nbsp;OS</I> printer without needing a special cable. Useful values for <TT><I>device</I></TT> include:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Device</TH><TH>Description</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>printer:</TT></TD><TD>The currently selected printer (the default behaviour).</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>null:</TT>,<BR><TT>printer#null:</TT>,<BR><TT>printer#sink:</TT><BR>or <TT>printer#0:</TT></TD><TD>The null device (discards all data).</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>parallel:</TT>,<BR><TT>fastparallel:</TT>,<BR><TT>printer#parallel:</TT>,<BR><TT>printer#centronics:</TT><BR>or <TT>printer#1:</TT></TD><TD>The parallel port.</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>serial:</TT>,<BR><TT>printer#serial:</TT>,<BR><TT>printer#rs423:</TT><BR>or <TT>printer#2:</TT></TD><TD>The internal serial port (only available if <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is configured to use a different port).</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>printer#user:</TT><BR>or <TT>printer#3:</TT></TD><TD>The user printer device.</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>netprint:</TT></TD><TD>A network printer.</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>vdu:</TT></TD><TD>The computer's VDU stream, filtered using the configured <TT>DumpFormat</TT>.</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=CENTER NOWRAP><TT>rawvdu:</TT></TD><TD>The computer's VDU stream, unfiltered.</TD></TR>
+</TABLE>
+<P>
+If the block driver is already enabled then either no action is taken or an error is generated depending on whether the current and requested modes are the same.
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Example:</B></FONT></TD><TD COLSPAN=3><TT>*PsiFSEnable -link</TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;commands:</B></FONT></TD><TD COLSPAN=3><TT>*<A HREF="disbl.html" TITLE="*PsiFSDisable">PsiFSDisable</A></TT>, <TT>*<A HREF="drivr.html" TITLE="*PsiFSDriver">PsiFSDriver</A></TT>, <TT>*<A HREF="list.html" TITLE="*PsiFSListDrivers">PsiFSListDrivers</A></TT>, <TT>*<A HREF="stats.html" TITLE="*PsiFSStatus">PsiFSStatus</A></TT></TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

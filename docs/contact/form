@@ -1,0 +1,34 @@
+Please complete all of the fields before submitting the form.
+Send a separate report for each bug or problem.
+
+Email to psifs@thouky.co.uk
+
+<--------------------------------- Cut here -------------------------------->
+
+PSIFS FAULT REPORT FORM
+
+Your name:                      []
+Email address:                  []
+Priority:                       [Low | Medium | Urgent]
+Repeatability:                  [Always | Once | Occassional | Once]
+
+PsiFS module version:           [1.60 (19-Sep-02)]
+PsiFS filer version:            [1.60 (19-Sep-02)]
+
+RISC OS computer model:         []
+RISC OS version:                [v.vv]
+Main processor type:            []
+Memory size:                    [xxxMB]
+Any patches: (please list all)  []
+
+EPOC or SIBO computer model:    []
+EPOC or SIBO version:           [v.vv(rrr)]
+
+Serial port interface type:     [Internal | Atomwide | The Serial Port]
+Serial block driver:            [InternalPC | SP_DualPC]
+Baud rate:                      [9600 | 19200 | 38400 | 57600 | 115200]
+Serial cable type:              [3-Link | A-Link | RS-232]
+
+Short summary: []
+
+Full details:

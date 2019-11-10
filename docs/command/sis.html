@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : command/sis.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - *Commands [*PsiFSSIS]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - *Commands [*PsiFSSIS]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: *Commands</H1>
+<B>*PsiFSSIS</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>*PsiFSSIS</B></TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Read the contents of an <I>EPOC</I> SIS file</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Syntax:</B></FONT></TD><TD COLSPAN=3><TT>*PsiFSSIS <I>sis_file</I> [[-dir]&nbsp;<I>directory</I>&nbsp;|&nbsp;-tar&nbsp;<I>tar_file</I>] [-scrap&nbsp;<I>temp_file</I>] [-language&nbsp;<I>language</I>] [-recurse] [-drive&nbsp;<I>drive</I>] [-residual&nbsp;<I>residual_file</I>] [-verbose]</TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Parameters:</B></FONT></TD><TD><TT><I>sis_file</I>&nbsp;</TT></TD><TD COLSPAN=2>a valid pathname specifying an <I>EPOC</I> SIS file</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>directory</I>&nbsp;</TT></TD><TD COLSPAN=2>a valid pathname specifying an output directory</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>tar_file</I>&nbsp;</TT></TD><TD COLSPAN=2>a valid pathname specifying an output <TT>tar</TT> file</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>temp_file</I>&nbsp;</TT></TD><TD COLSPAN=2>a valid pathname specifying a temporary file</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>language</I>&nbsp;</TT></TD><TD COLSPAN=2>a two character language code</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>-recurse&nbsp;</TT></TD><TD COLSPAN=2>recursively process component SIS files</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>drive</I>&nbsp;</TT></TD><TD COLSPAN=2>the letter of the installation disc drive, from <TT>A</TT> to <TT>Z</TT></TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>residual_file</I>&nbsp;</TT></TD><TD COLSPAN=2>leafname for the residual SIS file</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>-verbose&nbsp;</TT></TD><TD COLSPAN=2>display a description of contents</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+<TT>*PsiFSSIS</TT> reads the contents of an <I>EPOC</I> SIS file. This can either extract the files to a standard directory structure or to a <TT>tar</TT> file in <TT>fltar</TT> format; the latter is recommended to ensure that filenames are preserved. Note that this cannot be used for installing applications directly to a connected device.
+<P>
+A temporary file is required while processing the contents of the SIS file. If the <TT>-scrap</TT> switch is not specified then <TT>&lt;Wimp$Scrap&gt;</TT> is used.
+<P>
+The language code allows the installation language to be selected from those supported by the SIS file. If it is not specified then <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> attempts to make an intelligent choice. The possible codes are:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Code</TH><TH>Language</TH></TR>
+<TR><TD ALIGN=CENTER><TT>EN</TT></TD><TD>English</TD></TR>
+<TR><TD ALIGN=CENTER><TT>FR</TT></TD><TD>French</TD></TR>
+<TR><TD ALIGN=CENTER><TT>GE</TT></TD><TD>German</TD></TR>
+<TR><TD ALIGN=CENTER><TT>SP</TT></TD><TD>Spanish</TD></TR>
+<TR><TD ALIGN=CENTER><TT>IT</TT></TD><TD>Italian</TD></TR>
+<TR><TD ALIGN=CENTER><TT>SW</TT></TD><TD>Swedish</TD></TR>
+<TR><TD ALIGN=CENTER><TT>DA</TT></TD><TD>Danish</TD></TR>
+<TR><TD ALIGN=CENTER><TT>NO</TT></TD><TD>Norwegian</TD></TR>
+<TR><TD ALIGN=CENTER><TT>FI</TT></TD><TD>Finnish</TD></TR>
+<TR><TD ALIGN=CENTER><TT>AM</TT></TD><TD>American</TD></TR>
+<TR><TD ALIGN=CENTER><TT>SF</TT></TD><TD>Swiss French</TD></TR>
+<TR><TD ALIGN=CENTER><TT>SG</TT></TD><TD>Swiss German</TD></TR>
+<TR><TD ALIGN=CENTER><TT>PO</TT></TD><TD>Portuguese</TD></TR>
+<TR><TD ALIGN=CENTER><TT>TU</TT></TD><TD>Turkish</TD></TR>
+<TR><TD ALIGN=CENTER><TT>IC</TT></TD><TD>Icelandic</TD></TR>
+<TR><TD ALIGN=CENTER><TT>RU</TT></TD><TD>Russian</TD></TR>
+<TR><TD ALIGN=CENTER><TT>HU</TT></TD><TD>Hungarian</TD></TR>
+<TR><TD ALIGN=CENTER><TT>DU</TT></TD><TD>Dutch</TD></TR>
+<TR><TD ALIGN=CENTER><TT>BL</TT></TD><TD>Belgian Flemish</TD></TR>
+<TR><TD ALIGN=CENTER><TT>AU</TT></TD><TD>Australian</TD></TR>
+<TR><TD ALIGN=CENTER><TT>BG</TT></TD><TD>Belgian French</TD></TR>
+</TABLE>
+<P>
+SIS files may contain nested SIS files for shared components. These may be extracted recursively by specifying the <TT>-recurse</TT> switch. If this is not done then the nested files are extracted unmodified. The same <TT><I>language</I></TT> and <TT><I>drive</I></TT> options are used for all components.
+<P>
+Some SIS files allow the installation drive to be selected. If no installation drive is specified using the <TT>-drive</TT> switch then <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will default to drive <TT>C</TT>.
+<P>
+When a SIS file is installed on an <I>EPOC</I> device a residual SIS file is created in the <TT>C:\System\Install</TT> directory. <TT>*PsiFSSIS</TT> will generate the residual SIS if the <TT>-residual</TT> switch is used. The leafname of the residual SIS file and installation drive must both be specified.
+<P>
+The <TT>-verbose</TT> switch enables display of detailed information about the SIS file. This is recommended to enable checking of requisites prior to attempting an installation.
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Example:</B></FONT></TD><TD><TT>*PsiFSSIS File/sis<BR>-verbose</TT></TD><TD COLSPAN=2><I>Describe contents of <TT>file/sis</TT></I></TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>*PsiFSSIS File/sis<BR>-tar&nbsp;Output<BR>-scrap&nbsp;ScrapFile<BR>-language&nbsp;FR<BR>-recurse -drive&nbsp;D<BR>-residual&nbsp;File/sis</TT></TD><TD COLSPAN=2><I>Recursively extract to a tar file for installation on drive <TT>D</TT> in French</I></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;commands:</B></FONT></TD><TD COLSPAN=3><TT>*<A HREF="tar.html" TITLE="*PsiFSTar">PsiFSTar</A></TT></TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

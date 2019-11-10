@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : start/enabl.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Getting Started [Enabling the Printer Mirror]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Getting Started [Enabling the Printer Mirror]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Getting Started</H1>
+<B>Enabling the Printer Mirror</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Printer Mirror</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The printer mirror is the simplest feature in <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>, but unfortunately it is also probably the most difficult to use.
+<P>
+The most important point to note is that the <I>Psion&nbsp;Link&nbsp;Protocol</I> is <B>not</B> used. Hence, the remote link must be disabled from the <I>System</I> screen of the <I>SIBO</I> or <I>EPOC</I> device before attempting to use the printer mirror:
+<UL>
+<LI>On <I>SIBO</I> devices the link is disabled using the <TT>Remote Link</TT> or <TT>Communications</TT> option from the <TT>Special</TT> menu, or by pressing <TT>Psion+L</TT> or <TT>Acorn+L</TT>.
+<LI>On <I>EPOC</I> devices the link is disabled using the <TT>Remote link...</TT> option from the <TT>Tools</TT> menu, or by pressing <TT>Ctrl+L</TT>.
+</UL>
+<P>
+The printer mirror simply copies data received via the serial port to another device or file; no processing of the data is performed. It is provided mainly for use with <I>SIBO</I> devices; users of <I>EPOC</I> devices are advised to <A HREF="print.html" TITLE="Printing via the Remote Link">print</A> via the <I>RISC&nbsp;OS</I> printer drivers instead.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Serial Configuration</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Unlike the remote link, it is not possible for <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> to automatically identify the baud rate to use for the printer mirror. Hence, the <A HREF="baud.html" TITLE="Baud Rate">baud rate</A> must be manually <A HREF="confg.html" TITLE="Configuring PsiFS">configured</A>. This should normally be set to the highest baud rate supported by both machines.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Enabling the Printer Mirror</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Click on the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> iconbar icon with <I>Adjust</I>, or select <TT><A HREF="../menu/print.html" TITLE="Printer mirror">Printer mirror</A></TT> from the iconbar icon menu, to enable the printer mirror. The <A HREF="../icon/idle.html" TITLE="Idle Icon">idle icon</A> will be replaced by the <A HREF="../icon/print.html" TITLE="Printer Mirror Icon">printer mirror icon</A> to indicate that the printer mirror is active:
+<CENTER><A HREF="../icon/print.html" TITLE="Printer Mirror Icon"><IMG SRC="../graphics/print.gif" ALT="" BORDER=0 WIDTH="47" HEIGHT="32"></A></CENTER>
+<P>
+By default, the printer mirror will redirect output to the currently selected <I>RISC&nbsp;OS</I> printer. It is possible to select an alternative destination, either within the <A HREF="confg.html" TITLE="Configuring PsiFS">configuration</A> or from the <TT><A HREF="../menu/print.html" TITLE="Printer mirror">Printer mirror</A></TT> sub-menu.
+<P>
+The printer mirror may be <A HREF="disbl.html" TITLE="Disabling the Printer Mirror">disabled</A> at any time.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Printing</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Once the two machines have been conected and printer mirror mode enabled, it is simply a matter of selecting the print option from a <I>SIBO</I> or <I>EPOC</I> application. However, the output must be sent via the serial port with the correct baud rate, data format and handshaking:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH COLSPAN=2 NOWRAP>Data format</TH><TH COLSPAN=2 NOWRAP>Handshaking</TH></TR>
+<TR VALIGN=TOP><TD NOWRAP>Data bits</TD><TD ALIGN=RIGHT>8</TD><TD NOWRAP>XON/XOFF</TD><TD ALIGN=RIGHT>No</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Stop bits</TD><TD ALIGN=RIGHT>1</TD><TD NOWRAP>RTS/CTS</TD><TD ALIGN=RIGHT>Yes</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Parity</TD><TD ALIGN=RIGHT>None</TD><TD NOWRAP>DSR/DTR</TD><TD ALIGN=RIGHT>Yes</TD></TR>
+<TR VALIGN=TOP><TD NOWRAP>Ignore parity</TD><TD ALIGN=RIGHT>Yes</TD><TD NOWRAP>DCD</TD><TD ALIGN=RIGHT>No</TD></TR>
+</TABLE>
+<P>
+The details for how to do this are different for <A HREF="prn16.html" TITLE="Printing from SIBO Devices"><I>SIBO</I></A> and <A HREF="prn32.html" TITLE="Printing from EPOC Devices"><I>EPOC</I></A> devices.
+<P>
+Remember that the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> printer mirror simply copies data received over the serial port to the selected destination; the <I>RISC&nbsp;OS</I> printer driver is <B>not</B> used. Hence, it is necessary to select the appropriate printer driver on the <I>SIBO</I> or <I>EPOC</I> device for the printer being used.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

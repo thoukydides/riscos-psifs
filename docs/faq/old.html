@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : faq/old.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Frequently Asked Questions [Old Serial Block Driver]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Frequently Asked Questions [Old Serial Block Driver]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Frequently Asked Questions</H1>
+<B>Old Serial Block Driver</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Why is the error <TT>Internal error, no stack for trap handler</TT>, <TT>Illegal instruction</TT> or <TT>Abort on data transfer</TT> displayed when attempting to enable the remote link?</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Versions of the <TT>InternalPC</TT> block driver earlier than 1.12 are incompatible with <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>. Use of these versions may lead to unpredictable behaviour and fatal errors.
+<P>
+<FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is supplied with version 1.12 of the <TT>InternalPC</TT> block driver in <TT>!PsiFS.Resources.Modules.InternalPC</TT>. However, if <TT>!SerialDev</TT> has been seen by the filer then the version inside <TT>!SerialDev</TT> is used instead.
+<P>
+The versions of all available serial block drivers may be displayed using <TT>*<A HREF="../command/list.html" TITLE="*PsiFSListDrivers">PsiFSListDrivers</A></TT> <TT>-verbose</TT>. If the version of <TT>InternalPC</TT> is listed as being earlier than 1.12 then it is strongly recommended that the copy inside <TT>!SerialDev</TT> is replaced by the copy inside <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,875 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : sis.html -->
+<!-- Date        : 19-Dec-07 -->
+<!-- Author      : (c) Alexander Thoukydides, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007 -->
+<!-- Description : Description of the Psion SIS file format. -->
+<HTML>
+<HEAD>
+<TITLE>SIS File Format</TITLE>
+<META NAME="Description" CONTENT="Description of the SIS File Format">
+<META HTTP-EQUIV="Content-Language" CONTENT="en-gb">
+</HEAD>
+<BODY>
+
+<H1>SIS File Format</H1>
+
+Version 1.18, 19-Dec-07<BR> 
+by Alexander Thoukydides (<CODE>alex@thouky.co.uk</CODE>)
+<P>
+<BLOCKQUOTE>
+Copyright &copy; Alexander Thoukydides.<BR>
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts and no Back-Cover Texts. A copy of the license is included in the section entitled &quot;<A HREF="#license" TITLE="GNU Free Documentation License">GNU Free Documentation License</A>&quot;.
+</BLOCKQUOTE>
+
+<H2>Introduction</H2>
+
+The EPOC operating system uses files with a <CODE>.SIS</CODE> extension to allow easy installation of applications. These are usually produced using the <CODE>makesis</CODE> tool, and are handled by either the control panel <CODE>Add/remove</CODE> program or EPOC Connect. This document attempts to provide sufficient information to allow other software to be written that can decode and use SIS files.
+<P>
+The format of SIS files was changed in the Symbian OS version 9.1 release of Software Install. This document describes the original format used by earlier versions. Information about the restructured and redesigned format can be found at <A HREF="http://www.symbian.com/developer/techlib/papers/SymbianOSv91/softwareinstallsis.pdf">http://www.symbian.com/developer/techlib/papers/SymbianOSv91/softwareinstallsis.pdf</A>.
+<P>
+The latest version of this document will normally be available from <A HREF="http://www.thouky.co.uk/software/psifs/sis.html" TITLE="Latest version of this document">http://www.thouky.co.uk/software/psifs/sis.html</A>.
+
+<H3>History</H3>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH>Revision</TH><TH>Date</TH><TH>Author</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.18</TD><TD ALIGN=CENTER NOWRAP>19-Dec-07</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected conditional expression types.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.17</TD><TD ALIGN=CENTER NOWRAP>27-Nov-07</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected size of the Number of certificates field.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.16</TD><TD ALIGN=CENTER NOWRAP>18-Jul-07</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added standard names and other uses for the CRC algorithm.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.15</TD><TD ALIGN=CENTER NOWRAP>03-Feb-07</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added note about endianness.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.14</TD><TD ALIGN=CENTER NOWRAP>23-Sep-06</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added link to Symbian 9.1 SIS file format documentation.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.13</TD><TD ALIGN=CENTER NOWRAP>07-Jun-06</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Exclude signature block from calculation of the Checksum field.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.12</TD><TD ALIGN=CENTER NOWRAP>04-Apr-06</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected description of Original file length field.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.11</TD><TD ALIGN=CENTER NOWRAP>05-May-04</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added long option codes.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.10</TD><TD ALIGN=CENTER NOWRAP>04-May-04</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added more language and type codes.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.09</TD><TD ALIGN=CENTER NOWRAP>14-Mar-04</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added more details of EPOC release 6 format files.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.08</TD><TD ALIGN=CENTER NOWRAP>30-Apr-03</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added more details of EPOC release 6 format files.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.07</TD><TD ALIGN=CENTER NOWRAP>08-Jul-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Split the flags field into options and type.<BR>Corrected installer version field.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.06</TD><TD ALIGN=CENTER NOWRAP>07-Jul-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected description of requisites with multiple language versions.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.05</TD><TD ALIGN=CENTER NOWRAP>30-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added desription of checksum field in the header.<BR>Explained calculation of UID4 better.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.04</TD><TD ALIGN=CENTER NOWRAP>27-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added flags field to the file header.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.03</TD><TD ALIGN=CENTER NOWRAP>09-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added missing languages and clarified some descriptions.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.02</TD><TD ALIGN=CENTER NOWRAP>02-Jun-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Released under version 1.1 of the GNU Free Documentation License.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.01</TD><TD ALIGN=CENTER NOWRAP>21-Apr-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected HTML.<BR>Added URL for latest version of this document.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.00</TD><TD ALIGN=CENTER NOWRAP>27-Mar-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>First draft.</TD></TR>
+</TABLE>
+
+<H3>Disclaimer</H3>
+
+This document is supplied &quot;as is&quot;; no warranty, express or implied, of the merchantability of this document or its fitness for any particular purpose is given. In no circumstances shall the author, or any provider or distributor of this document, be liable for any damage, loss of profits, or any indirect or consequential loss arising out of the use or misuse of any information or particular in this document.
+<P>
+All trademarks are acknowledged.
+
+<H3>Acknowledgements</H3>
+
+The information contained within this document was collated from many different sources, including (but not restricted to):
+<UL>
+    <LI>Jochen Siegenthaler's document providing a partial description of the SIS file format.
+    <LI>EPOC C++ SDK, Evaluation Edition.
+    <LI>Neuon's nSISUtil.
+    <LI>Analysis of a large selection of existing SIS files.
+    <LI>Andrew de Quincey's <CODE>xmakesis</CODE> Perl script, as updated by Rudolf Koenig.
+    <LI>Trial and error while developing PsiFS for RISC OS computers.
+    <LI>Corrections supplied by Dalibor Jelinek, Eberhard Mattes, Neil Masson, Stephanie Freitag, Bruno Tiago Rodrigues, Jimmy Shah, Jordan Walters, David Berry, Ren Yantao, a1z0r, Luca Cassioli, Wellu M&auml;kinen,  Marcio Faustino and Tero Suomela.
+</UL>
+<P>
+Due to the diverse and incomplete nature of these sources, the description here probably contains both errors and omissions. Please send any corrections or additions to the author for inclusion in future revisions.
+
+<H3>Sections</H3>
+
+SIS files consist of the following sections:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH NOWRAP>Section</TH></TR>
+    <TR><TD>File Header</TD></TR>
+    <TR><TD>Language Records</TD></TR>
+    <TR><TD>File Records</TD></TR>
+    <TR><TD>Requisite Records</TD></TR>
+    <TR><TD>Component Name Record</TD></TR>
+    <TR><TD>Capabilities Record</TD></TR>
+    <TR><TD>Certificates Record</TD></TR>
+    <TR><TD>Resource Data</TD></TR>
+</TABLE>
+<P>
+The sections are stored contiguously, without any padding or alignment. They should also normally be in the order listed, otherwise the residual SIS files may be larger than necessary.
+
+<H3>Conventions</H3>
+
+Unless otherwise specified the following conventions apply:
+<UL>
+    <LI>Numeric values larger than a byte are stored with the least significant byte first.
+    <LI>Strings are not terminated; their length is explicitly specified.
+    <LI>Pointers are specified as offsets from the start of the SIS file.
+</UL>
+
+<H2>File Header</H2>
+
+All SIS files start with a standard header:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4</TD><TD><EM>UID 1</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT>4</TD><TD><EM>UID 2</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT>4</TD><TD><EM>UID 3</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0c</CODE></TD><TD ALIGN=RIGHT>12</TD><TD ALIGN=RIGHT>4</TD><TD><EM>UID 4</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x10</CODE></TD><TD ALIGN=RIGHT>16</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Checksum</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x12</CODE></TD><TD ALIGN=RIGHT>18</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Number of languages</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x14</CODE></TD><TD ALIGN=RIGHT>20</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Number of files</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x16</CODE></TD><TD ALIGN=RIGHT>22</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Number of requisites</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x18</CODE></TD><TD ALIGN=RIGHT>24</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Installation language</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x1a</CODE></TD><TD ALIGN=RIGHT>26</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Installation files</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x1c</CODE></TD><TD ALIGN=RIGHT>28</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Installation drive</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x1e</CODE></TD><TD ALIGN=RIGHT>30</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Number of capabilities</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x20</CODE></TD><TD ALIGN=RIGHT>32</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Installer version</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x24</CODE></TD><TD ALIGN=RIGHT>36</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Options</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x26</CODE></TD><TD ALIGN=RIGHT>38</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x28</CODE></TD><TD ALIGN=RIGHT>40</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Major version</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x2a</CODE></TD><TD ALIGN=RIGHT>42</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Minor version</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x2c</CODE></TD><TD ALIGN=RIGHT>44</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Variant</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x30</CODE></TD><TD ALIGN=RIGHT>48</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Languages pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x34</CODE></TD><TD ALIGN=RIGHT>52</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Files pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x38</CODE></TD><TD ALIGN=RIGHT>56</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Requisites pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x3c</CODE></TD><TD ALIGN=RIGHT>60</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Certificates pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x40</CODE></TD><TD ALIGN=RIGHT>64</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Component name pointer</EM></TD></TR>
+</TABLE>
+<P>
+The header of EPOC release 6 format SIS files is extended:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x44</CODE></TD><TD ALIGN=RIGHT>68</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Signature pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x48</CODE></TD><TD ALIGN=RIGHT>72</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Capabilities pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x4C</CODE></TD><TD ALIGN=RIGHT>76</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Installed space</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x50</CODE></TD><TD ALIGN=RIGHT>80</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Maximum installed space</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x54</CODE></TD><TD ALIGN=RIGHT>84</TD><TD ALIGN=RIGHT>16</TD><TD><EM>Reserved</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>UID&nbsp;1</EM>, <EM>UID&nbsp;2</EM> and <EM>UID&nbsp;3</EM> fields are the first three words of the file, and indicate the type of data it contains. <EM>UID&nbsp;1</EM> is the UID of the application to be installed, or <CODE>0x10000000</CODE> if none. <EM>UID&nbsp;2</EM> is <CODE>0x1000006D</CODE> for EPOC releases 3, 4 and 5, and <CODE>0x10003A12</CODE> for EPOC release 6. <EM>UID&nbsp;3</EM> is always <CODE>0x10000419</CODE>.
+<P>
+<EM>UID&nbsp;4</EM> is a checksum calculated from the preceding fields. The least significant 16&nbsp;bits are given by the CRC16 of the bytes at even offsets from the start of the file, and the most significant 16&nbsp;bits are given by the CRC16 of the bytes at odd offsets from the start of the file.
+<P>
+The <EM>Checksum</EM> field is calculated as the CRC16 of all the data in the SIS file excluding the 2 bytes occupied by the <EM>Checksum</EM> itself and any signature block. It is not updated for the residual SIS file.
+<P>
+The <EM>Number&nbsp;of&nbsp;languages</EM> and <EM>Languages&nbsp;pointer</EM> fields specify the number of languages supported by the SIS file and the offset to the languages records respectively.
+<P>
+The <EM>Number&nbsp;of&nbsp;files</EM> and <EM>Files&nbsp;pointer</EM> fields specify the number of files included in the SIS file and the offset to the files records respectively.
+<P>
+The <EM>Number&nbsp;of&nbsp;requisites</EM> and <EM>Requisites&nbsp;pointer</EM> fields specify the number of requisites specified in the SIS file and the offset to the requisites records respectively.
+<P>
+The <EM>Installation&nbsp;language</EM> and <EM>Installation&nbsp;files</EM> fields are both initially zero. When the SIS file is installed, these are modified with the settings used for the installation.
+<P>
+The <EM>Installation&nbsp;drive</EM> field is initially <CODE>0x0000</CODE> for EPOC releases 3, 4 and 5, and <CODE>0x0021</CODE> (the character code for &quot;<CODE>!</CODE>&quot;) for EPOC release 6. When the SIS file is installed, this is modified with the setting used for the installation.
+<P>
+The <EM>Installer&nbsp;version</EM> field specifies the version of the <CODE>Add/remove</CODE> program required to handle the file. This is normally 68 (<CODE>0x00000044</CODE>) or 100 (<CODE>0x00000064</CODE>) for EPOC releases 3, 4 and 5, and 200 (<CODE>0x000000c8</CODE>) for EPOC release 6.
+<P>
+The <EM>Options</EM> may combine any of the following flags:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH>Option</TH><TH COLSPAN=2>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0001</CODE></TD><TD ALIGN=CENTER><CODE>IU</CODE></TD><TD ALIGN=CENTER></TD><TD>IsUnicode (EPOC release 5)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0002</CODE></TD><TD ALIGN=CENTER><CODE>ID</CODE></TD><TD ALIGN=CENTER></TD><TD>IsDistributable (EPOC release 5)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0008</CODE></TD><TD ALIGN=CENTER><CODE>NC</CODE></TD><TD ALIGN=CENTER><CODE>NOCOMPRESS</CODE></TD><TD>NoCompress (EPOC release 6)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0010</CODE></TD><TD ALIGN=CENTER><CODE>SH</CODE></TD><TD ALIGN=CENTER><CODE>SHUTDOWNAPPS</CODE></TD><TD>ShutdownApps (EPOC release 6)</TD></TR>
+</TABLE>
+<P>
+The <EM>Type</EM> may be any of the following:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH>Type</TH><TH COLSPAN=2>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000</CODE></TD><TD ALIGN=CENTER><CODE>SA</CODE></TD><TD ALIGN=CENTER><CODE>SISAPP</CODE></TD><TD>Contains an application (the default)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0001</CODE></TD><TD ALIGN=CENTER><CODE>SY</CODE></TD><TD ALIGN=CENTER><CODE>SISSYSTEM</CODE></TD><TD>Contains a shared/system component such as a DLL or OPX (EPOC release 6)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0002</CODE></TD><TD ALIGN=CENTER><CODE>SO</CODE></TD><TD ALIGN=CENTER><CODE>SISOPTION</CODE></TD><TD>Contains an optional component, independently selectable by the user (EPOC release 6)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0003</CODE></TD><TD ALIGN=CENTER><CODE>SC</CODE></TD><TD ALIGN=CENTER><CODE>SISCONFIG</CODE></TD><TD>Configures an existing application or service (EPOC release 6)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0004</CODE></TD><TD ALIGN=CENTER><CODE>SP</CODE></TD><TD ALIGN=CENTER><CODE>SISPATCH</CODE></TD><TD>Patches an existing component (EPOC release 6)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0005</CODE></TD><TD ALIGN=CENTER><CODE>SU</CODE></TD><TD ALIGN=CENTER><CODE>SISUPGRADE</CODE></TD><TD>Upgrades an existing component (EPOC release 6)</TD></TR>
+</TABLE>
+<P>
+The <EM>Major&nbsp;version</EM> and <EM>Minor&nbsp;version</EM> fields specify the version number of the application. The <EM>Minor&nbsp;version</EM> number is padded to two digits with leading zeros for display.
+<P>
+The <EM>Variant</EM> field is used when the component is a requisite for other components. If more than one variant of the requisite component exists for different machines then this field ensures that the correct variant is present. This is usually set to <CODE>0x00000000</CODE>.
+<P>
+The <EM>Certificates&nbsp;pointer</EM> specifies the offset to the certificates record.
+<P>
+The <EM>Component&nbsp;name&nbsp;pointer</EM> field specifies the offset to the component name record.
+<P>
+The <EM>Signature&nbsp;pointer</EM> field specifies the offset to the signature block.
+<P>
+The <EM>Number&nbsp;of&nbsp;capabilities</EM> and <EM>Capabilities&nbsp;pointer</EM> fields specify the number of capabilities specified in the SIS file and the offset to the capabilities record respectively.
+<P>
+The <EM>Installed&nbsp;space</EM> field is initially <CODE>0x00000000</CODE>. When the SIS file is installed, this is modified with the space used by the installed files.
+<P>
+The <EM>Maximum&nbsp;installed&nbsp;space</EM> field specifies the maximum space required for installation. This is usually the total size of all the files when uncompressed. If the SIS file contains alternates then the size of the larger alternate is used.
+<P>
+The <EM>Reserved</EM> field is for use by future revisions of the file format.
+
+<H3>Cyclic Redundancy Check</H3>
+
+The standard <EM>x</EM><SUP>16</SUP>&nbsp;+&nbsp;<EM>x</EM><SUP>12</SUP>&nbsp;+&nbsp;<EM>x</EM><SUP>5</SUP>&nbsp;+&nbsp;1 polynomial is used with an initial remainder of zero to generate a 16&nbsp;bit <EM>CRC</EM>. This is the CRC-16-CCITT algorithm (also known as CRC-CCITT), as used by the XMODEM, X.25, V.41, Bluetooth, PPP and IrDA protocols.
+<P>
+The following C code calculates a lookup table to allow efficient calculation of this CRC:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TD><CODE>
+        const unsigned int polynomial = 0x1021;<BR>
+        unsigned int table[256], index;<BR>
+        table[0] = 0;<BR>
+        for (index = 0; index &lt; 128; index++)<BR>
+        {<BR>
+        &nbsp;&nbsp;&nbsp;&nbsp;unsigned int carry = table[index] &amp; 0x8000;<BR>
+        &nbsp;&nbsp;&nbsp;&nbsp;unsigned int temp = (table[index] &lt;&lt; 1) & 0xffff;<BR>
+        &nbsp;&nbsp;&nbsp;&nbsp;table[index * 2 + (carry ? 0 : 1)] = temp ^ polynomial;<BR>
+        &nbsp;&nbsp;&nbsp;&nbsp;table[index * 2 + (carry ? 1 : 0)] = temp;<BR>
+        }
+    </CODE></TD></TR>
+</TABLE>
+<P>
+The following line can then be used to add a byte (<CODE>value</CODE>) to a 16&nbsp;bit CRC (<CODE>old_crc</CODE>) to give the new 16&nbsp;bit CRC (<CODE>new_crc</CODE>):
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TD><CODE>new_crc = (old_crc &lt;&lt; 8) ^ table[((old_crc &gt;&gt; 8) ^ value) &amp; 0xff];</CODE></TD></TR>
+</TABLE>
+</P>
+The CRC value should be initialised to 0 before any bytes are processed. It may be necessary to use unsigned values to prevent implementation dependant problems on systems with 16&nbsp;bit integers.
+
+<H2>Language Records</H2>
+
+The <EM>Languages&nbsp;pointer</EM> field in the header points to the language records that specify which languages are supported by the SIS file. The <EM>Number&nbsp;of&nbsp;languages</EM> field in the header specifies the number of records. Each record consists of a 2 byte value from the following table:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Language</TH><TH>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=CENTER></TD><TD>Test</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0001</CODE></TD><TD ALIGN=RIGHT>1</TD><TD ALIGN=CENTER><CODE>EN</CODE></TD><TD>UK English</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0002</CODE></TD><TD ALIGN=RIGHT>2</TD><TD ALIGN=CENTER><CODE>FR</CODE></TD><TD>French</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0003</CODE></TD><TD ALIGN=RIGHT>3</TD><TD ALIGN=CENTER><CODE>GE</CODE></TD><TD>German</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0004</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=CENTER><CODE>SP</CODE></TD><TD>Spanish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0005</CODE></TD><TD ALIGN=RIGHT>5</TD><TD ALIGN=CENTER><CODE>IT</CODE></TD><TD>Italian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0006</CODE></TD><TD ALIGN=RIGHT>6</TD><TD ALIGN=CENTER><CODE>SW</CODE></TD><TD>Swedish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0007</CODE></TD><TD ALIGN=RIGHT>7</TD><TD ALIGN=CENTER><CODE>DA</CODE></TD><TD>Danish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0008</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=CENTER><CODE>NO</CODE></TD><TD>Norwegian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0009</CODE></TD><TD ALIGN=RIGHT>9</TD><TD ALIGN=CENTER><CODE>FI</CODE></TD><TD>Finnish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x000A</CODE></TD><TD ALIGN=RIGHT>10</TD><TD ALIGN=CENTER><CODE>AM</CODE></TD><TD>American English</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x000B</CODE></TD><TD ALIGN=RIGHT>11</TD><TD ALIGN=CENTER><CODE>SF</CODE></TD><TD>Swiss French</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x000C</CODE></TD><TD ALIGN=RIGHT>12</TD><TD ALIGN=CENTER><CODE>SG</CODE></TD><TD>Swiss German</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x000D</CODE></TD><TD ALIGN=RIGHT>13</TD><TD ALIGN=CENTER><CODE>PO</CODE></TD><TD>Portuguese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x000E</CODE></TD><TD ALIGN=RIGHT>14</TD><TD ALIGN=CENTER><CODE>TU</CODE></TD><TD>Turkish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x000F</CODE></TD><TD ALIGN=RIGHT>15</TD><TD ALIGN=CENTER><CODE>IC</CODE></TD><TD>Icelandic</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0010</CODE></TD><TD ALIGN=RIGHT>16</TD><TD ALIGN=CENTER><CODE>RU</CODE></TD><TD>Russian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0011</CODE></TD><TD ALIGN=RIGHT>17</TD><TD ALIGN=CENTER><CODE>HU</CODE></TD><TD>Hungarian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0012</CODE></TD><TD ALIGN=RIGHT>18</TD><TD ALIGN=CENTER><CODE>DU</CODE></TD><TD>Dutch</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0013</CODE></TD><TD ALIGN=RIGHT>19</TD><TD ALIGN=CENTER><CODE>BL</CODE></TD><TD>Belgian Flemish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0014</CODE></TD><TD ALIGN=RIGHT>20</TD><TD ALIGN=CENTER><CODE>AU</CODE></TD><TD>Australian English</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0015</CODE></TD><TD ALIGN=RIGHT>21</TD><TD ALIGN=CENTER><CODE>BG</CODE></TD><TD>Belgian French</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0016</CODE></TD><TD ALIGN=RIGHT>22</TD><TD ALIGN=CENTER><CODE>AS</CODE></TD><TD>Austrian German</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0017</CODE></TD><TD ALIGN=RIGHT>23</TD><TD ALIGN=CENTER><CODE>NZ</CODE></TD><TD>New Zealand English</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0018</CODE></TD><TD ALIGN=RIGHT>24</TD><TD ALIGN=CENTER><CODE>IF</CODE></TD><TD>International French</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0019</CODE></TD><TD ALIGN=RIGHT>25</TD><TD ALIGN=CENTER><CODE>CS</CODE></TD><TD>Czech</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x001A</CODE></TD><TD ALIGN=RIGHT>26</TD><TD ALIGN=CENTER><CODE>SK</CODE></TD><TD>Slovak</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x001B</CODE></TD><TD ALIGN=RIGHT>27</TD><TD ALIGN=CENTER><CODE>PL</CODE></TD><TD>Polish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x001C</CODE></TD><TD ALIGN=RIGHT>28</TD><TD ALIGN=CENTER><CODE>SL</CODE></TD><TD>Slovenian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x001D</CODE></TD><TD ALIGN=RIGHT>29</TD><TD ALIGN=CENTER><CODE>TC</CODE></TD><TD>Taiwan Chinese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x001E</CODE></TD><TD ALIGN=RIGHT>30</TD><TD ALIGN=CENTER><CODE>HK</CODE></TD><TD>Hong Kong Chinese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x001F</CODE></TD><TD ALIGN=RIGHT>31</TD><TD ALIGN=CENTER><CODE>ZH</CODE></TD><TD>PRC Chinese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0020</CODE></TD><TD ALIGN=RIGHT>32</TD><TD ALIGN=CENTER><CODE>JA</CODE></TD><TD>Japanese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0021</CODE></TD><TD ALIGN=RIGHT>33</TD><TD ALIGN=CENTER><CODE>TH</CODE></TD><TD>Thai</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0022</CODE></TD><TD ALIGN=RIGHT>34</TD><TD ALIGN=CENTER><CODE>AF</CODE></TD><TD>Afrikaans</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0023</CODE></TD><TD ALIGN=RIGHT>35</TD><TD ALIGN=CENTER><CODE>SQ</CODE></TD><TD>Albanian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0024</CODE></TD><TD ALIGN=RIGHT>36</TD><TD ALIGN=CENTER><CODE>AH</CODE></TD><TD>Amharic</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0025</CODE></TD><TD ALIGN=RIGHT>37</TD><TD ALIGN=CENTER><CODE>AR</CODE></TD><TD>Arabic</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0026</CODE></TD><TD ALIGN=RIGHT>38</TD><TD ALIGN=CENTER><CODE>HY</CODE></TD><TD>Armenian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0027</CODE></TD><TD ALIGN=RIGHT>39</TD><TD ALIGN=CENTER><CODE>TL</CODE></TD><TD>Tagalog</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0028</CODE></TD><TD ALIGN=RIGHT>40</TD><TD ALIGN=CENTER><CODE>BE</CODE></TD><TD>Belarussian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0029</CODE></TD><TD ALIGN=RIGHT>41</TD><TD ALIGN=CENTER><CODE>BN</CODE></TD><TD>Bengali</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x002A</CODE></TD><TD ALIGN=RIGHT>42</TD><TD ALIGN=CENTER><CODE>BG</CODE></TD><TD>Bulgarian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x002B</CODE></TD><TD ALIGN=RIGHT>43</TD><TD ALIGN=CENTER><CODE>MY</CODE></TD><TD>Burmese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x002C</CODE></TD><TD ALIGN=RIGHT>44</TD><TD ALIGN=CENTER><CODE>CA</CODE></TD><TD>Catalan</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x002D</CODE></TD><TD ALIGN=RIGHT>45</TD><TD ALIGN=CENTER><CODE>HR</CODE></TD><TD>Croatian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x002E</CODE></TD><TD ALIGN=RIGHT>46</TD><TD ALIGN=CENTER><CODE>CE</CODE></TD><TD>Canadian English</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x002F</CODE></TD><TD ALIGN=RIGHT>47</TD><TD ALIGN=CENTER><CODE>IE</CODE></TD><TD>International English</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0030</CODE></TD><TD ALIGN=RIGHT>48</TD><TD ALIGN=CENTER><CODE>SF</CODE></TD><TD>South African English</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0031</CODE></TD><TD ALIGN=RIGHT>49</TD><TD ALIGN=CENTER><CODE>ET</CODE></TD><TD>Estonian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0032</CODE></TD><TD ALIGN=RIGHT>50</TD><TD ALIGN=CENTER><CODE>FA</CODE></TD><TD>Farsi</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0033</CODE></TD><TD ALIGN=RIGHT>51</TD><TD ALIGN=CENTER><CODE>CF</CODE></TD><TD>Canadian French</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0034</CODE></TD><TD ALIGN=RIGHT>52</TD><TD ALIGN=CENTER><CODE>GD</CODE></TD><TD>Scots Gaelic</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0035</CODE></TD><TD ALIGN=RIGHT>53</TD><TD ALIGN=CENTER><CODE>KA</CODE></TD><TD>Georgian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0036</CODE></TD><TD ALIGN=RIGHT>54</TD><TD ALIGN=CENTER><CODE>EL</CODE></TD><TD>Greek</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0037</CODE></TD><TD ALIGN=RIGHT>55</TD><TD ALIGN=CENTER><CODE>CG</CODE></TD><TD>Cyprus Greek</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0038</CODE></TD><TD ALIGN=RIGHT>56</TD><TD ALIGN=CENTER><CODE>GU</CODE></TD><TD>Gujarati</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0039</CODE></TD><TD ALIGN=RIGHT>57</TD><TD ALIGN=CENTER><CODE>HE</CODE></TD><TD>Hebrew</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x003A</CODE></TD><TD ALIGN=RIGHT>58</TD><TD ALIGN=CENTER><CODE>HI</CODE></TD><TD>Hindi</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x003B</CODE></TD><TD ALIGN=RIGHT>59</TD><TD ALIGN=CENTER><CODE>IN</CODE></TD><TD>Indonesian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x003C</CODE></TD><TD ALIGN=RIGHT>60</TD><TD ALIGN=CENTER><CODE>GA</CODE></TD><TD>Irish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x003D</CODE></TD><TD ALIGN=RIGHT>61</TD><TD ALIGN=CENTER><CODE>SZ</CODE></TD><TD>Swiss Italian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x003E</CODE></TD><TD ALIGN=RIGHT>62</TD><TD ALIGN=CENTER><CODE>KN</CODE></TD><TD>Kannada</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x003F</CODE></TD><TD ALIGN=RIGHT>63</TD><TD ALIGN=CENTER><CODE>KK</CODE></TD><TD>Kazakh</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0040</CODE></TD><TD ALIGN=RIGHT>64</TD><TD ALIGN=CENTER><CODE>KM</CODE></TD><TD>Khmer</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0041</CODE></TD><TD ALIGN=RIGHT>65</TD><TD ALIGN=CENTER><CODE>KO</CODE></TD><TD>Korean</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0042</CODE></TD><TD ALIGN=RIGHT>66</TD><TD ALIGN=CENTER><CODE>LO</CODE></TD><TD>Laothian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0043</CODE></TD><TD ALIGN=RIGHT>67</TD><TD ALIGN=CENTER><CODE>LV</CODE></TD><TD>Latvian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0044</CODE></TD><TD ALIGN=RIGHT>68</TD><TD ALIGN=CENTER><CODE>LT</CODE></TD><TD>Lithuanian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0045</CODE></TD><TD ALIGN=RIGHT>69</TD><TD ALIGN=CENTER><CODE>MK</CODE></TD><TD>Macedonian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0046</CODE></TD><TD ALIGN=RIGHT>70</TD><TD ALIGN=CENTER><CODE>MS</CODE></TD><TD>Malay</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0047</CODE></TD><TD ALIGN=RIGHT>71</TD><TD ALIGN=CENTER><CODE>ML</CODE></TD><TD>Malayalam</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0048</CODE></TD><TD ALIGN=RIGHT>72</TD><TD ALIGN=CENTER><CODE>MR</CODE></TD><TD>Marathi</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0049</CODE></TD><TD ALIGN=RIGHT>73</TD><TD ALIGN=CENTER><CODE>MO</CODE></TD><TD>Moldavian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x004A</CODE></TD><TD ALIGN=RIGHT>74</TD><TD ALIGN=CENTER><CODE>MN</CODE></TD><TD>Mongolian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x004B</CODE></TD><TD ALIGN=RIGHT>75</TD><TD ALIGN=CENTER><CODE>NN</CODE></TD><TD>Norwegian-Nynorsk</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x004C</CODE></TD><TD ALIGN=RIGHT>76</TD><TD ALIGN=CENTER><CODE>BP</CODE></TD><TD>Brazilian Portuguese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x004D</CODE></TD><TD ALIGN=RIGHT>77</TD><TD ALIGN=CENTER><CODE>PA</CODE></TD><TD>Punjabi</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x004E</CODE></TD><TD ALIGN=RIGHT>78</TD><TD ALIGN=CENTER><CODE>RO</CODE></TD><TD>Romanian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x004F</CODE></TD><TD ALIGN=RIGHT>79</TD><TD ALIGN=CENTER><CODE>SR</CODE></TD><TD>Serbian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0050</CODE></TD><TD ALIGN=RIGHT>80</TD><TD ALIGN=CENTER><CODE>SI</CODE></TD><TD>Sinhalese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0051</CODE></TD><TD ALIGN=RIGHT>81</TD><TD ALIGN=CENTER><CODE>SO</CODE></TD><TD>Somali</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0052</CODE></TD><TD ALIGN=RIGHT>82</TD><TD ALIGN=CENTER><CODE>OS</CODE></TD><TD>International Spanish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0053</CODE></TD><TD ALIGN=RIGHT>83</TD><TD ALIGN=CENTER><CODE>LS</CODE></TD><TD>Latin American Spanish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0054</CODE></TD><TD ALIGN=RIGHT>84</TD><TD ALIGN=CENTER><CODE>SH</CODE></TD><TD>Swahili</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0055</CODE></TD><TD ALIGN=RIGHT>85</TD><TD ALIGN=CENTER><CODE>FS</CODE></TD><TD>Finland Swedish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0057</CODE></TD><TD ALIGN=RIGHT>87</TD><TD ALIGN=CENTER><CODE>TA</CODE></TD><TD>Tamil</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0058</CODE></TD><TD ALIGN=RIGHT>88</TD><TD ALIGN=CENTER><CODE>TE</CODE></TD><TD>Telugu</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0059</CODE></TD><TD ALIGN=RIGHT>89</TD><TD ALIGN=CENTER><CODE>BO</CODE></TD><TD>Tibetan</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x005A</CODE></TD><TD ALIGN=RIGHT>90</TD><TD ALIGN=CENTER><CODE>TI</CODE></TD><TD>Tigrinya</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x005B</CODE></TD><TD ALIGN=RIGHT>91</TD><TD ALIGN=CENTER><CODE>CT</CODE></TD><TD>Cyprus Turkish</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x005C</CODE></TD><TD ALIGN=RIGHT>92</TD><TD ALIGN=CENTER><CODE>TK</CODE></TD><TD>Turkmen</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x005D</CODE></TD><TD ALIGN=RIGHT>93</TD><TD ALIGN=CENTER><CODE>UK</CODE></TD><TD>Ukrainian</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x005E</CODE></TD><TD ALIGN=RIGHT>94</TD><TD ALIGN=CENTER><CODE>UR</CODE></TD><TD>Urdu</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0060</CODE></TD><TD ALIGN=RIGHT>96</TD><TD ALIGN=CENTER><CODE>VI</CODE></TD><TD>Vietnamese</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0061</CODE></TD><TD ALIGN=RIGHT>97</TD><TD ALIGN=CENTER><CODE>CY</CODE></TD><TD>Welsh</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0062</CODE></TD><TD ALIGN=RIGHT>98</TD><TD ALIGN=CENTER><CODE>ZU</CODE></TD><TD>Zulu</TD></TR>
+</TABLE>
+<P>
+Note that <CODE>SF</CODE> is used for both Swiss French and South African English.
+
+<H2>File Records</H2>
+
+The <EM>Files&nbsp;pointer</EM> field in the header points to the file records that specify the details of the files to be installed. The <EM>Number&nbsp;of&nbsp;Files</EM> field in the header specifies the number of records. These are stored contiguously, in the reverse of the order required for installation. Each record starts with a 4 byte <EM>File&nbsp;record&nbsp;type</EM> field specifying the type of record that follows:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH>Type</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000000</CODE></TD><TD>Simple file line</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000001</CODE></TD><TD>Multiple language files line</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000002</CODE></TD><TD>Options line</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000003</CODE></TD><TD>If line</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000004</CODE></TD><TD>ElseIf line</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000005</CODE></TD><TD>Else line</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000006</CODE></TD><TD>EndIf line</TD></TR>
+</TABLE>
+
+<H3>Simple File or Multiple Language Files Line Record</H3>
+
+If the <EM>File&nbsp;record&nbsp;type</EM> field at the start of the record is <CODE>0x00000000</CODE> or <CODE>0x00000001</CODE> then the record specifies a single file to be installed. It is in the following format:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4</TD><TD><EM>File record type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT>4</TD><TD><EM>File type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT>4</TD><TD><EM>File details</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0c</CODE></TD><TD ALIGN=RIGHT>12</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Source name length</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x10</CODE></TD><TD ALIGN=RIGHT>16</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Source name pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x14</CODE></TD><TD ALIGN=RIGHT>20</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Destination name length</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x18</CODE></TD><TD ALIGN=RIGHT>24</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Destination name pointer</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x1c</CODE></TD><TD ALIGN=RIGHT>28</TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>File length(s)</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP><CODE>0x1c</CODE><BR>+ 4<EM>n</EM></TD><TD ALIGN=RIGHT NOWRAP>28<BR>+ 4<EM>n</EM></TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>File pointer(s)</EM></TD></TR>
+</TABLE>
+<P>
+The file records of EPOC release 6 format SIS files are extended:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP><CODE>0x1c</CODE><BR>+ 8<EM>n</EM></TD><TD ALIGN=RIGHT NOWRAP>28<BR>+ 8<EM>n</EM></TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Original file length(s)</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP><CODE>0x1c</CODE><BR>+ 12<EM>n</EM></TD><TD ALIGN=RIGHT NOWRAP>28<BR>+ 12<EM>n</EM></TD><TD ALIGN=RIGHT>4</TD><TD><EM>MIME type length</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP><CODE>0x20</CODE><BR>+ 12<EM>n</EM></TD><TD ALIGN=RIGHT NOWRAP>32<BR>+ 12<EM>n</EM></TD><TD ALIGN=RIGHT>4</TD><TD><EM>MIME type pointer</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>File&nbsp;type</EM> consists of one of the following types:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2 NOWRAP>File type</TH><TH COLSPAN=2>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=CENTER><CODE>FF</CODE></TD><TD ALIGN=CENTER><CODE>FILE</CODE></TD><TD>Standard file (the default)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x01</CODE></TD><TD ALIGN=RIGHT>1</TD><TD ALIGN=CENTER><CODE>FT</CODE></TD><TD ALIGN=CENTER><CODE>FILETEXT</CODE></TD><TD>Text file to display during installation</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x02</CODE></TD><TD ALIGN=RIGHT>2</TD><TD ALIGN=CENTER></TD><TD ALIGN=CENTER></TD><TD>SIS component file</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x03</CODE></TD><TD ALIGN=RIGHT>3</TD><TD ALIGN=CENTER><CODE>FR</CODE></TD><TD ALIGN=CENTER><CODE>FILERUN</CODE></TD><TD>File to be run during installation and/or removal</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=CENTER><CODE>FN</CODE></TD><TD ALIGN=CENTER><CODE>FILENULL</CODE></TD><TD>File does not yet exist, but will be created when the application is run</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x05</CODE></TD><TD ALIGN=RIGHT>5</TD><TD ALIGN=CENTER><CODE>FM</CODE></TD><TD ALIGN=CENTER><CODE>FILEMIME</CODE></TD><TD>Open file</TD></TR>
+</TABLE>
+<P>
+The <EM>File&nbsp;details</EM> give extra information for the specified <EM>File&nbsp;type</EM>.
+<P>
+If the <EM>File&nbsp;type</EM> identifies a standard file (<CODE>FF</CODE>) then the file is installed on the target machine and <EM>File&nbsp;details</EM> is always <CODE>0x00000000</CODE>.
+<P>
+If the <EM>File&nbsp;type</EM> identifies a text file (<CODE>FT</CODE>) then the file is not installed; it is just displayed during installation. The buttons to use are specified by the <EM>File&nbsp;details</EM> field:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2 NOWRAP>File details</TH><TH COLSPAN=2>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=CENTER><CODE>TC</CODE></TD><TD ALIGN=CENTER><CODE>TEXTCONTINUE</CODE></TD><TD><CODE>Continue</CODE> (continue installation)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0001</CODE></TD><TD ALIGN=RIGHT>1</TD><TD ALIGN=CENTER><CODE>TS</CODE></TD><TD ALIGN=CENTER><CODE>TEXTSKIP</CODE></TD><TD><CODE>Yes</CODE> (continue installation), <CODE>No</CODE> (skip next file)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0002</CODE></TD><TD ALIGN=RIGHT>2</TD><TD ALIGN=CENTER><CODE>TA</CODE></TD><TD ALIGN=CENTER><CODE>TEXTABORT</CODE></TD><TD><CODE>Yes</CODE> (continue installation), <CODE>No</CODE> (abort installation)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0003</CODE></TD><TD ALIGN=RIGHT>3</TD><TD ALIGN=CENTER><CODE>TE</CODE></TD><TD ALIGN=CENTER><CODE>TEXTEXIT</CODE></TD><TD><CODE>Yes</CODE> (continue installation), <CODE>No</CODE> (abort and undo installation)</TD></TR>
+</TABLE>
+<P>
+If the <EM>File&nbsp;type</EM> identifies a SIS component file then the SIS component is installed, and <EM>File&nbsp;details</EM> is set to the UID of the application that the SIS file installs. Pointers within component SIS files are specified as offsets from the start of that file. Component SIS files are usually used for components that may be shared between multiple applications; they ensure that existing installations are not overwritten by earlier versions.
+<P>
+If the <EM>File&nbsp;type</EM> identifies a file to be run (<CODE>FR</CODE>) then it is installed on the target machine, and the <EM>File&nbsp;details</EM> field specifies when it should be run:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2 NOWRAP>File details</TH><TH>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=CENTER><CODE>RI</CODE></TD><TD ALIGN=CENTER><CODE>RUNINSTALL</CODE></TD><TD>Run during installation only</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0001</CODE></TD><TD ALIGN=RIGHT>1</TD><TD ALIGN=CENTER><CODE>RR</CODE></TD><TD ALIGN=CENTER><CODE>RUNREMOVE</CODE></TD><TD>Run during removal only</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0002</CODE></TD><TD ALIGN=RIGHT>2</TD><TD ALIGN=CENTER><CODE>RB</CODE></TD><TD ALIGN=CENTER><CODE>RUNBOTH</CODE></TD><TD>Run during both installation and removal</TD>
+    <TR><TD ALIGN=RIGHT><CODE>0x0100</CODE></TD><TD ALIGN=RIGHT>256</TD><TD ALIGN=CENTER><CODE>RE</CODE></TD><TD ALIGN=CENTER><CODE>RUNSENDEND</CODE></TD><TD>Close when installation complete</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0200</CODE></TD><TD ALIGN=RIGHT>512</TD><TD ALIGN=CENTER><CODE>RW</CODE></TD><TD ALIGN=CENTER></TD><TD>Wait until closed before continuing</TD></TR>
+</TABLE>
+<P>
+If the <EM>File&nbsp;type</EM> field identifies a file that does not yet exist (<CODE>FN</CODE>) then the file will be created by the running application, and will be deleted when the application is removed. Note that the file will not be deleted when upgrading to a later version, ensuring that application preferences are not lost in an upgrade. The <EM>File&nbsp;details</EM> are always <CODE>0x00000000</CODE>.
+<P>
+If the <EM>File&nbsp;type</EM> field identifies a file to open (<CODE>FM</CODE>) then the file will be opened during installation using the application associated with the MIME type, and the <EM>File&nbsp;details</EM> field specifies when it should be run:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2 NOWRAP>File details</TH><TH>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0100</CODE></TD><TD ALIGN=RIGHT>256</TD><TD ALIGN=CENTER><CODE>OC</CODE></TD><TD>Close when installation complete</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0200</CODE></TD><TD ALIGN=RIGHT>512</TD><TD ALIGN=CENTER><CODE>OW</CODE></TD><TD>Wait until closed before continuing</TD></TR>
+</TABLE>
+<P>
+The <EM>Source&nbsp;name&nbsp;length</EM> and <EM>Source&nbsp;name&nbsp;pointer</EM> specify the length and offset of the source filename respectively. This is the path of the original file on the machine used to construct the SIS file; it does not affect the installation or removal process. The name is usually blank if the <EM>File&nbsp;type</EM> field identifies a file that does not yet exist (<CODE>FN</CODE>).
+<P>
+The <EM>Destination&nbsp;name&nbsp;length</EM> and <EM>Destination&nbsp;name&nbsp;pointer</EM> specify the length and offset of the target filename respectively. The drive letter may be specified as an exclamation mark (&quot;<CODE>!</CODE>&quot;) to allow a choice of drive during installation. The name is usually blank if the <EM>File&nbsp;type</EM> field identifies a text file (<CODE>FT</CODE>).
+<P>
+The <EM>File&nbsp;length</EM> and <EM>File&nbsp;pointer</EM> specify the length and offset of the file contents respectively. The <EM>Original&nbsp;file&nbsp;length</EM> specifies the size of the file when uncompressed. If the <EM>File&nbsp;record&nbsp;type</EM> field specifies that there are multiple language versions, then the <EM>File&nbsp;length</EM>, <EM>File&nbsp;pointer</EM> and <EM>Original&nbsp;file&nbsp;length</EM> fields are individually repeated for each language version supported by the SIS file. These are specified in the same order as the language records.
+<P>
+Unless the <CODE>NC</CODE> option is set in the header, file data in EPOC release 6 format files is compressed using zlib's <CODE>compress</CODE> method.
+<P>
+The <EM>MIME&nbsp;type&nbsp;length</EM> and <EM>MIME&nbsp;type&nbsp;pointer</EM> fields specify the length and offset of the file's MIME type. If the file does not have a MIME type then the <EM>MIME&nbsp;type&nbsp;length</EM> field is set to <CODE>0x00000000</CODE> and the <EM>MIME&nbsp;type&nbsp;pointer</EM> field specifies the offset to the first byte after the end of the source and target filenames.
+
+<H3>Options Line Record</H3>
+
+If the <EM>File&nbsp;record&nbsp;type</EM> field at the start of the record is <CODE>0x00000002</CODE> then the record specifies selectable installation options. It has the following format:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4</TD><TD><EM>File record type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Number of options</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT>8<EM>mn</EM></TD><TD><EM>Option strings</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08<BR>+ 8<EM>mn</EM></CODE></TD><TD ALIGN=RIGHT>8<BR>+ 8<EM>mn</EM></TD><TD ALIGN=RIGHT>16</TD><TD><EM>Selected options</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>Number&nbsp;of&nbsp;options</EM> field specifies the number of options defined by the <EM>Options&nbsp;strings</EM> field. Each option consists of a record in the following form:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Option string length(s)</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>4<EM>n</EM></CODE></TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Option string pointer(s)</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>Option&nbsp;string&nbsp;length</EM> and <EM>Option&nbsp;string&nbsp;pointer</EM> specify the length and offset of the option description respectively. The <EM>Option&nbsp;string&nbsp;length</EM> and <EM>Option&nbsp;string&nbsp;pointer</EM> fields are individually repeated for each language version supported by the SIS file. These are specified in the same order as the language records.
+<P>
+The <EM>Selected&nbsp;options</EM> field is a bitmap with one bit for each of up to 128 options. Initially all bits are set, but when the SIS file is installed this is modified to record the selected options.
+<P>
+Options are displayed to the user at the stage of the installation at which they appear within the SIS file. They behave as global attributes (affecting embedded SIS files) and are tested within If and ElseIf line records. The attributes corresponding to option <EM>n</EM> is identified by <CODE>0x2000</CODE>+<EM>n</EM>.
+
+<H3>If or ElseIf Line Record</H3>
+
+If the <EM>File&nbsp;record&nbsp;type</EM> field at the start of the record is <CODE>0x00000003</CODE> or <CODE>0x00000004</CODE> then the record specifies a conditional record in the following format:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4</TD><TD><EM>File record type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Size of conditional expression</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT><EM>n</EM></TD><TD><EM>Conditional expression</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>Size&nbsp;of&nbsp;conditional&nbsp;expression</EM> field specifies the size of the following <EM>Conditional&nbsp;expression</EM>.
+<P>
+The <EM>Conditional&nbsp;expression</EM> if recursively constructed from records that start with a <EM>Conditional&nbsp;type</EM> field:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH>Type</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000000</CODE></TD><TD>(<EM>Attribute</EM>) <CODE>=</CODE> (<EM>Value</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000001</CODE></TD><TD>(<EM>Attribute</EM>) <CODE>&lt;&gt;</CODE> (<EM>Value</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000002</CODE></TD><TD>(<EM>Attribute</EM>) <CODE>&gt;</CODE> (<EM>Value</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000003</CODE></TD><TD>(<EM>Attribute</EM>) <CODE>&lt;</CODE> (<EM>Value</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000004</CODE></TD><TD>(<EM>Attribute</EM>) <CODE>&gt;=</CODE> (<EM>Value</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000005</CODE></TD><TD>(<EM>Attribute</EM>) <CODE>&lt;=</CODE> (<EM>Value</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000006</CODE></TD><TD>(<EM>Conditional expression</EM>) <CODE>AND</CODE> (<EM>Conditional expression</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000007</CODE></TD><TD>(<EM>Conditional expression</EM>) <CODE>OR</CODE> (<EM>Conditional expression</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000008</CODE></TD><TD><CODE>exists</CODE>(<EM>Filename</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000009</CODE></TD><TD><CODE>devcap</CODE>(<EM>Capability</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000a</CODE></TD><TD><CODE>appcap</CODE>(<EM>UID</EM>, <EM>Capability</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000b</CODE></TD><TD><CODE>NOT</CODE>(<EM>Conditional expression</EM>)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000c</CODE></TD><TD>String</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000d</CODE></TD><TD>Attribute</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000e</CODE></TD><TD>Number</TD></TR>
+</TABLE>
+<P>
+If the <EM>Conditional&nbsp;type</EM> is <CODE>0x00000000</CODE> to <CODE>0x00000007</CODE> or <CODE>0x0000000a</CODE> then it specifies a binary operator applied to two sub-expressions (each recursively constructed as for <EM>Conditional&nbsp;expression</EM>):
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Conditional type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT><EM>n</EM></TD><TD><EM>Left-hand side conditional sub-expression</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04<BR>+ <EM>n</EM></CODE></TD><TD ALIGN=RIGHT>4<BR>+ <EM>n</EM></TD><TD ALIGN=RIGHT><EM>m</EM></TD><TD><EM>Right-hand side conditional sub-expression</EM></TD></TR>
+</TABLE>
+<P>
+The two sub-expressions for <EM>Conditional&nbsp;type</EM> <CODE>0x0000000a</CODE> are always numbers (<EM>Conditional&nbsp;type</EM> <CODE>0x0000000e</CODE>).
+<P>
+If the <EM>Conditional&nbsp;type</EM> is <CODE>0x00000008</CODE>, <CODE>0x00000009</CODE> or <CODE>0x0000000b</CODE> then it specifies a unary operator applied to a sub-expression (recursively constructed as for <EM>Conditional&nbsp;expression</EM>):
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Conditional type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT><EM>n</EM></TD><TD><EM>Conditional sub-expression</EM></TD></TR>
+</TABLE>
+<P>
+The sub-expression for <EM>Conditional&nbsp;type</EM> <CODE>0x00000008</CODE> is always a string (<EM>Conditional&nbsp;type</EM> <CODE>0x0000000c</CODE>), and the sub-expression for <EM>Conditional&nbsp;type</EM> <CODE>0x00000009</CODE> is always a number (<EM>Conditional&nbsp;type</EM> <CODE>0x0000000e</CODE>).
+<P>
+If the <EM>Conditional&nbsp;type</EM> is <CODE>0x0000000c</CODE> then it specifies a string:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Conditional type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>String length</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>String pointer</EM></TD></TR>
+</TABLE>
+If the <EM>Conditional&nbsp;type</EM> is <CODE>0x0000000d</CODE> then it specifies an attribute:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Conditional type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Attribute</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Unused</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>Attribute</EM> may be one of the following:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH>Flag</TH><TH>Code</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000000</CODE></TD><TD><CODE>Manufacturer</CODE></TD><TD><CODE>0</CODE>=Ericsson, <CODE>1</CODE>=Motorola, <CODE>2</CODE>=Nokia, <CODE>3</CODE>=Panasonic, <CODE>4</CODE>=Psion, <CODE>5</CODE>=Intel, <CODE>6</CODE>=Cogent, <CODE>7</CODE>=Cirrus, etc</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000001</CODE></TD><TD><CODE>ManufacturerHardwareRev</CODE></TD><TD><CODE>0x0100</CODE> = 1.00 (manufacturer specific)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000002</CODE></TD><TD><CODE>ManufacturerSoftwareRev</CODE></TD><TD><CODE>0x0100</CODE> = 1.00 (manufacturer specific)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000003</CODE></TD><TD><CODE>ManufacturerSoftwareBuild</CODE></TD><TD>(manufacturer specific)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000004</CODE></TD><TD><CODE>Model</CODE></TD><TD></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000005</CODE></TD><TD><CODE>MachineUid</CODE></TD><TD>Device specific values for products as defined in <CODE>epoc32\include\hal_data.h</CODE></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000006</CODE></TD><TD><CODE>DeviceFamily</CODE></TD><TD><CODE>0</CODE>=Crystal, <CODE>1</CODE>=Pearl, <CODE>2</CODE>=Quartz</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000007</CODE></TD><TD><CODE>DeviceFamilyRev</CODE></TD><TD><CODE>0x0100</CODE> = 1.00</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000008</CODE></TD><TD><CODE>CPU</CODE></TD><TD><CODE>0</CODE>=ARM, <CODE>1</CODE>=MCORE, <CODE>2</CODE>=x86</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000009</CODE></TD><TD><CODE>CPUArch</CODE></TD><TD><CODE>0x400</CODE>=ARM4, <CODE>0x410</CODE>=ARM4T, <CODE>0x500</CODE>=ARM5, <CODE>0x300</CODE>=M340</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000a</CODE></TD><TD><CODE>CPUABI</CODE></TD><TD><CODE>0</CODE>=ARM4, <CODE>1</CODE>=ARMI, <CODE>2</CODE>=THUMB, <CODE>3</CODE>=MCORE, <CODE>4</CODE>=MSVC</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000b</CODE></TD><TD><CODE>CPUSpeed</CODE></TD><TD>CPU clock speed / 1024, e.g. <CODE>36864</CODE>=36MHz</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000e</CODE></TD><TD><CODE>SystemTickPeriod</CODE></TD><TD>Tick period in microseconds</TD></TR>
+    <TR><TD ALIGN=RIGHT></TD><TD><CODE>SystemSpeed</CODE></TD><TD>Approximate speed relative to Psion Series 5 = <CODE>100</CODE></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000000f</CODE></TD><TD><CODE>MemoryRAM</CODE></TD><TD>Total RAM size in bytes</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000010</CODE></TD><TD><CODE>MemoryRAMFree</CODE></TD><TD>Free RAM size in bytes</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000011</CODE></TD><TD><CODE>MemoryROM</CODE></TD><TD>Total ROM size</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000012</CODE></TD><TD><CODE>MemoryPageSize</CODE></TD><TD>Size of memory management unit pages</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000015</CODE></TD><TD><CODE>PowerBackup</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000018</CODE></TD><TD><CODE>Keyboard</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=keypad, <CODE>2</CODE>=full, <CODE>3</CODE>=both</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000019</CODE></TD><TD><CODE>KeyboardDeviceKeys</CODE></TD><TD>Number of device specific keys</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000001a</CODE></TD><TD><CODE>KeyboardAppKeys</CODE></TD><TD>Number of application keys</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000001b</CODE></TD><TD><CODE>KeyboardClick</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000001e</CODE></TD><TD><CODE>KeyboardClickVolumeMax</CODE></TD><TD></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000001f</CODE></TD><TD><CODE>DisplayXPixels</CODE></TD><TD>Screen width in pixels</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000020</CODE></TD><TD><CODE>DisplayYPixels</CODE></TD><TD>Screen height in pixels</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000021</CODE></TD><TD><CODE>DisplayXTwips</CODE></TD><TD>Screen width in twips (1/1440 inch)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000022</CODE></TD><TD><CODE>DisplayYTwips</CODE></TD><TD>Screen height in twips (1/1440 inch)</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000023</CODE></TD><TD><CODE>DisplayColors</CODE></TD><TD><CODE>2</CODE>, <CODE>4</CODE>, <CODE>16</CODE>, <CODE>256</CODE>, <CODE>65536</CODE>, etc</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000026</CODE></TD><TD><CODE>DisplayContrastMax</CODE></TD><TD></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000027</CODE></TD><TD><CODE>Backlight</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000029</CODE></TD><TD><CODE>Pen</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000002a</CODE></TD><TD><CODE>PenX</CODE></TD><TD>Pen horizontal resolution</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000002b</CODE></TD><TD><CODE>PenY</CODE></TD><TD>Pen vertical resolution</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000002c</CODE></TD><TD><CODE>PenDisplayOn</CODE></TD><TD><CODE>0</CODE>=no <CODE>1</CODE>=yes</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000002d</CODE></TD><TD><CODE>PenClick</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000030</CODE></TD><TD><CODE>PenClickVolumeMax</CODE></TD><TD></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000031</CODE></TD><TD><CODE>Mouse</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000032</CODE></TD><TD><CODE>MouseX</CODE></TD><TD>Mouse horizontal resolution</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000033</CODE></TD><TD><CODE>MouseY</CODE></TD><TD>Mouse vertical resolution</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000037</CODE></TD><TD><CODE>MouseButtons</CODE></TD><TD>Number of mouse buttons</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000003a</CODE></TD><TD><CODE>CaseSwitch</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000003d</CODE></TD><TD><CODE>LEDs</CODE></TD><TD>Number of LEDs</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0000003f</CODE></TD><TD><CODE>IntegratedPhone</CODE></TD><TD><CODE>0</CODE>=none, <CODE>1</CODE>=supported</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000041</CODE></TD><TD><CODE>DisplayBrightnessMax</CODE></TD><TD></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000042</CODE></TD><TD><CODE>KeyboardBacklightState</CODE></TD><TD></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000043</CODE></TD><TD><CODE>AccessoryPower</CODE></TD><TD></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00000059</CODE></TD><TD><CODE>NumHalAttributes</CODE></TD><TD>Number of supported HAL attributes</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00001000</CODE></TD><TD><CODE>Language</CODE></TD><TD>Machine language</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00001001</CODE></TD><TD><CODE>RemoteInstall</CODE></TD><TD><CODE>0</CODE>=Symbian OS based install, <CODE>1</CODE>=installation via a PC</TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00002000</CODE><BR>+ <EM>n</EM></TD><TD><CODE>Option</CODE>&lt;<EM>n</EM>&gt;</TD><TD><CODE>0</CODE>=option not selected, <CODE>1</CODE>=option selected</TD></TR>
+</TABLE>
+<P>
+If the <EM>Conditional&nbsp;type</EM> is <CODE>0x0000000e</CODE> then it specifies a number:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Conditional type</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Number</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT><EM>4</EM></TD><TD><EM>Unused</EM></TD></TR>
+</TABLE>
+
+<H3>Else or EndIf Line Record</H3>
+
+If the <EM>File&nbsp;record&nbsp;type</EM> field at the start of the record is <CODE>0x00000005</CODE> or <CODE>0x00000006</CODE> then the record consists of just the type field:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4</TD><TD><EM>File record type</EM></TD></TR>
+</TABLE>
+
+<H2>Requisite Records</H2>
+
+The <EM>Requisites&nbsp;pointer</EM> field in the header points to the requisites records that specify the files that are required by the component being installed. The <EM>Number&nbsp;of&nbsp;requisites</EM> field in the header specifies the number of records. These are stored contiguously in the following format:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4</TD><TD><EM>UID</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Major version</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x06</CODE></TD><TD ALIGN=RIGHT>6</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Minor version</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Variant</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0c</CODE></TD><TD ALIGN=RIGHT>12</TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Requisite name length(s)</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0c</CODE><BR>+ 4<EM>n</EM></TD><TD ALIGN=RIGHT>12<BR>+ 4<EM>n</EM></TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Requisite name pointer(s)</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>UID</EM> field specifies the UID of the component that is required, i.e. the first word of its residual SIS file.
+<P>
+The <EM>Major&nbsp;version</EM> and <EM>Minor&nbsp;version</EM> fields specify the minimum version number of the component required. The <EM>Minor&nbsp;version</EM> number is padded to two digits with leading zeros for display. This is not checked by the control panel <CODE>Add/remove</CODE> program.
+<P>
+The <EM>Variant</EM> field specifies the variant of the component that is required. This is usually set to <CODE>0x00000000</CODE>, and is not checked by the control panel <CODE>Add/remove</CODE> program.
+<P>
+The <EM>Requisite&nbsp;name&nbsp;length</EM> and <EM>Requisite&nbsp;name&nbsp;pointer</EM> specify the length and offset of the requite name respectively. The <EM>Requisite&nbsp;name&nbsp;length</EM> and <EM>Requisite&nbsp;name&nbsp;pointer</EM> fields are individually repeated for each language version supported by the SIS file. These are specified in the same order as the language records.
+<P>
+The requisite name is only used for display during installation; it does not need to match for the requisite to be satisfied.
+
+<H2>Component Name Record</H2>
+
+The <EM>Component&nbsp;name&nbsp;pointer</EM> field in the header points to the component name record that specifies the name of the component to be installed. This is used both during installation and for the list of installed applications in the control panel <CODE>Add/remove</CODE> program. The record is in the following format:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Name length(s)</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>4<EM>n</EM></TD><TD ALIGN=RIGHT NOWRAP>4<EM>n</EM></TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Name pointer(s)</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>Name&nbsp;length</EM> and <EM>Name&nbsp;pointer</EM> specify the length and offset of the component name respectively. The <EM>Name&nbsp;length</EM> and <EM>Name&nbsp;pointer</EM> fields are individually repeated for each language version supported by the SIS file. These are specified in the same order as the language records.
+
+<H2>Capabilities Record</H2>
+
+The <EM>Capabilities&nbsp;pointer</EM> field in the header points to the capabilities record. The record is in the following format:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Key</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>4<EM>n</EM></TD><TD ALIGN=RIGHT NOWRAP>4<EM>n</EM></TD><TD ALIGN=RIGHT>4<EM>n</EM></TD><TD><EM>Value</EM></TD></TR>
+</TABLE>
+<P>
+
+<H2>Certificates Record</H2>
+
+The <EM>Certificates&nbsp;pointer</EM> field in the header points to the certificates records. The record is in the following format:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH COLSPAN=2>Offset</TH><TH>Bytes</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x00</CODE></TD><TD ALIGN=RIGHT>0</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Year</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x02</CODE></TD><TD ALIGN=RIGHT>2</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Month</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x04</CODE></TD><TD ALIGN=RIGHT>4</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Day</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x06</CODE></TD><TD ALIGN=RIGHT>6</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Hour</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x08</CODE></TD><TD ALIGN=RIGHT>8</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Minute</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0A</CODE></TD><TD ALIGN=RIGHT>10</TD><TD ALIGN=RIGHT>2</TD><TD><EM>Second</EM></TD></TR>
+    <TR><TD ALIGN=RIGHT><CODE>0x0C</CODE></TD><TD ALIGN=RIGHT>12</TD><TD ALIGN=RIGHT>4</TD><TD><EM>Number of certificates</EM></TD></TR>
+</TABLE>
+<P>
+The <EM>Year</EM>, <EM>Month</EM>, <EM>Day</EM>, <EM>Hour</EM>, <EM>Minute</EM> and <EM>Second</EM> fields form a timestamp.
+<P>
+The <EM>Number&nbsp;of&nbsp;certificates</EM> field specifies the number of certificates.
+
+<H2>Resource Data</H2>
+
+The remainder of the SIS file consists of the data referenced from the other sections. This is stored uncompressed and unpadded, usually in the following order:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+    <TR><TH NOWRAP>Section</TH></TR>
+    <TR><TD>
+        String Block, containing:
+        <UL>
+            <LI>File Names
+            <LI>Requisite Name
+            <LI>Component Name
+        </UL>
+    </TD></TR>
+    <TR><TD>Code Block</TD></TR>
+    <TR><TD>Signature Block</TD></TR>
+</TABLE>
+<P>
+If, for some reason, the resource data is arranged with the code block (containing the file data) before the component name, then the residual SIS file will be larger than necessary.
+
+<H2>Installation</H2>
+
+Installation of an SIS file requires several steps to be performed. These are described in the following sections.
+<P>
+These operations need to be repeated for any embedded component SIS files.
+
+<H3>Select Language</H3>
+
+SIS files may support more than one language, as indicated by the <EM>Number&nbsp;of&nbsp;languages</EM> field in the header and the language records. The control panel <CODE>Add/remove</CODE> program attempts to use the current language of the machine, but EPOC Connect prompts the user to choose from the available options.
+
+<H3>Check Requisites</H3>
+
+The requisite records specify a list of other components that need to be installed. The residual SIS files on the target machine should be searched to verify that a suitable version of the required component has been installed.
+
+<H3>Check Previous Version</H3>
+
+The residual SIS files on the target machine are used to check for any previous versions of the application being installed. Any previous installation needs to be removed before installing the new version.
+<P>
+If the previous version is older than the version being installed then it is replaced without warning. However, if the previous version is newer then the behaviour depends on the installation program; the control panel <CODE>Add/remove</CODE> program requires the user to first uninstall the more recent version, but EPOC Connect displays a confirmation prompt to allow the existing application to be removed and replaced.
+
+<H3>Copy Files</H3>
+
+The file records should be processed in the reverse of the order that they are stored in the SIS file. Text files should be displayed and component SIS files installed as they are encountered.
+<P>
+SIS files sometimes allow the user to select the installation drive. This is indicated by the destination file names having an exclamation mark (&quot;<CODE>!</CODE>&quot;) specified as the drive letter. In this case the user should be prompted to select from the available drives.
+<P>
+Directories should be created automatically to accommodate files being copied.
+
+<H3>Residual SIS File</H3>
+
+A residual SIS file is created in the <CODE>C:\System\Install\</CODE> directory on the target machine. This allows the control panel to display a list of installed programs, and provides the dependency information required for removing the component or installing other applications.
+<P>
+The main modification is that the file is truncated after the file name and component name strings. This usually means that the file data is omitted, but this relies upon the SIS file contents being in a sensible order.
+<P>
+Finally, three fields in the header are modified with the settings used for the installation. The <EM>Installation&nbsp;language</EM> field is set to the language selected for the installation, the <EM>Installation&nbsp;files</EM> field is set to the number of files installed, and the <EM>Installation&nbsp;drive</EM> field is set to the drive letter where the files were installed.
+
+<H2>Removal</H2>
+
+Removing an application consists of deleting all the files listed within the residual SIS file. This includes any component SIS files and the residual SIS file itself.
+<P>
+Before a component is removed, all other residual SIS files need to be checked to verify that it is not required by another application. When uninstallation of a component involves the removal of another component's requisite files, the user is warned that continuing may prevent other programs from working.
+<P>
+If the application is being removed to allow a newer version to be installed then files with a <EM>File&nbsp;type</EM> field indicating a file created by the application (<CODE>FN</CODE>) should not be removed.
+
+<H2>Partial Installation</H2>
+
+If an installation or removal is aborted, the <EM>Installation&nbsp;files</EM> field is set to the number of files that are left installed. The control panel <CODE>Add/remove</CODE> program marks any such installations as &quot;<CODE>Partial</CODE>&quot; in the list of installed applications, and offers options to either resume the installation or to uninstall the application.
+
+<H2><A NAME="license">GNU Free Documentation License</A></H2>
+
+Version 1.1, March 2000
+<P>
+<BLOCKQUOTE>
+Copyright &copy; 2000 Free Software Foundation, Inc.<BR>
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA<BR>
+Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+</BLOCKQUOTE>
+
+<H3>0. Preamble</H3>
+
+The purpose of this License is to make a manual, textbook, or other written document &quot;free&quot; in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being considered responsible for modifications made by others.
+<P>
+This License is a kind of &quot;copyleft&quot;, which means that derivative works of the document must themselves be free in the same sense. It complements the GNU General Public License, which is a copyleft license designed for free software.
+<P>
+We have designed this License in order to use it for manuals for free software, because free software needs free documentation: a free program should come with manuals providing the same freedoms that the software does. But this License is not limited to software manuals; it can be used for any textual work, regardless of subject matter or whether it is published as a printed book. We recommend this License principally for works whose purpose is instruction or reference.
+
+<H3>1. Applicability and Definitions</H3>
+
+This License applies to any manual or other work that contains a notice placed by the copyright holder saying it can be distributed under the terms of this License. The &quot;Document&quot;, below, refers to any such manual or work. Any member of the public is a licensee, and is addressed as &quot;you&quot;.
+<P>
+A &quot;Modified Version&quot; of the Document means any work containing the Document or a portion of it, either copied verbatim, or with modifications and/or translated into another language.
+<P>
+A &quot;Secondary Section&quot; is a named appendix or a front-matter section of the Document that deals exclusively with the relationship of the publishers or authors of the Document to the Document's overall subject (or to related matters) and contains nothing that could fall directly within that overall subject. (For example, if the Document is in part a textbook of mathematics, a Secondary Section may not explain any mathematics.) The relationship could be a matter of historical connection with the subject or with related matters, or of legal, commercial, philosophical, ethical or political position regarding them.
+<P>
+The &quot;Invariant Sections&quot; are certain Secondary Sections whose titles are designated, as being those of Invariant Sections, in the notice that says that the Document is released under this License.
+<P>
+The &quot;Cover Texts&quot; are certain short passages of text that are listed, as Front-Cover Texts or Back-Cover Texts, in the notice that says that the Document is released under this License.
+<P>
+A &quot;Transparent&quot; copy of the Document means a machine-readable copy, represented in a format whose specification is available to the general public, whose contents can be viewed and edited directly and straightforwardly with generic text editors or (for images composed of pixels) generic paint programs or (for drawings) some widely available drawing editor, and that is suitable for input to text formatters or for automatic translation to a variety of formats suitable for input to text formatters. A copy made in an otherwise Transparent file format whose markup has been designed to thwart or discourage subsequent modification by readers is not Transparent. A copy that is not &quot;Transparent&quot; is called &quot;Opaque&quot;.
+<P>
+Examples of suitable formats for Transparent copies include plain ASCII without markup, Texinfo input format, LaTeX input format, SGML or XML using a publicly available DTD, and standard-conforming simple HTML designed for human modification. Opaque formats include PostScript, PDF, proprietary formats that can be read and edited only by proprietary word processors, SGML or XML for which the DTD and/or processing tools are not generally available, and the machine-generated HTML produced by some word processors for output purposes only.
+<P>
+The &quot;Title Page&quot; means, for a printed book, the title page itself, plus such following pages as are needed to hold, legibly, the material this License requires to appear in the title page. For works in formats which do not have any title page as such, &quot;Title Page&quot; means the text near the most prominent appearance of the work's title, preceding the beginning of the body of the text.
+
+<H3>2. Verbatim Copying</H3>
+
+You may copy and distribute the Document in any medium, either commercially or noncommercially, provided that this License, the copyright notices, and the license notice saying this License applies to the Document are reproduced in all copies, and that you add no other conditions whatsoever to those of this License. You may not use technical measures to obstruct or control the reading or further copying of the copies you make or distribute. However, you may accept compensation in exchange for copies. If you distribute a large enough number of copies you must also follow the conditions in section 3.
+<P>
+You may also lend copies, under the same conditions stated above, and you may publicly display copies.
+
+<H3>3. Copying in Quantity</H3>
+
+If you publish printed copies of the Document numbering more than 100, and the Document's license notice requires Cover Texts, you must enclose the copies in covers that carry, clearly and legibly, all these Cover Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on the back cover. Both covers must also clearly and legibly identify you as the publisher of these copies. The front cover must present the full title with all words of the title equally prominent and visible. You may add other material on the covers in addition. Copying with changes limited to the covers, as long as they preserve the title of the Document and satisfy these conditions, can be treated as verbatim copying in other respects.
+<P>
+If the required texts for either cover are too voluminous to fit legibly, you should put the first ones listed (as many as fit reasonably) on the actual cover, and continue the rest onto adjacent pages.
+<P>
+If you publish or distribute Opaque copies of the Document numbering more than 100, you must either include a machine-readable Transparent copy along with each Opaque copy, or state in or with each Opaque copy a publicly-accessible computer-network location containing a complete Transparent copy of the Document, free of added material, which the general network-using public has access to download anonymously at no charge using public-standard network protocols. If you use the latter option, you must take reasonably prudent steps, when you begin distribution of Opaque copies in quantity, to ensure that this Transparent copy will remain thus accessible at the stated location until at least one year after the last time you distribute an Opaque copy (directly or through your agents or retailers) of that edition to the public.
+<P>
+It is requested, but not required, that you contact the authors of the Document well before redistributing any large number of copies, to give them a chance to provide you with an updated version of the Document.
+
+<H3>4. Modifications</H3>
+
+You may copy and distribute a Modified Version of the Document under the conditions of sections 2 and 3 above, provided that you release the Modified Version under precisely this License, with the Modified Version filling the role of the Document, thus licensing distribution and modification of the Modified Version to whoever possesses a copy of it. In addition, you must do these things in the Modified Version:
+<UL>
+    <LI><STRONG>A.</STRONG> Use in the Title Page (and on the covers, if any) a title distinct from that of the Document, and from those of previous versions (which should, if there were any, be listed in the History section of the Document). You may use the same title as a previous version if the original publisher of that version gives permission.
+    <LI><STRONG>B.</STRONG> List on the Title Page, as authors, one or more persons or entities responsible for authorship of the modifications in the Modified Version, together with at least five of the principal authors of the Document (all of its principal authors, if it has less than five).
+    <LI><STRONG>C.</STRONG> State on the Title page the name of the publisher of the Modified Version, as the publisher.
+    <LI><STRONG>D.</STRONG> Preserve all the copyright notices of the Document.
+    <LI><STRONG>E.</STRONG> Add an appropriate copyright notice for your modifications adjacent to the other copyright notices.
+    <LI><STRONG>F.</STRONG> Include, immediately after the copyright notices, a license notice giving the public permission to use the Modified Version under the terms of this License, in the form shown in the Addendum below.
+    <LI><STRONG>G.</STRONG> Preserve in that license notice the full lists of Invariant Sections and required Cover Texts given in the Document's license notice.
+    <LI><STRONG>H.</STRONG> Include an unaltered copy of this License.
+    <LI><STRONG>I.</STRONG> Preserve the section entitled &quot;History&quot;, and its title, and add to it an item stating at least the title, year, new authors, and publisher of the Modified Version as given on the Title Page. If there is no section entitled &quot;History&quot; in the Document, create one stating the title, year, authors, and publisher of the Document as given on its Title Page, then add an item describing the Modified Version as stated in the previous sentence.
+    <LI><STRONG>J.</STRONG> Preserve the network location, if any, given in the Document for public access to a Transparent copy of the Document, and likewise the network locations given in the Document for previous versions it was based on. These may be placed in the &quot;History&quot; section. You may omit a network location for a work that was published at least four years before the Document itself, or if the original publisher of the version it refers to gives permission.
+    <LI><STRONG>K.</STRONG> In any section entitled &quot;Acknowledgements&quot; or &quot;Dedications&quot;, preserve the section's title, and preserve in the section all the substance and tone of each of the contributor acknowledgements and/or dedications given therein.
+    <LI><STRONG>L.</STRONG> Preserve all the Invariant Sections of the Document, unaltered in their text and in their titles. Section numbers or the equivalent are not considered part of the section titles.
+    <LI><STRONG>M.</STRONG> Delete any section entitled &quot;Endorsements&quot;. Such a section may not be included in the Modified Version.
+    <LI><STRONG>N.</STRONG> Do not retitle any existing section as &quot;Endorsements&quot; or to conflict in title with any Invariant Section.
+</UL>
+<P>
+If the Modified Version includes new front-matter sections or appendices that qualify as Secondary Sections and contain no material copied from the Document, you may at your option designate some or all of these sections as invariant. To do this, add their titles to the list of Invariant Sections in the Modified Version's license notice. These titles must be distinct from any other section titles.
+<P>
+You may add a section entitled &quot;Endorsements&quot;, provided it contains nothing but endorsements of your Modified Version by various parties - for example, statements of peer review or that the text has been approved by an organization as the authoritative definition of a standard.
+<P>
+You may add a passage of up to five words as a Front-Cover Text, and a passage of up to 25 words as a Back-Cover Text, to the end of the list of Cover Texts in the Modified Version. Only one passage of Front-Cover Text and one of Back-Cover Text may be added by (or through arrangements made by) any one entity. If the Document already includes a cover text for the same cover, previously added by you or by arrangement made by the same entity you are acting on behalf of, you may not add another; but you may replace the old one, on explicit permission from the previous publisher that added the old one.
+<P>
+The author(s) and publisher(s) of the Document do not by this License give permission to use their names for publicity for or to assert or imply endorsement of any Modified Version.
+
+<H3>5. Combining Documents</H3>
+
+You may combine the Document with other documents released under this License, under the terms defined in section 4 above for modified versions, provided that you include in the combination all of the Invariant Sections of all of the original documents, unmodified, and list them all as Invariant Sections of your combined work in its license notice.
+<P>
+The combined work need only contain one copy of this License, and multiple identical Invariant Sections may be replaced with a single copy. If there are multiple Invariant Sections with the same name but different contents, make the title of each such section unique by adding at the end of it, in parentheses, the name of the original author or publisher of that section if known, or else a unique number. Make the same adjustment to the section titles in the list of Invariant Sections in the license notice of the combined work.
+<P>
+In the combination, you must combine any sections entitled &quot;History&quot; in the various original documents, forming one section entitled &quot;History&quot;; likewise combine any sections entitled &quot;Acknowledgements&quot;, and any sections entitled &quot;Dedications&quot;. You must delete all sections entitled &quot;Endorsements.&quot;
+
+<H3>6. Collections of Documents</H3>
+
+You may make a collection consisting of the Document and other documents released under this License, and replace the individual copies of this License in the various documents with a single copy that is included in the collection, provided that you follow the rules of this License for verbatim copying of each of the documents in all other respects.
+<P>
+You may extract a single document from such a collection, and distribute it individually under this License, provided you insert a copy of this License into the extracted document, and follow this License in all other respects regarding verbatim copying of that document.
+
+<H3>7. Aggregation with Independent Works</H3>
+
+A compilation of the Document or its derivatives with other separate and independent documents or works, in or on a volume of a storage or distribution medium, does not as a whole count as a Modified Version of the Document, provided no compilation copyright is claimed for the compilation. Such a compilation is called an &quot;aggregate&quot;, and this License does not apply to the other self-contained works thus compiled with the Document, on account of their being thus compiled, if they are not themselves derivative works of the Document.
+<P>
+If the Cover Text requirement of section 3 is applicable to these copies of the Document, then if the Document is less than one quarter of the entire aggregate, the Document's Cover Texts may be placed on covers that surround only the Document within the aggregate. Otherwise they must appear on covers around the whole aggregate.
+
+<H3>8. Translation</H3>
+
+Translation is considered a kind of modification, so you may distribute translations of the Document under the terms of section 4. Replacing Invariant Sections with translations requires special permission from their copyright holders, but you may include translations of some or all Invariant Sections in addition to the original versions of these Invariant Sections. You may include a translation of this License provided that you also include the original English version of this License. In case of a disagreement between the translation and the original English version of this License, the original English version will prevail.
+
+<H3>9. Termination</H3>
+
+You may not copy, modify, sublicense, or distribute the Document except as expressly provided for under this License. Any other attempt to copy, modify, sublicense or distribute the Document is void, and will automatically terminate your rights under this License. However, parties who have received copies, or rights, from you under this License will not have their licenses terminated so long as such parties remain in full compliance.
+
+<H3>10. Future Revisions of this License</H3>
+
+The Free Software Foundation may publish new, revised versions of the GNU Free Documentation License from time to time. Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns. See <A HREF="http://www.gnu.org/copyleft/" TITLE="What is Copyleft?">http://www.gnu.org/copyleft/</A>.
+<P>
+Each version of the License is given a distinguishing version number. If the Document specifies that a particular numbered version of this License &quot;or any later version&quot; applies to it, you have the option of following the terms and conditions either of that specified version or of any later version that has been published (not as a draft) by the Free Software Foundation. If the Document does not specify a version number of this License, you may choose any version ever published (not as a draft) by the Free Software Foundation.
+
+<H3>Addendum: How to Use This License for Your Documents</H3>
+
+To use this License in a document you have written, include a copy of the License in the document and put the following copyright and license notices just after the title page:
+<BLOCKQUOTE>
+Copyright (c) YEAR YOUR NAME.<BR>
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation; with the Invariant Sections being LIST THEIR TITLES, with the Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST. A copy of the license is included in the section entitled &quot;GNU Free Documentation License&quot;.
+</BLOCKQUOTE>
+<P>
+If you have no Invariant Sections, write &quot;with no Invariant Sections&quot; instead of saying which ones are invariant. If you have no Front-Cover Texts, write &quot;no Front-Cover Texts&quot; instead of &quot;Front-Cover Texts being LIST&quot;; likewise for Back-Cover Texts.
+<P>
+If your document contains nontrivial examples of program code, we recommend releasing these examples in parallel under your choice of free software license, such as the GNU General Public License, to permit their use in free software.
+
+</BODY>
+</HTML>

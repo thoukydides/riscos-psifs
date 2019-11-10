@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : faq/ant.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Frequently Asked Questions [Serial Port Clashes]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Frequently Asked Questions [Serial Port Clashes]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Frequently Asked Questions</H1>
+<B>Serial Port Clashes</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Why does the computer hang when <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is enabled?</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Many applications do not fully support the device claim protocol. This means that another task may start using the serial port while <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is using it, or a task already using the serial port may not object when <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> attempts to claim it.
+<P>
+If a clash over use of the serial port occurs then the computer may appear to hang. Press <TT>Escape</TT> to regain control, then save any work and reboot the computer.
+<P>
+A common cause of this kind of problem is if the ANT Internet Suite is being used. <TT>!InetSuite</TT> accesses the serial port even when it is not using the modem, so it must be quit before enabling <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>. It is recommended that <TT>!InetSuite</TT> and <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> are never loaded at the same time.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : swi/reg.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - SWI Calls [PsiFS_Register]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - SWI Calls [PsiFS_Register]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: SWI Calls</H1>
+<B>PsiFS_Register</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>PsiFS_Register</B></TT><BR><TT>(SWI&nbsp;&amp;520C0)</TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Register a client to be informed of changes</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;entry:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>pointer to control-character terminated name of the client</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD>R1&nbsp;=</TD><TD COLSPAN=2>mask specifying changes of interest</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>On&nbsp;exit:</B></FONT></TD><TD>R0&nbsp;=</TD><TD COLSPAN=2>pointer to the pollword for this client</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Interrupts:</B></FONT></TD><TD COLSPAN=3>Interrupt status is undefined<BR>Fast interrupts are enabled</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Processor&nbsp;mode:</B></FONT></TD><TD COLSPAN=3>Processor is in SVC mode</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Re-entrancy:</B></FONT></TD><TD COLSPAN=3>SWI is not re-entrant</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+This call registers a client to be informed of changes in the status of the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> module or filing system.
+<P>
+The changes of interest are specified by setting bits in the mask passed in R1:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH>Bit</TH><TH>Changes reported when set</TH></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>0</TD><TD>mode of operation</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>1</TD><TD>serial block driver configuration</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>2 ~ 3</TD><TD>must be 0</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>4</TD><TD>number of bytes or frames transmitted or received</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>5 ~ 7</TD><TD>must be 0</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>8</TD><TD>remote link configuration</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>9</TD><TD>remote link connection status</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>10</TD><TD>remote drive details</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>11</TD><TD>must be 0</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>12</TD><TD>asynchronous operation completed</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>13</TD><TD>asynchronous operation status</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>14 ~ 15</TD><TD>must be 0</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>16</TD><TD>printer mirror configuration</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>17 ~ 19</TD><TD>must be 0</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>20</TD><TD>file transfer intercept status</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>21</TD><TD>clipboard transfer status</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>22</TD><TD>print job status</TD></TR>
+<TR VALIGN=TOP><TD ALIGN=RIGHT NOWRAP>23 ~ 31</TD><TD>must be 0</TD></TR>
+</TABLE>
+<P>
+The returned pollword is suitable for passing to <TT>Wimp_Poll</TT>. It should also be passed to <TT>PsiFS_Unregister</TT> to unregister the client. <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will set the pollword to a non-zero value whenever there is any relevant change in status. It is the responsibility of the client task to clear the pollword back to zero and to discover what has changed.
+<P>
+The recommended sequence of events is:
+<OL>
+<LI>Wait for the pollword to become non-zero, e.g. by calling <TT>Wimp_Poll</TT>.
+<LI>Clear the pollword back to zero.
+<LI>Check for changes to any options of interest by calling <TT>PsiFS_Get</TT>, <TT>PsiFS_InterceptPoll</TT> and <TT>PsiFS_ClipboardPaste</TT>.
+</OL>
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;SWIs:</B></FONT></TD><TD COLSPAN=3><TT><A HREF="unreg.html" TITLE="PsiFS_Unregister">PsiFS_Unregister</A></TT>, <TT><A HREF="get.html" TITLE="PsiFS_Get">PsiFS_Get</A></TT>, <TT><A HREF="iclam.html" TITLE="PsiFS_InterceptClaim">PsiFS_InterceptClaim</A></TT>, <TT><A HREF="ipoll.html" TITLE="PsiFS_InterceptPoll">PsiFS_InterceptPoll</A></TT>, <TT>Wimp_Poll</TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;vectors:</B></FONT></TD><TD COLSPAN=3>None</TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

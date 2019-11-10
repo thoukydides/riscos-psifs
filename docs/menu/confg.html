@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : menu/confg.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Menu Entries [Configure...]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Menu Entries [Configure...]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Menu Entries</H1>
+<B>Configure...</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Configure...</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Selecting the <TT>Configure...</TT> menu entry opens the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> configuration window. There are three buttons at the bottom of the window:
+<UL>
+<LI><B>Save</B> - Save the displayed options for use during subsequent sessions. Note that this does not change the options for the current session.
+<LI><B>Cancel</B> - Close the window without applying any changes. Clicking with <I>Adjust</I> leaves the window open, but resets the options to their previous values.
+<LI><B>Set</B> - Apply the displayed changes. Clicking with <I>Adjust</I> applies the changes without closing the window.
+</UL>
+<P>
+The rest of the window allows various aspects of <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> to be configured.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Serial block driver</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The top section of the window allows the serial block driver to be configured for communication with a <I>SIBO</I> or <I>EPOC</I> device. The options are:
+<UL>
+<LI><B>Driver name</B> - The name of the serial block driver to use. This should normally be <TT>InternalPC</TT> if the standard serial port is being used. Use the appropriate driver if extra serial ports are fitted to the computer.
+<LI><B>Port number</B> - The number of the serial port to use. For each block driver the port numbering starts from <TT>0</TT>.
+<LI><B>Baud rate</B> - The serial baud rate to use. This should normally be set to the <A HREF="../start/baud.html" TITLE="Baud Rate">highest baud rate</A> supported by both machines.
+<LI><B>Automatic</B> - Enable or disable automatic baud rate identification. This option may be useful if different <I>SIBO</I> or <I>EPOC</I> devices are used, although establishing a connection will take longer. This only affects operation of the remote link; the printer mirror always uses the specified baud rate.
+<LI><B>Other options</B> - Any other options required for the selected block driver. This should normally be left blank.
+</UL>
+These options may also be changed using the <TT>*<A HREF="../command/drivr.html" TITLE="*PsiFSDriver">PsiFSDriver</A></TT> command.
+<P>
+The list of baud rates is normally restricted to those that are likely to be useful. It is possible to enable display of all available baud rates by adding the line <TT>BlockdriverRestrictBaud=False</TT> to the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> configuration file (either <TT>!Boot.Choices.PsiFS.Config</TT> or <TT>!PsiFS.Config.Config</TT>, depending upon the computer's configuration).</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Remote link options (EPOC devices only)</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The second section of the window controls special behaviour related to the remote link when used with <I>EPOC</I> devices. These features have no effect with <I>SIBO</I> devices. The options are:
+<UL>
+<LI><B>Synchronize clocks when remote link connected</B> - Enable or disable automatic synchronization of an <I>EPOC</I> device's clock to that of the <I>RISC&nbsp;OS</I> computer when the remote link is connected.
+<LI><B>Custom battery warning voltages</B> - Enable or disable use of user defined threshold voltages for detecting low batteries. If this option is not selected then the standard <I>EPOC</I> thresholds are used. The following levels are suggested for NiMH or NiCd batteries used in a <I>Psion&nbsp;Series&nbsp;5</I> or similar:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TD></TD><TH NOWRAP>Dead</TH><TH NOWRAP>Very low</TH><TH NOWRAP>Low</TH></TR>
+<TR><TH NOWRAP>Main batteries</TH><TD ALIGN=CENTER>2.00</TD><TD ALIGN=CENTER>2.15</TD><TD ALIGN=CENTER>2.30</TD></TR>
+<TR><TH NOWRAP>Backup battery</TH><TD ALIGN=CENTER>2.00</TD><TD ALIGN=CENTER>2.50</TD><TD ALIGN=CENTER>3.00</TD></TR>
+</TABLE>
+<LI><B>Monitor batteries</B> - This controls whether a warning window is automatically opened if the batteries of the remote device are low:
+<UL>
+<LI><B>never</B> - monitoring disabled.
+<LI><B>when no external power</B> - monitoring disabled if remote device is operating on external power.
+<LI><B>always</B> - monitoring always active, even if external power is being used.
+</UL>
+<LI><B>Integrate with the RISC OS global clipboard</B> - enable or disable sharing of the <I>EPOC</I> and <I>RISC&nbsp;OS</I> clipboards. When selected this allows data copied from either an <I>EPOC</I> or <I>RISC&nbsp;OS</I> application to be pasted into application running in the other environment.
+<LI><B>Poll for changes</B> - Applications do not announce changes to the global clipboard under <I>RISC&nbsp;OS</I>, so <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> has to detect changes by polling the current clipboard owner. This option controls how this takes place:
+<UL>
+<LI><B>never</B> - no polling. The <I>EPOC</I> clipboard will only be updated when an application claims the clipboard. With most applications this only occurs if a different application previously had the clipboard.
+<LI><B>using clipboard size</B> - poll for changes to the size of the clipboard. This is the preferred option; it consumes only a small amount of processing time, but works with most applications.
+<LI><B>using clipboard content</B> - poll for changes to the content of the clipboard. This can slow down the desktop if large amounts of data are copied to the clipboard but is the most reliable option.
+</UL>
+</UL></TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Filer options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The third section of the window controls the behaviour of the desktop filer. The options are:
+<UL>
+<LI><B>Show drive icon</B> - This controls which drive icons are shown on the iconbar:
+<UL>
+<LI><B>for non-ROM drives</B> - an icon is shown for each non-ROM drive that is accessible.
+<LI><B>for every drive</B> - an icon is shown for all accessible drives.
+<LI><B>for virtual drive only</B> - a single icon is shown for a special virtual drive that has all of the accessible drives represented by subdirectories.
+</UL>
+<LI><B>Open filer windows</B> - This controls when filer windows are opened:
+<UL>
+<LI><B>manually only</B> - filer windows are never opened automatically.
+<LI><B>when remote link connected</B> - filer windows are automatically opened for all available drives when a remote link is connected.
+</UL>
+<LI><B>Close filer windows</B> - This controls when filer windows are closed:
+<UL>
+<LI><B>manually only</B> - filer windows are never closed automatically.
+<LI><B>when file system killed</B> - filer windows are only closed automatically when the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> file system is killed at the same time as the desktop filer.
+<LI><B>when remote link disconnected</B> - filer windows are closed whenever a drive becomes unavailable, usually when a remote link is disconnected.
+</UL>
+</UL></TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Backup options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The fourth section of the window allows backup operations to be configured. The options are:
+<UL>
+<LI><B>Directory containing backup files</B> - The path of the directory to contain all backup files. Sub-directories are automatically created to contain the configuration and backup files for each disc. Set the path by dragging the directory icon and dropping it over a filer window, or dragging a directory icon from a filer window and dropping it over the arrow. Alternatively, any valid path may be typed directly into the icon. If the directory containing backup files is changed, then <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will attempt to move any previous backup files when the changes are applied.
+<LI><B>Open backup options window for unrecognised discs</B> - Enable or disable the automatic opening of the backup options window when connected to unrecognised discs. This makes it easy to set the initial backup options for each disc.
+</UL>
+<P>
+Options specific to a single disc are set by selecting <TT><A HREF="backu.html" TITLE="Backup...">Backup...</A></TT> from the menu of the appropriate <A HREF="../icon/drive.html" TITLE="SIBO or EPOC Drive Icon"><I>SIBO</I> or <I>EPOC</I> drive icon</A>.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Print job options (EPOC devices only)</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The fifth section section of the window allows the print job options for <I>EPOC</I> devices to be configured. These features have no effect with <I>SIBO</I> devices of if the printer mirror is used. The options are:
+<UL>
+<LI><B>When job starts</B> - The default action when a print job starts:
+<UL>
+<LI><TT>open control window</TT> - a window is opened displaying the number of pages received, and allowing the print job to be previewed or printed.
+<LI><TT>display preview</TT> - a preview of the print job is displayed.
+<LI><TT>start printing</TT> - the print job is printed automatically.
+</UL>
+<LI><B>Start printing</B> - When should printing begin after a print job starts:
+<UL>
+<LI><TT>after first page received</TT> - start printing as soon as possible. This may result in the print job being split, which could be undesirable with network or shared printers.
+<LI><TT>when print job complete</TT> - wait for the whole job to be received before starting to print. This ensures that the print job will not be split, but it may take longer for the print job to finish.
+</UL>
+<LI><B>Preview scale</B> - The default magnification factor for the print job preview.
+<LI><B>Anti-alias</B> - Should vector graphics in the print job be anti-aliased. This uses the ArtWorks rendering modules to improve the quality of the on-screen image by using grey edge pixels to achieve smoother graphics.
+</UL></TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Printer mirror</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The sixth section of the window allows the printer mirror to be configured. The options are:
+<UL>
+<LI><B>Default destination</B> - The default destination for data received over the serial link in printer mirror mode:
+<UL>
+<LI><TT>parallel:</TT> - the parallel port.
+<LI><TT>fastparallel:</TT> - the parallel port in fast Centronics mode.
+<LI><TT>serial:</TT> - the internal serial port (only available if <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is configured to use a different port).
+<LI><TT>netprint:</TT> - a network printer.
+<LI><TT>null:</TT> - the null device (all data is discarded).
+<LI><TT>printer:</TT> - the active printer (selected using <TT>!Printers</TT>).
+<LI><TT>printer#parallel:</TT> - a printer connected to the parallel port.
+<LI><TT>printer#serial:</TT> - a printer connected to the serial port.
+<LI><TT>printer#user:</TT> - a user printer device.
+<LI><TT>printer#null:</TT> - a null printer device (all data is discarded).
+<LI><TT>&lt;wimp$scrapdir&gt;.printout</TT> - a temporary file (useful for trouble shooting).
+<LI><TT>pipe:$.printout</TT> - a pipe (useful for trouble shooting).
+</UL>
+Alternatively, any valid filename may be typed directly into the icon. This setting is used when the <A HREF="../icon/idle.html" TITLE="Idle Icon">idle icon</A> is clicked on with <I>Adjust</I> or <TT><A HREF="print.html" TITLE="Printer mirror">Printer mirror</A></TT> is selected from the iconbar icon menu.
+</UL>
+<P>
+The <TT>*<A HREF="../command/enabl.html" TITLE="*PsiFSEnable">PsiFSEnable</A></TT> command can also be used to start the printer mirror and set the destination filename.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Idle behaviour</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The seventh section of the window allows configuration of how <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> behaves when a remote link or printer mirror connection is not being actively used. The options are:
+<UL>
+<LI><B>Disconnect remote link</B> - This controls whether the remote link will be automatically disconnected after the specified length of idle time.
+<LI><B>Disconnect printer mirror</B> - This controls whether the printer mirror will be automatically disconnected after the specified length of idle time.
+<LI><B>Reduce background activity when idle</B> - This controls whether background operations, such as checking for changes to files, should be throttled back when the remote link is not being actively used. This is likely to make the remote machine more responsive, but has the disadvantage that <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will take longer to detect any changes.
+</UL></TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">File conversion options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The final section of the window allows the operation of file conversion to be configured. The options are:
+<UL>
+<LI><B>Intercept run</B> - This controls when files being run by double-clicking are intercepted to allow a conversion to be performed:
+<UL>
+<LI><B>never</B> - file runs are never intercepted.
+<LI><B>if not claimed</B> - file runs are only intercepted if not claimed by any active application.
+<LI><B>always</B> - file runs are always intercepted.
+</UL>
+If the <B>Automatic</B> option is also selected then a conversion is automatically performed without prompting.
+<LI><B>Intercept load</B> - This controls when files being loaded by dragging are intercepted to allow a conversion to be performed:
+<UL>
+<LI><B>never</B> - file loads are never intercepted.
+<LI><B>always</B> - file loads are always intercepted.
+</UL>
+If the <B>Automatic</B> option is also selected then a conversion is automatically performed without prompting.
+<LI><B>Intercept save</B> - This controls when files being saved or transferred between applications by dragging are intercepted to allow a conversion to be performed:
+<UL>
+<LI><B>never</B> - file saves are never intercepted.
+<LI><B>to filer only</B> - file saves are only intercepted if they are to the filer.
+<LI><B>always</B> - files saves and transfers between applications are always intercepted.
+</UL>
+If the <B>Automatic</B> option is also selected then a conversion is automatically performed without prompting.
+</UL>
+<P>
+These options may be overridden at any time by pressing <TT>Left&nbsp;Alt</TT> to force an intercept and allow a converter to be selected or <TT>Right&nbsp;Alt</TT> to prevent an intercept. Unless an intercept if forced by pressing <TT>Left&nbsp;Alt</TT>, the intercept will only occur if it is both enabled within the configuration and supported by at least one of the installed file converters.
+<P>
+The list of file format converters for intercepted files is normally restricted to those that do not produce a directory. It is possible to enable display of all appropriate file format converters by adding the line <TT>InterceptFileDirectory=True</TT> to the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> configuration file (either <TT>!Boot.Choices.PsiFS.Config</TT> or <TT>!PsiFS.Config.Config</TT>, depending upon the computer's configuration).</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

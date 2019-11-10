@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : start/confg.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Getting Started [Configuration]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Getting Started [Configuration]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Getting Started</H1>
+<B>Configuration</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Configuration</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The procedure for configuring <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> depends on whether it is started within the desktop or from the command line.
+<P>
+If <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is loaded within the desktop, for example by double-clicking on the <TT>!PsiFS</TT> icon, then the configuration should be modified using the desktop filer. Ensure that the <A HREF="../icon/idle.html" TITLE="Idle Icon">idle icon</A> is visible, and then select <TT><A HREF="../menu/confg.html" TITLE="Configure...">Configure...</A></TT> from the iconbar icon menu to open the configuration window. Make any required changes to the configuration, and then click <TT>Save</TT> to preserve the changes for future sessions, followed by <TT>Set</TT> to apply the changes for the current session.
+<P>
+If <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> is loaded outside the desktop or from a command line, then the configuration is taken from the <TT>!PsiFS.Configure</TT> file. This file also contains the mappings used to convert <I>SIBO</I> file extensions and <I>EPOC</I> UIDs to <I>RISC&nbsp;OS</I> file types. See the documentation for the <TT>*<A HREF="../command/drivr.html" TITLE="*PsiFSDriver">PsiFSDriver</A></TT> and <TT>*<A HREF="../command/map.html" TITLE="*PsiFSMap">PsiFSMap</A></TT> commands for more details.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Serial Block Driver</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The most important configuration options are for the serial block driver used to communicate with the remote <I>SIBO</I> or <I>EPOC</I> device. The default settings should be adequate if only the remote link and internal serial port are being used.
+<P>
+The first option to select is the <B>Driver name</B>. This should normally be set to <TT>InternalPC</TT> if the internal serial port is being used, <TT>SP_DualPC</TT> if either an <I>Atomwide</I> or <I>The&nbsp;Serial&nbsp;Port</I> serial port card is being used, or <TT>IIDualPC</TT> if an <I>Intelligent&nbsp;Interfaces</I> serial port card is being used. Other serial port cards may require different serial block drivers.
+<P>
+The second option to configure is the <B>Port number</B>. The first port of each block driver is numbered <TT>0</TT>. The internal serial port it is always number <TT>0</TT>, and ports on <I>Atomwide</I> or <I>The&nbsp;Serial&nbsp;Port</I> triple serial port cards are numbered <TT>0</TT>, <TT>1</TT> or <TT>2</TT>. Do not attempt to select a port for which no hardware is present.
+<P>
+The third option to adjust is the <B>Baud rate</B>. This should normally be set to the <A HREF="baud.html" TITLE="Baud Rate">highest baud rate</A> supported by both machines. The same baud rate must be selected on the <I>SIBO</I> or <I>EPOC</I> device.
+<P>
+If the <B>Automatic</B> option is selected then <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will automatically identify the required baud rate for the remote link, but will take longer to establish a connection. This option can be useful if different <I>SIBO</I> or <I>EPOC</I> devices are used with a single <I>RISC&nbsp;OS</I> computer. The printer mirror ignores this setting and always uses the configured baud rate.
+<P>
+Finally, the <B>Other options</B> icon should normally be left blank. This feature allows extra options to be passed to serial block drivers that support them.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Remote Link Options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Many options specific to connections to <I>EPOC</I> devices can be configured.
+<P>
+The feature that is likely to be of most interest is the integration of the <I>EPOC</I> clipboard with the <I>RISC&nbsp;OS</I> global clipboard. To enable this feature ensure that the <B>Integrate with the RISC OS global clipboard</B> option is selected. The <B>Poll for changes</B> option should be left as <B>using clipboard size only</B> initially; this can be modified later if changes to the clipboard are missed or the desktop runs too slowly.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Backup Options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Backups are stored by default in a directory called <TT>Backups</TT> in the same directory as <TT>!PsiFS</TT>.
+<P>
+An alternative directory may be used by dragging the directory icon and dropping it over a filer window, or dragging a directory icon from a filer window and dropping it over the arrow. Alternatively, any valid path may be typed directly into the <B>Directory containing backup files</B> icon.
+<P>
+Options specific to a single disc are set by selecting <TT><A HREF="../menu/backu.html" TITLE="Backup...">Backup...</A></TT> from the menu of the appropriate <A HREF="../icon/drive.html" TITLE="SIBO or EPOC Drive Icon"><I>SIBO</I> or <I>EPOC</I> drive icon</A>. If the <B>Open backup options window for unrecognised discs</B> option is selected then <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will automatically open the backup options window when connected to unrecognised discs.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Print Job Options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><I>EPOC</I> devices can print via the remote link using <I>RISC&nbsp;OS</I> printer drivers. The action taken when a print job starts can be selected, which by default is to open a window displaying the status of the print job, allowing the job to be previewed or printed. The <B>When job starts</B> option allows this default action to be changed.
+<P>
+Normally, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will start printing the first page of the print job as soon as possible. This can result in the print job completing quicker but may result in the job being split, which could cause problems with network or shared printers. The <B>Start printing</B> option can be used to force <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> to wait for the whole print job to be received before starting to print.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Printer Mirror</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The default destination for the printer mirror is <TT>printer:</TT>. This results in output being sent to the active <I>RISC&nbsp;OS</I> printer, which may be changed using <TT>!Printers</TT>.
+<P>
+It is possible to redirect output to any other <I>RISC&nbsp;OS</I> file or device. The pop-up menu to the right of the <B>Default destination</B> icon provides a list of useful alternatives. Alternatively, any valid filename may be typed directly into the icon.
+<P>
+The configured destination is used when the <A HREF="../icon/idle.html" TITLE="Idle Icon">idle icon</A> is clicked on with <I>Adjust</I> or <TT><A HREF="../menu/print.html" TITLE="Printer mirror">Printer mirror</A></TT> is selected from the iconbar icon menu. However, it is possible to select an alternative destination from the <TT><A HREF="../menu/print.html" TITLE="Printer mirror">Printer mirror</A></TT> sub-menu.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">File Conversion Options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>By default files are only intercepted to allow conversions to be performed if the <TT>Left&nbsp;Alt</TT> key is pressed.
+<P>
+It is possible to enable different types of intercept to occur automatically for supported file types. The pop-up menus to the right of <B>Intercept run</B>, <B>Intercept load</B> and <B>Intercept save</B> allow the various options to be selected. If the <B>Automatic</B> options are selected then the file will be converted without prompting for the conversion to perform.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

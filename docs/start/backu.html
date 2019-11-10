@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : start/backu.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Getting Started [Backup]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Getting Started [Backup]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Getting Started</H1>
+<B>Backup</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Backup</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The backup feature is probably the most complicated part of <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>, but once setup it can operate completely autonomously, with no manual intervention required.
+<P>
+The most important point to grasp is that backups are disc orientated, using the disc name and media unique identifier (if available) to uniquely associate each disc with its options and backup files. This means that every disc should be given a different name.
+<P>
+Unfortunately, <A HREF="restr.html" TITLE="Restoring Backups">restoring a backup</A> is slightly more complicated.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Configuring Backups</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The configuration of backups is split into two parts: global settings that apply to all discs, and options specific to a single disc.
+<P>
+The global settings are set with the general <A HREF="confg.html" TITLE="Configuration">configuration</A> accessed by selecting <TT><A HREF="../menu/confg.html" TITLE="Configure...">Configure...</A></TT> from the iconbar icon menu of the <A HREF="../icon/idle.html" TITLE="Idle Icon">idle icon</A>. The main item to set is the <B>Directory containing backup files</B>, which defaults to a directory called <TT>Backups</TT> in the same directory as <TT>!PsiFS</TT>.
+<P>
+To set the disc specific options, ensure that a <A HREF="conct.html" TITLE="Connecting">connection</A> has been established, and that the <A HREF="../icon/drive.html" TITLE="SIBO or EPOC Drive Icon"><I>SIBO</I> or <I>EPOC</I> drive icon</A> for the drive to configure is visible. Open the backup control window by selecting <TT><A HREF="../menu/backu.html" TITLE="Backup...">Backup...</A></TT> from the iconbar icon menu, and then click on the <TT>Options</TT> button. Set the required options, and then click <TT>Set</TT> to save and apply the changes.</TD></TR></TABLE>
+<H2><A NAME="manual"><FONT COLOR="#DD0000">Manual Backup</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Ensure that a <A HREF="conct.html" TITLE="Connecting">connection</A> has been established, and that the <A HREF="../icon/drive.html" TITLE="SIBO or EPOC Drive Icon"><I>SIBO</I> or <I>EPOC</I> drive icon</A> for the drive to backup is visible. Open the backup control window by selecting <TT><A HREF="../menu/backu.html" TITLE="Backup...">Backup...</A></TT> from the iconbar icon menu.
+<P>
+Click on the <TT>Backup</TT> icon to start a backup manually. This would be selected automatically after a five second countdown if the <B>Always use these settings</B> option is set for this disc.</TD></TR></TABLE>
+<H2><A NAME="automatic"><FONT COLOR="#DD0000">Automatic Backup</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <B>Perform automatic backup</B> option must be selected to enable automatic backups. With this option set, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> will check the date of the last backup each time a connection is established. If the configured interval has elapsed then the backup control window will be opened to prompt for a backup to be started.
+<P>
+For a fully automatic backup, the <B>Always use these settings</B> option should also be set. This will cause a five second countdown to be started at the same time as opening the backup control window.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Controlling a Backup</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The progress of a backup operation is displayed by an <A HREF="../menu/async.html" TITLE="Action Windows">action window</A>. Most of the window is used to describe the current operation, and the timing information. At the bottom of the window up to four buttons, depending on context, allow the operation to be controlled. The two most important buttons are <TT>Abort</TT> which cancels a backup, and <TT>Pause</TT> which suspends a backup.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

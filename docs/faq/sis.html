@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : faq/sis.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Frequently Asked Questions [SIS File Attributes]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Frequently Asked Questions [SIS File Attributes]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Frequently Asked Questions</H1>
+<B>SIS File Attributes</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Why is the error <TT>Access denied</TT> displayed when attempting to install a <TT>SIS</TT> file?</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>Add/remove</TT> function used to install <TT>SIS</TT> files on <I>EPOC</I> devices needs to be able to modify the file being installed. Hence, it is vital that the <TT>SIS</TT> file is not set to be <TT>read&nbsp;only</TT>, otherwise the <TT>Access denied</TT> error will be produced.
+<P>
+<FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> attempts to preserve file <A HREF="../fs/attr.html" TITLE="Attributes">attributes</A> when they are copied. In particular, a file with <TT>L/</TT>, <TT>R/</TT>, or <TT>LR/</TT> attributes under <I>RISC&nbsp;OS</I> will be set to <TT>read&nbsp;only</TT> when copied to an <I>EPOC</I> device. This is especially likely to occur if the file is copied from a read-only media such as CD-ROM.
+<P>
+Hence, it may be necesary to change the file's attributes once it has been copied. This may be done either from the <I>RISC&nbsp;OS</I> or <I>EPOC</I> computer:
+<UL>
+<LI>Under <I>RISC&nbsp;OS</I> the appropriate attributes may be set by pressing <I>Menu</I> over the file in a filer window, moving over the <TT>File</TT> sub-menu, <TT>Access</TT> sub-sub-menu, and then selecting the <TT>Unprotected</TT> option.
+<LI>Under <I>EPOC</I> the file properties are displayed by selecting <TT>Properties...</TT> from the <TT>File</TT> menu, or by pressing <TT>Ctrl-P</TT>. The <TT>Read-only</TT> option should be un-ticked, and the change confirmed by clicking on the <TT>OK</TT> icon or pressing <TT>Enter</TT>.
+</UL>
+<P>
+Alternatively, using <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>'s own <A HREF="../start/sis.html" TITLE="Installing EPOC SIS Files">SIS file installer</A> will avoid these problems.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

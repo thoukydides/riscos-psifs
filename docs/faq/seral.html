@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : faq/seral.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Frequently Asked Questions [Early Archimedes Serial Ports]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Frequently Asked Questions [Early Archimedes Serial Ports]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Frequently Asked Questions</H1>
+<B>Early Archimedes Serial Ports</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Why does <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> not work on early Archimedes?</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Early <I>Acorn&nbsp;Archimedes</I> computers had faulty serial ports that required cables wired differently to operate correctly. The <I>Acorn&nbsp;A-Link</I> should work reliably with these machines, but the <I>Psion&nbsp;3-Link</I> and simple <I>RS-232</I> serial cable require an adaptor wired as follows:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR><TH NOWRAP><I>Acorn&nbsp;Archimedes</I> connector<BR>(9 pin female)</TH><TH NOWRAP><I>Psion&nbsp;3-Link</I> or <I>RS-232</I> serial cable<BR>(9 pin male)</TH></TR>
+<TR><TD ALIGN=CENTER NOWRAP>2 <I>(RxD)</I></TD><TD ALIGN=CENTER NOWRAP>2 <I>(RxD)</I></TD></TR>
+<TR><TD ALIGN=CENTER NOWRAP>3 <I>(TxD)</I></TD><TD ALIGN=CENTER NOWRAP>3 <I>(TxD)</I></TD></TR>
+<TR><TD ALIGN=CENTER NOWRAP>1 <I>(DCD)</I> + 4 <I>(DTR)</I></TD><TD ALIGN=CENTER NOWRAP>4 <I>(DTR)</I></TD></TR>
+<TR><TD ALIGN=CENTER NOWRAP>5 <I>(GND)</I></TD><TD ALIGN=CENTER NOWRAP>5 <I>(GND)</I></TD></TR>
+<TR><TD ALIGN=CENTER NOWRAP>8 <I>(CTS)</I></TD><TD ALIGN=CENTER NOWRAP>6 <I>(DSR)</I></TD></TR>
+<TR><TD ALIGN=CENTER NOWRAP>7 <I>(RTS)</I></TD><TD ALIGN=CENTER NOWRAP>7 <I>(RTS)</I></TD></TR>
+<TR><TD ALIGN=CENTER NOWRAP>6 <I>(DSR)</I></TD><TD ALIGN=CENTER NOWRAP>8 <I>(CTS)</I></TD></TR>
+</TABLE>
+<P>
+To summarise, pins 6 and 8 should be swapped, pins 1 and 4 should be joined at the <I>Acorn&nbsp;Archimedes</I> end, and pins 1 and 9 are not used. The <TT>Internal</TT> block driver should then be used rather than <TT>InternalPC</TT>.
+<P>
+This wiring is by Toby Smith and Jonathan Allin, but has not been tested. No resposibility is taken for any damage that may result from use of this information.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : start/restr.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Getting Started [Restoring Backups]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Getting Started [Restoring Backups]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Getting Started</H1>
+<B>Restoring Backups</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Restoring Backups</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> does not offer a restore option for backup files. Instead, it stores the backups in <TT>tar</TT> files, using the <TT>fltar</TT> <I>RISC&nbsp;OS</I> variant to preserve attribute and date stamps accurately. This allows any software that can handle these files to be used for restoring a backup.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Finding the Backup Files</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The directory containing the backup files is specified within the main <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> <A HREF="confg.html" TITLE="Configuration">configuration</A>. This directory contains sub-directories based on the original name given to the backup.
+<P>
+The easiest way to find the appropriate directory is to ensure that a <A HREF="conct.html" TITLE="Connecting">connection</A> has been established, and that the <A HREF="../icon/drive.html" TITLE="SIBO or EPOC Drive Icon"><I>SIBO</I> or <I>EPOC</I> drive icon</A> for the appropriate drive is visible. Open the backup control window by selecting <TT><A HREF="../menu/backu.html" TITLE="Backup...">Backup...</A></TT> from the iconbar icon menu, and then click on the <TT>Open</TT> button. This will open a filer window showing all of the backup files for that disc.
+<P>
+The most recent backup file is called <TT>Backup</TT>, with older backups named either <TT>Full-1</TT>, <TT>Full-2</TT> etc, or <TT>Changes-1</TT>, <TT>Changes-2</TT> etc. The number and type of files depend on the backup options set for the disc.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Extracting Files</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Any tool that can correctly handle <TT>tar</TT> files using the <TT>fltar</TT> <I>RISC&nbsp;OS</I> variant may be used to extract files from a <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> backup. To restore a backup simply copy the files back to their original drive.
+<P>
+The recommended tool is <A HREF="mailto:david@pilling.demon.co.uk" TITLE="Send Email to David Pilling">David Pilling</A>'s <TT>!SparkFS</TT>. However, only recent versions are suitable; early versions interpret the filenames incorrectly. Another good tool is <A HREF="mailto:fl@tools.de" TITLE="Send Email to Frank Lancaster">Frank Lancaster</A>'s public domain command line <A HREF="http://www.tools.de/fl/tar.arc"><TT>tar</TT></A> utility.
+<P>
+As a last resort, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> provides a <TT>*<A HREF="../command/tar.html" TITLE="*PsiFSTar">PsiFSTar</A></TT> command to allow files to be listed or extracted from backups. However, this is not very friendly or versatile, so other options should be tried first.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

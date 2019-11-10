@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : command/map.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - *Commands [*PsiFSMap]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - *Commands [*PsiFSMap]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: *Commands</H1>
+<B>*PsiFSMap</B> </CENTER>
+<HR>
+<TABLE WIDTH="100%"><TR><TD COLSPAN=4 ALIGN=RIGHT><FONT COLOR="#DD0000"><TT><B>*PsiFSMap</B></TT></FONT></TD></TR><TR VALIGN=TOP><TD></TD><TD COLSPAN=3>Specifies a mapping between a <I>SIBO</I> file extension or <I>EPOC</I> UID and a <I>RISC&nbsp;OS</I> file type</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Syntax:</B></FONT></TD><TD COLSPAN=3><TT>*PsiFSMap [-ext&nbsp;<I>extension</I> | -uid&nbsp;<I>uid</I> | -other] [[-type]&nbsp;<I>filetype</I>] [-mimemap | -nomimemap]</TT></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Parameters:</B></FONT></TD><TD><TT>-ext&nbsp;<I>extension</I>&nbsp;</TT></TD><TD COLSPAN=2>a <I>SIBO</I> file extension of up to three characters</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>-uid&nbsp;<I>uid</I>&nbsp;</TT></TD><TD COLSPAN=2>an <I>EPOC</I> UID (24 digit hexadecimal number)</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>-other&nbsp;</TT></TD><TD COLSPAN=2>used to specify file type for all unrecognised or unmapped files</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT><I>filetype</I>&nbsp;</TT></TD><TD COLSPAN=2>a number (in hexadecimal by default) or text description of the file type to be mapped. The command <TT>*Show&nbsp;File$Type*</TT> displays a list of valid file types.</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>-mimemap&nbsp;</TT></TD><TD COLSPAN=2>enables use of the <TT>MimeMap</TT> module</TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>-nomimemap&nbsp;</TT></TD><TD COLSPAN=2>disables use of the <TT>MimeMap</TT> module</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Use:</B></FONT></TD><TD COLSPAN=3>
+<TT>*PsiFSMap</TT> specifies a mapping between either a <I>SIBO</I> extension or <I>EPOC</I> UID and a <I>RISC&nbsp;OS</I> file type. Any <I>SIBO</I> or <I>EPOC</I> file with either the given extension or UID will be treated by <I>RISC&nbsp;OS</I> as having the given file type, rather than being of type <TT>Psion</TT>. Mappings based on a UID take priority over those based on an extension.
+<P>
+The <TT>MimeMap</TT> module, if available, may also be used to convert extensions to file types. This is only tried if there is no match for the internal UID or extension mappings.
+<P>
+If no <I>RISC&nbsp;OS</I> filetype is given, then the existing mapping (if any) for that extension or UID is cancelled. If no parameter is given, then all current mappings are listed.
+<P>
+The UID is constructed from the first 3 words of the file represented in hexadecimal (padded with leading zeros to 8 digits if necessary) concatenated to form a single 24 digit value. For example, for an <I>EPOC</I> <TT>Sheet</TT> file:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR VALIGN=TOP ALIGN=CENTER><TH NOWRAP>First 12 bytes</TH><TD><TT>37</TT></TD><TD><TT>00</TT></TD><TD><TT>00</TT></TD><TD><TT>10</TT></TD><TD><TT>6D</TT></TD><TD><TT>00</TT></TD><TD><TT>00</TT></TD><TD><TT>10</TT></TD><TD><TT>88</TT></TD><TD><TT>00</TT></TD><TD><TT>00</TT></TD><TD><TT>10</TT></TD></TR>
+<TR VALIGN=TOP ALIGN=CENTER><TH NOWRAP>First 3 words</TH><TD COLSPAN=4><TT>10000037</TT></TD><TD COLSPAN=4><TT>1000006D</TT></TD><TD COLSPAN=4><TT>10000088</TT></TD></TR>
+<TR VALIGN=TOP ALIGN=CENTER><TH NOWRAP>UID</TH><TD COLSPAN=12><TT>100000371000006D10000088</TT></TD></TR>
+</TABLE>
+<P>
+The mappings are only retained until the next reset. More permanent changes can be made by modifying the <TT>!PsiFS.Configure</TT> file that specifies the default mappings used by <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>.
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Example:</B></FONT></TD><TD><TT>PsiFSMap&nbsp;-ext&nbsp;SHT&nbsp;-type&nbsp;PsiSheet<BR>PsiFSMap&nbsp;-ext&nbsp;SPR&nbsp;-type&nbsp;PsiSheet<BR>PsiFSMap -uid&nbsp;100000371000006D10000088 -type&nbsp;PsiSheet</TT></TD><TD COLSPAN=2><I>Treat all files with an SHR or SPR extension or the specified UID as <TT>PsiSheet</TT> files. It is not necessary for all of the extensions or UIDs to match; any single match will set the file type.</I></TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>PsiFSMap&nbsp;-other&nbsp;-type&nbsp;Psion</TT></TD><TD COLSPAN=2><I>Treat all files that have no other mapping defined as <TT>Psion</TT> files.</I></TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>PsiFSMap -uid&nbsp;000000000000000000000000 -type&nbsp;Data</TT></TD><TD COLSPAN=2><I>Treat all files without an <I>EPOC</I> UID as <TT>Data</TT> files. This disables mapping by extension for <I>EPOC</I> files. Exactly 24 zeros must be specified.</I></TD></TR>
+<TR VALIGN=TOP><TD></TD><TD><TT>PsiFSMap&nbsp;-ext&nbsp;&quot;&quot;&nbsp;-type&nbsp;Text</TT></TD><TD COLSPAN=2><I>Treat all files without a <I>SIBO</I> extension as <I>RISC&nbsp;OS</I> <TT>Text</TT> files. For example, they will have <TT>Text</TT> file icons, and load into a text editor when double-clicked on.</I></TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=4><BR></TD></TR><TR VALIGN=TOP><TD NOWRAP><FONT COLOR="#DD0000"><B>Related&nbsp;commands:</B></FONT></TD><TD COLSPAN=3><TT>*DOSMap</TT></TD></TR>
+</TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

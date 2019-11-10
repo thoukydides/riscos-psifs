@@ -1,0 +1,61 @@
+//  File        : gdraw.swi
+//  Date        : 19-Sep-02
+//  Author      : © A.Thoukydides, 2002, 2019
+//  Description : A partial interface to the GDraw module for the PsiFS filer.
+//
+//  License     : PsiFS is free software: you can redistribute it and/or
+//                modify it under the terms of the GNU General Public License
+//                as published by the Free Software Foundation, either
+//                version 3 of the License, or (at your option) any later
+//                version.
+//  
+//                PsiFS is distributed in the hope that it will be useful,
+//                but WITHOUT ANY WARRANTY; without even the implied warranty
+//                of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+//                the GNU General Public License for more details.
+//  
+//                You should have received a copy of the GNU General Public
+//                License along with PsiFS. If not, see
+//                <http://www.gnu.org/licenses/>.
+
+// The module title and prefix
+TITLE GDraw;
+
+// The author of the module
+AUTHOR "© Alexander Thoukydides, 2002";
+
+// Include oslib header files
+NEEDS Draw;
+
+// Additional fill style to request antialiased rendering
+CONST
+    Draw_FillAntialias = Draw_FillStyle: 0x80;
+
+// Module SWIs
+SWI
+    GDraw_Fill =
+    (
+        NUMBER 0x44542 "Processes a path and sends it to the VDU, filling the interior portion",
+        ENTRY
+        (
+            R0 -> Draw_Path: path,
+            R1 = Draw_FillStyle: fill_style,
+            R2 -> OS_Trfm: trfm,
+            R3 = .Int: flatness
+        )
+    ),
+
+    GDraw_Stroke =
+    (
+        NUMBER 0x44544 "Processes a path and sends it to the VDU",
+        ENTRY
+        (
+            R0 -> Draw_Path: path,
+            R1 = Draw_FillStyle: fill_style,
+            R2 -> OS_Trfm: trfm,
+            R3 = .Int: flatness,
+            R4 = .Int: thickness,
+            R5 -> Draw_LineStyle: line_style,
+            R6 -> Draw_DashPattern: dash_pattern
+        )
+    )

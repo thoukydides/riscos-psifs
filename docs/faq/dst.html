@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : faq/dst.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Frequently Asked Questions [Summer Time]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Frequently Asked Questions [Summer Time]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Frequently Asked Questions</H1>
+<B>Summer Time</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Why does <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> copy all the files in a backup when summer time starts or ends?</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><I>RISC&nbsp;OS</I> and <I>EPOC</I> treat file time stamps differently. Under <I>RISC&nbsp;OS</I> time stamps are stored in Universal Time Coordinated (UTC) and converted to local time for display, and <I>EPOC</I> always uses local time. This results in the displayed time changing under <I>RISC&nbsp;OS</I> but not under <I>EPOC</I> when the time zone or summer time setting changes.
+<P>
+When <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> converts time stamps between the two formats it attempts to keep the displayed times the same. Hence, files that have been copied to <I>RISC&nbsp;OS</I> prior to changing the time zone or summer time settings will have different time stamps to those copied after the change. This has the unfortunate side-effect of making any files in a backup appear either older or newer than those on the <I>EPOC</I> device, requiring all of the files to be copied again even if they are unchanged.
+<P>
+When summer time ends, i.e. the clocks go back, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> automatically copies all of the files to refresh the backup. However, when summer time starts, i.e. the clocks go forward, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> displays the message <TT>Previous backup is newer</TT>. In this case clicking on <TT>Quiet</TT> results in all the files being copied.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

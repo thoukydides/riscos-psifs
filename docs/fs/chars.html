@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : fs/chars.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - File System [Character Mappings]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - File System [Character Mappings]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: File System</H1>
+<B>Character Mappings</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Character Mappings</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> attempts to preserve special characters in filenames. Unfortunately, the standard character sets of <I>RISC&nbsp;OS</I> (Latin1), <I>SIBO</I> (code page 850) and <I>EPOC</I> (<I>Windows</I> ANSI character set) are all different, so not all filenames can be preserved unchanged.
+<P>
+If a <I>RISC&nbsp;OS</I> file is copied to a <I>SIBO</I> or <I>EPOC</I> device then some unmappable characters may be converted to &quot;<TT>_</TT>&quot; (underscore) symbols. In the opposite direction, from a <I>SIBO</I> or <I>EPOC</I> device to <I>RISC&nbsp;OS</I>, characters without a direct mapping are converted to a unique sequence of characters. This ensures that <I>SIBO</I> or <I>EPOC</I> files can be copied and restored without any change of name.
+<P>
+It is beyond the scope of this documentation to fully describe the mapping between the various character sets. However, the following special symbols are mapped in a similar manner to <I>DOSFS</I>:
+<TABLE BORDER=1 ALIGN=CENTER>
+<TR VALIGN=TOP ALIGN=CENTER><TH><I>RISC&nbsp;OS</I></TH><TD NOWRAP>hard space</TD><TD><TT>&lt;</TT></TD><TD><TT>&gt;</TT></TD><TD><TT>#</TT></TD><TD><TT>?</TT></TD><TD><TT>.</TT></TD><TD><TT>/</TT></TD></TR>
+<TR VALIGN=TOP ALIGN=CENTER><TH><I>SIBO</I>&nbsp;or&nbsp;<I>EPOC</I></TH><TD>space</TD><TD><TT>$</TT></TD><TD><TT>^</TT></TD><TD><TT>?</TT></TD><TD><TT>#</TT></TD><TD><TT>\</TT></TD><TD><TT>.</TT></TD></TR>
+</TABLE>
+<P>
+Finally, <I>SIBO</I> only supports upper-case filenames. <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> converts such names so that the first character is upper-case and all other characters are lower-case. This is similar to the approach used by <I>Windows&nbsp;95/98</I> to display old <I>MS-DOS</I> style filenames.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

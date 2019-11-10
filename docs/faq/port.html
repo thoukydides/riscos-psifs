@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : faq/port.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Frequently Asked Questions [Unable To Open Port For Printing]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Frequently Asked Questions [Unable To Open Port For Printing]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Frequently Asked Questions</H1>
+<B>Unable To Open Port For Printing</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Why is the error <TT>Cannot open port</TT> displayed when attempting to print?</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>If the <I>SIBO</I> or <I>EPOC</I> computer gives an error such as <TT>Cannot open port</TT> when attempting to print via the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> printer mirror, then the serial port is probably already being used.
+<P>
+The most important point to note is that the <I>Psion&nbsp;Link&nbsp;Protocol</I> is <B>not</B> used, unless the <TT>Printer&nbsp;via&nbsp;PC</TT> option is used with <I>EPOC</I> devices. Hence, the remote link must be disabled from the <I>System</I> screen of the <I>SIBO</I> or <I>EPOC</I> device before attempting to use the printer mirror:
+<UL>
+<LI>On <I>SIBO</I> devices the link is disabled using the <TT>Remote Link</TT> or <TT>Communications</TT> option from the <TT>Special</TT> menu, or by pressing <TT>Psion+L</TT> or <TT>Acorn+L</TT>.
+<LI>On <I>EPOC</I> devices the link is disabled using the <TT>Remote link...</TT> option from the <TT>Tools</TT> menu, or by pressing <TT>Ctrl+L</TT>.
+</UL>
+<P>
+If another application, such as <TT>Comms</TT>, is using the serial port then it must also be disabled.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

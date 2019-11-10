@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : menu/backu.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - Menu Entries [Backup...]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - Menu Entries [Backup...]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: Menu Entries</H1>
+<B>Backup...</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000">Backup...</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>Selecting the <TT>Backup...</TT> menu entry opens the <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> backup window. This allows a full or incremental <A HREF="../start/backu.html" TITLE="Backup">backup</A> to be performed of a single <I>SIBO</I> or <I>EPOC</I> disc.
+<P>
+The <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> backup feature uses the disc name and media unique identifier (if available) to identify each disc, maintain status and configuration details. Hence, it is recommended that each disc is given a unique name. <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> attempts to use other methods of identification to avoid problems with multiple <I>SIBO</I> or <I>EPOC</I> devices, but these are not always reliable, so default disc names like <TT>Internal</TT> should be changed before the backup options are set.
+<P>
+The top of the window shows the name of the backup. Below this is the drive containing the disc, and the time and date of the last backup of this disc. If the previous backup is incomplete, for example if it was aborted or an error occurred, then <TT>(P)</TT> is appended after the date and time. Finally, the current status or activity is displayed.
+<P>
+There are five buttons in the window:
+<UL>
+<LI><B>Open</B> - Open a filer window for the directory containing the <A HREF="#files" TITLE="Backup Files">backup files</A>.
+<LI><B>Abort</B> - Abort the current backup operation for this disc. Clicking with <I>Adjust</I> leaves the window open.
+<LI><B>Backup</B> - Start a backup operation for this disc. Clicking with <I>Adjust</I> leaves the window open.
+<LI><B>Options</B> - Display the <A HREF="#options" TITLE="Backup Options">backup options</A> for this disc. Clicking with <I>Adjust</I> leaves the window open.
+<LI><B>Close</B> - Close the window.
+</UL>
+<P>
+The backup operation uses <A HREF="async.html" TITLE="Action Windows">action windows</A> to display progress information and to allow interaction when required.</TD></TR></TABLE>
+<H2><A NAME="options"><FONT COLOR="#DD0000">Backup Options</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> backup options window allows the options for a single disc to be set. The name of the disc is displayed at the top of the window. There are three buttons at the bottom of the window:
+<UL>
+<LI><B>Advanced</B> - Open a window showing the <A HREF="#advanced" TITLE="Advanced Backup Options">advanced backup options</A>. It should not normally be necessary to adjust these settings.
+<LI><B>Cancel</B> - Close the window without applying any changes. Clicking with <I>Adjust</I> leaves the window open, but resets the options to their previous values.
+<LI><B>Set</B> - Save and apply the displayed options. Clicking with <I>Adjust</I> applies the changes without closing the window.
+</UL>
+Immediately above these buttons there is a single option:
+<UL>
+<B>Always use these settings</B> - Enable or disable backup operations from starting automatically when the backup window is opened or an automatic backup is due. If this option is enabled then a five second countdown is provided to enable the backup to be aborted or the options to be changed.
+</UL></TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Backup Options - Automatic backup</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The top section of the window allows configuration of automatic backups. The options are:
+<UL>
+<LI><B>Perform automatic backup</B> - Enable or disable automatic backups of this disc at pre-defined intervals. If this option is selected then the following additional options are available to control the backup interval:
+<UL>
+<LI><B>Each time connected</B> - start a backup each time the disc is connected.
+<LI><B>Every day</B> - start a backup the first time each day the disc is connected.
+<LI><B>Every week</B> - start a backup the first time each week the disc is connected.
+</UL>
+</UL></TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000">Backup Options - Archive options</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The bottom section of the window controls how previous backups are kept.
+<UL>
+<LI><B>Keep previous versions</B> - This sets the number of backup versions that are kept. If this is set to 1 then only the most recent backup is stored. Higher values improve security, but require more disc space.
+<LI><B>Store changes only</B> - Enable or disable incremental backups. If this option is selected then only the files deleted or changed are stored for previous backups, otherwise all files are stored. The most recent backup always contains all files from the disc.
+</UL></TD></TR></TABLE>
+<H2><A NAME="advanced"><FONT COLOR="#DD0000">Advanced Backup Options</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The advanced backup options control how discs are recognised and associated with backup files and configurations. The settings are:
+<UL>
+<LI><B>Disc name</B> - the name of the disc. It is not possible to configure this value to be ignored if not media unique identifier is available.
+<LI><B>Drive letter</B> - the drive letter used to access the disc.
+<LI><B>Media unique identifier</B> - an eight digit hexadecimal value uniquely identifying a disc. This value may not be available for the internal disc of <I>SIBO</I> devices or for discs not formatted by a <I>SIBO</I> or <I>EPOC</I> device. It is not possible to configure this value to be ignored.
+<LI><B>Machine unique identifier</B> - a sixteen digit hexadecimal value uniquely identifying <I>EPOC</I> devices.
+</UL>
+<P>
+If an <B>Ignore</B> option is set then the corresponding value is not used when checking for a match. Changing these options may not take immediate effect.</TD></TR></TABLE>
+<H2><A NAME="files"><FONT COLOR="#DD0000">Backup files</FONT></A></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The backup files for each disc are stored in separate sub-directories with the same name as the disc. Each directory contains one or more of the following:
+<UL>
+<LI><TT>Options</TT> - The options and status for the backup of this disc. This file must not be edited by hand.
+<LI><TT>Backup</TT> - The most recent backup of this disc.
+<LI><TT>Full-<I>x</I></TT> - Previous complete backups of this disc. The most recent previous backup is called <TT>Full-1</TT>, with older backups called <TT>Full-2</TT>, <TT>Full-3</TT> etc.
+<LI><TT>Changes-<I>x</I></TT> - Previous incremental backups of this disc. The most recent previous backup is called <TT>Changes-1</TT>, with older backups called <TT>Changes-2</TT>, <TT>Changes-3</TT> etc. These files only contain the files removed or changed between backups.
+</UL>
+<P>
+All backup files are written in <TT>tar</TT> format, using the <TT>fltar</TT> <I>RISC&nbsp;OS</I> specific variant to preserve attributes and date stamps accurately. However, <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> can reliably read all of the <TT>tar</TT> file variants supported by <TT>!SparkFS</TT>, including <TT>arctar</TT>, <TT>comma</TT> and <TT>unix</TT>.
+<P>
+Any tool that supports the <TT>fltar</TT> variant of <TT>tar</TT> files can be used for <A HREF="../start/restr.html" TITLE="Restoring Backups">restoring backups</A>. Alternatively,the <TT>*<A HREF="../command/tar.html" TITLE="*PsiFSTar">PsiFSTar</A></TT> command may be used.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

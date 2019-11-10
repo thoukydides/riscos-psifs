@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- File        : conv/exfsi.html -->
+<!-- Date        : 19-Sep-02 -->
+<!-- Description : Part of the PsiFS documentation. -->
+<!-- -->
+<!-- Copyright © 1998, 1999, 2000, 2001, 2002 Alexander Thoukydides -->
+<!-- -->
+<!-- This program is free software; you can redistribute it and/or -->
+<!-- modify it under the terms of the GNU General Public License -->
+<!-- as published by the Free Software Foundation; either version 2 -->
+<!-- of the License, or (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program; if not, write to the Free Software -->
+<!-- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA -->
+<HTML>
+<HEAD>
+<TITLE>PsiFS Documentation - File Format Converters [!ChangeFSI Example]</TITLE>
+<LINK REV=MADE HREF="mailto:psifs@thouky.co.uk">
+<LINK REL=PARENT HREF="index.html">
+<META NAME=DESCRIPTION CONTENT="PsiFS Documentation - File Format Converters [!ChangeFSI Example]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#004499" ALINK="#FF0000">
+<CENTER>
+<H1><FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT>: File Format Converters</H1>
+<B>!ChangeFSI Example</B> </CENTER>
+<HR>
+<H2><FONT COLOR="#DD0000"><TT>!ChangeFSI</TT> Example</FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>An example file format converter configuration for <TT>!ChangeFSI</TT> has been included in the directory <TT>!PsiFS.Converters.!ChangeFSI</TT>. This allows common graphics formats (GIF, PCX, BMP, PBM, JPEG, TIFF, and Sprite files) to be converted to either Sprite or JPEG files with a selectable number of bits per pixel and processing options.
+<P>
+The following sections describe each of the files within the sub-directory.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!PsiFS</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <A HREF="psifs.html" TITLE="!PsiFS"><TT>!PsiFS</TT></A> file tells <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> all of the important characteristics of the file format converter.
+<P>
+The first section of the file sets default conversion options for all of the supported file types. This is followed by a separate converter configuration for each output format. Note that both of the converters in this example support the same input file types, so these are defined once within the shared characteristics section.
+<P>
+The <TT>PsiFSChangeFSI</TT> alias defined within the <TT>!Boot</TT> file is used to perform all of the conversions, with additional parameters specifying the required behaviour.
+<P>
+The command line argument to <TT>!ChangeFSI</TT> used to specify the output file format is not prefixed by a &quot;<TT>-</TT>&quot; (minus-hyphen), so the arguments supplied by <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> need to be modified. To allow easy manipulation within the <TT>!Run</TT> file requires this argument to be in a fixed position. This is achieved by relying on the sorting order: options starting with numbers or upper case letters are always placed before options starting with lower case letters.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!PsiFSRes</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <A HREF="res.html" TITLE="!PsiFSRes"><TT>!PsiFSRes</TT></A> file contains the two toolbox templates used to select the conversion options.
+<P>
+Radio buttons are used to allow selection of a single output format. A String Set gadget could have been used for the same purpose, but the returned arguments would have required greater pre-processing to convert them into a suitable form for passing to <TT>!ChangeFSI</TT>.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!Boot</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <A HREF="boot.html" TITLE="!Boot"><TT>!Boot</TT></A> file is run by <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> at start-up using <TT>Wimp_StartTask</TT>.
+<P>
+This starts by defining the textual version of all the supported file types to ensure that the <TT>!PsiFS</TT> file can be correctly parsed. Next, the file format converter is registered by defining the system variable <TT>PsiFSConverter$ChangeFSI</TT> to point to the current directory. Finally, an alias for <TT>PsiFSChangeFSI</TT> is defined to run the <TT>!Run</TT> file, enabling simpler commands to be used within the <TT>!PsiFS</TT> file.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>!Run</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>!Run</TT> file is run by <FONT COLOR="#004499"><B><I>PsiFS</I></B></FONT> using <TT>Wimp_StartTask</TT> when the converter is called via the <TT>PsiFSChangeFSI</TT> alias.
+<P>
+It starts by checking that it has been supplied with parameters and ensuring that there is sufficient memory to run <TT>ChangeFSI</TT>. If necessary, the <TT>FindFSI</TT> BASIC program is then used to locate <TT>!ChangeFSI</TT> if has not already been seen by the filer.
+<P>
+A temporary alias <TT>Alias$PsiFSChangeFSITemp</TT> is used to allow easy manipulation of the arguments to remove the &quot;<TT>-</TT>&quot; (minus-hyphen) from the output format specifier. Finally, the <TT>ChangeFSI</TT> executable is run to perform the required conversion, and any error is reported.</TD></TR></TABLE>
+<H2><FONT COLOR="#DD0000"><TT>FindFSI</TT></FONT></H2>
+<TABLE WIDTH="100%"><TR><TD WIDTH=30></TD><TD>The <TT>FindFSI</TT> file is a simple BASIC program that searches for <TT>!ChangeFSI</TT> in likely locations. If a copy is found then its <TT>!Boot</TT> file is run to set the necessary system variables.
+<P>
+This program is only required because the file format converter is not contained within the same directory as the configuration files.</TD></TR></TABLE>
+<HR> <TABLE WIDTH="100%">
+<TR VALIGN=TOP>
+<TD>
+[<A HREF="../index.html" TITLE="Contents">Contents</A>]
+[<A HREF="index.html" TITLE="Up">Up</A>]
+</TD>
+<TD ALIGN=RIGHT>
+<FONT SIZE=-1><I> <A HREF="../legal/copy.html" TITLE="Copyright">Copyright</A> &copy; <A HREF="mailto:psifs@thouky.co.uk" TITLE="Send Email to Alexander Thoukydides">Alexander Thoukydides</A>, 1998, 1999, 2000, 2001, 2002</I></FONT>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,45 @@
+REM File        : Capture
+REM Date        : 19-Sep-02
+REM Author      : © A.Thoukydides, 1998-2002, 2019
+REM Description : Capture output from a command to a text file.
+REM
+REM License     : PsiFS is free software: you can redistribute it and/or
+REM               modify it under the terms of the GNU General Public License
+REM               as published by the Free Software Foundation, either
+REM               version 3 of the License, or (at your option) any later
+REM               version.
+REM 
+REM               PsiFS is distributed in the hope that it will be useful,
+REM               but WITHOUT ANY WARRANTY; without even the implied warranty
+REM               of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+REM               the GNU General Public License for more details.
+REM 
+REM               You should have received a copy of the GNU General Public
+REM               License along with PsiFS. If not, see
+REM               <http://www.gnu.org/licenses/>.
+
+REM Read the command line
+SYS "OS_GetEnv" TO env$
+env$ = FNskip_ws(MID$(env$, INSTR(env$, """", INSTR(env$, """") + 1) + 2))
+
+REM Extract the filename and command
+pos% = INSTR(env$, " ")
+IF pos% = 0 THEN ERROR 0, "Syntax: Capture <file> <command>"
+file$ = LEFT$(env$, pos% - 1)
+cmd$ = FNskip_ws(MID$(env$, pos% + 1))
+
+REM Ensure that the output file gets deleted if there is an error
+ON ERROR ON ERROR OFF:SYS "XOS_FSControl", 27, file$, 0, 3:ERROR 0, REPORT$
+
+REM Execute the command and set the type of the captured output file
+SYS "OS_CLI", cmd$ + " { > " + file$ + " }"
+SYS "OS_File", 18, file$, &FFF
+
+END
+
+REM Skip over white space
+DEFFNskip_ws(str$)
+    WHILE LEFT$(str$, 1) = " "
+        str$ = MID$(str$, 2)
+    ENDWHILE
+= str$
