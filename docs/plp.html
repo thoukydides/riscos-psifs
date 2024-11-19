@@ -1,19 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <!-- File        : plp.html -->
-<!-- Date        : 18-Jul-07 -->
-<!-- Author      : (c) Alexander Thoukydides, 1999, 2000, 2001, 2002, 2007 -->
+<!-- Date        : 19-Nov-24 -->
+<!-- Author      : (c) Alexander Thoukydides, 1999, 2000, 2001, 2002, 2007, 2024 -->
 <!-- Description : Description of the Psion Link Protocol. -->
 <HTML>
 <HEAD>
 <TITLE>Psion Link Protocol</TITLE>
 <META NAME="Description" CONTENT="Description of the Psion Link Protocol">
 <META HTTP-EQUIV="Content-Language" CONTENT="en-gb">
+<LINK REL="canonical" HREF="https://www.thouky.co.uk/software/psifs/plp.html" />
 </HEAD>
 <BODY>
 
 <H1>Psion Link Protocol</H1>
 
-Version 1.18, 18-Jul-07<BR> 
+Version 1.19, 19-Nov-24<BR> 
 by Alexander Thoukydides (<CODE>alex@thouky.co.uk</CODE>)
 <P>
 <BLOCKQUOTE>
@@ -25,31 +26,32 @@ Permission is granted to copy, distribute and/or modify this document under the 
 
 The SIBO and EPOC operating systems use a proprietary serial protocol, called the Psion Link Protocol (PLP), to allow remote access to their filesystems and to permit synchronization. This document attempts to provide sufficient information to allow the implementation of clients that communicate with SIBO or EPOC devices via the PLP.
 <P>
-The latest version of this document will normally be available from <A HREF="http://www.thouky.co.uk/software/psifs/plp.html" TITLE="Latest version of this document">http://www.thouky.co.uk/software/psifs/plp.html</A>.
+The latest version of this document will normally be available from <A HREF="https://www.thouky.co.uk/software/psifs/plp.html" TITLE="Latest version of this document">https://www.thouky.co.uk/software/psifs/plp.html</A>.
 
 <H3>History</H3>
 
 <TABLE BORDER=1 ALIGN=CENTER>
     <TR><TH>Revision</TH><TH>Date</TH><TH>Author</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.19</TD><TD ALIGN=CENTER NOWRAP>19-Nov-24</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Updated canonical link.</TD></TR>
     <TR><TD ALIGN=RIGHT NOWRAP>1.18</TD><TD ALIGN=CENTER NOWRAP>18-Jul-07</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added standard names and other uses for the CRC algorithm.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.17</TD><TD ALIGN=CENTER>22-Aug-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected details of Connection Termination Frame and Disconnection Frame.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.16</TD><TD ALIGN=CENTER>31-Mar-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected some details of the <CODE>WPRT</CODE> print data format and <CODE>NCP_GET_MACHINE_INFO</CODE> parameters.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.15</TD><TD ALIGN=CENTER>02-Mar-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added some details of the <CODE>WPRT</CODE> print data format.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.14</TD><TD ALIGN=CENTER>05-Feb-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added information on the <CODE>WPRT</CODE> server.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.13</TD><TD ALIGN=CENTER>30-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Replaced CRC table with algorithm to generate it.<BR>Improved the <CODE>GENCSERV</CODE> server description.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.12</TD><TD ALIGN=CENTER>27-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added more details of Ericsson R380 variant.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.11</TD><TD ALIGN=CENTER>17-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added some details of Ericsson R380 variant.<BR>Improved clipboard and CRC descriptions.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.10</TD><TD ALIGN=CENTER>10-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Modified clipboard description to fit the rest of the document better.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.09</TD><TD ALIGN=CENTER>10-Jun-01</TD><TD ALIGN=CENTER>Fritz Elfert</TD><TD>Added description of Clipboard server and clipboard data.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.08</TD><TD ALIGN=CENTER>08-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected sense parameter for <CODE>RFSV16_FSEEK</CODE> and <CODE>RFSV32_SEEK_FILE</CODE>.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.07</TD><TD ALIGN=CENTER>30-Jan-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected parameters for <CODE>RFSV32_READ_WRITE_FILE</CODE> and added description of missing <CODE>RFSV16_FDIRREAD</CODE> parameter.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.06</TD><TD ALIGN=CENTER>09-Oct-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added note that the EPOC variant of the data link layer is multi-windowed.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.05</TD><TD ALIGN=CENTER>28-Jul-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added command line length parameter to <CODE>NCP_GET_CMD_LINE</CODE> response.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.04</TD><TD ALIGN=CENTER>02-Jun-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Released under version 1.1 of the GNU Free Documentation License.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.03</TD><TD ALIGN=CENTER>21-Apr-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected HTML<BR>Updated email address.<BR>Added URL for latest version of this document.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.02</TD><TD ALIGN=CENTER>23-Jan-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added details for <CODE>NCP_SET_TIME</CODE> and <CODE>NCP_GET_MACHINE_INFO</CODE>.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.01</TD><TD ALIGN=CENTER>22-Dec-99</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added descriptions for most <CODE>RFSV</CODE> server commands.</TD></TR>
-    <TR><TD ALIGN=RIGHT>1.00</TD><TD ALIGN=CENTER>09-Dec-99</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>First draft.<BR>No descriptions for <CODE>RFSV</CODE> server commands.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.17</TD><TD ALIGN=CENTER NOWRAP>22-Aug-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected details of Connection Termination Frame and Disconnection Frame.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.16</TD><TD ALIGN=CENTER NOWRAP>31-Mar-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected some details of the <CODE>WPRT</CODE> print data format and <CODE>NCP_GET_MACHINE_INFO</CODE> parameters.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.15</TD><TD ALIGN=CENTER NOWRAP>02-Mar-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added some details of the <CODE>WPRT</CODE> print data format.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.14</TD><TD ALIGN=CENTER NOWRAP>05-Feb-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added information on the <CODE>WPRT</CODE> server.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.13</TD><TD ALIGN=CENTER NOWRAP>30-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Replaced CRC table with algorithm to generate it.<BR>Improved the <CODE>GENCSERV</CODE> server description.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.12</TD><TD ALIGN=CENTER NOWRAP>27-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added more details of Ericsson R380 variant.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.11</TD><TD ALIGN=CENTER NOWRAP>17-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added some details of Ericsson R380 variant.<BR>Improved clipboard and CRC descriptions.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.10</TD><TD ALIGN=CENTER NOWRAP>10-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Modified clipboard description to fit the rest of the document better.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.09</TD><TD ALIGN=CENTER NOWRAP>10-Jun-01</TD><TD ALIGN=CENTER>Fritz Elfert</TD><TD>Added description of Clipboard server and clipboard data.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.08</TD><TD ALIGN=CENTER NOWRAP>08-Jun-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected sense parameter for <CODE>RFSV16_FSEEK</CODE> and <CODE>RFSV32_SEEK_FILE</CODE>.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.07</TD><TD ALIGN=CENTER NOWRAP>30-Jan-01</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected parameters for <CODE>RFSV32_READ_WRITE_FILE</CODE> and added description of missing <CODE>RFSV16_FDIRREAD</CODE> parameter.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.06</TD><TD ALIGN=CENTER NOWRAP>09-Oct-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added note that the EPOC variant of the data link layer is multi-windowed.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.05</TD><TD ALIGN=CENTER NOWRAP>28-Jul-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added command line length parameter to <CODE>NCP_GET_CMD_LINE</CODE> response.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.04</TD><TD ALIGN=CENTER NOWRAP>02-Jun-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Released under version 1.1 of the GNU Free Documentation License.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.03</TD><TD ALIGN=CENTER NOWRAP>21-Apr-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected HTML<BR>Updated email address.<BR>Added URL for latest version of this document.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.02</TD><TD ALIGN=CENTER NOWRAP>23-Jan-00</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added details for <CODE>NCP_SET_TIME</CODE> and <CODE>NCP_GET_MACHINE_INFO</CODE>.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.01</TD><TD ALIGN=CENTER NOWRAP>22-Dec-99</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added descriptions for most <CODE>RFSV</CODE> server commands.</TD></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.00</TD><TD ALIGN=CENTER NOWRAP>09-Dec-99</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>First draft.<BR>No descriptions for <CODE>RFSV</CODE> server commands.</TD></TR>
 </TABLE>
 
 <H3>Disclaimer</H3>
