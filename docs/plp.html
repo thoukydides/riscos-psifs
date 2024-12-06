@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <!-- File        : plp.html -->
-<!-- Date        : 19-Nov-24 -->
+<!-- Date        : 06-Dec-24 -->
 <!-- Author      : (c) Alexander Thoukydides, 1999, 2000, 2001, 2002, 2007, 2024 -->
 <!-- Description : Description of the Psion Link Protocol. -->
 <HTML>
@@ -14,7 +14,7 @@
 
 <H1>Psion Link Protocol</H1>
 
-Version 1.19, 19-Nov-24<BR> 
+Version 1.20, 06-Dec-24<BR> 
 by Alexander Thoukydides (<CODE>alex@thouky.co.uk</CODE>)
 <P>
 <BLOCKQUOTE>
@@ -32,6 +32,7 @@ The latest version of this document will normally be available from <A HREF="htt
 
 <TABLE BORDER=1 ALIGN=CENTER>
     <TR><TH>Revision</TH><TH>Date</TH><TH>Author</TH><TH>Description</TH></TR>
+    <TR><TD ALIGN=RIGHT NOWRAP>1.20</TD><TD ALIGN=CENTER NOWRAP>06-Dec-24</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected typos.</TD></TR>
     <TR><TD ALIGN=RIGHT NOWRAP>1.19</TD><TD ALIGN=CENTER NOWRAP>19-Nov-24</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Updated canonical link.</TD></TR>
     <TR><TD ALIGN=RIGHT NOWRAP>1.18</TD><TD ALIGN=CENTER NOWRAP>18-Jul-07</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Added standard names and other uses for the CRC algorithm.</TD></TR>
     <TR><TD ALIGN=RIGHT NOWRAP>1.17</TD><TD ALIGN=CENTER NOWRAP>22-Aug-02</TD><TD ALIGN=CENTER>Alexander Thoukydides</TD><TD>Corrected details of Connection Termination Frame and Disconnection Frame.</TD></TR>
@@ -72,7 +73,7 @@ The information contained within this document was collated from many different 
     <LI>Excerpts from the EPOC source code.
     <LI>Analysis of the serial data exchanged between a Psion Series 5 and a PC running PsiWin.
     <LI>Trial and error while developing PsiFS for RISC OS computers.
-    <LI>Corrections supplied by Fritz Elfert, Johan Persson, Andy Porro, David Bingham, Pauli Heikkinen, Adrian Youlden and Marcio Faustino.
+    <LI>Corrections supplied by Fritz Elfert, Johan Persson, Andy Porro, David Bingham, Pauli Heikkinen, Adrian Youlden, Marcio Faustino, and Fabrice Cappaert.
 </UL>
 <P>
 Due to the diverse and incomplete nature of these sources, the description here probably contains both errors and omissions. Please send any corrections or additions to the author for inclusion in future revisions.
@@ -2962,7 +2963,6 @@ The least significant two bits of the <EM>Section</EM> field encode the section 
 </TABLE>
 <P>
 The remainder of the <EM>Section</EM> field, i.e. <EM>Section</EM><CODE>&nbsp;&gt;&gt;&nbsp;2</CODE>, is the current page number.
-s the both the type of section being started and the current page number.
 <P>
 This primitive resets the graphics context to the default settings of:
 <UL>
@@ -3372,10 +3372,7 @@ The <EM>Raw&nbsp;width</EM> and <EM>Raw&nbsp;height</EM> fields are usually zero
 The <EM>Display&nbsp;mode</EM> indicates the palette and number of bits of <EM>Pixel&nbsp;data</EM> for each dot in the bitmap:
 <P>
 <TABLE BORDER=1 ALIGN=CENTER>
-    <TR><TH>Encoding</TH><TH>Description</TH></TR>
-    <TR><TD ALIGN=RIGHT><CODE>0x00000000</CODE></TD><TD>Uncompressed</TD></TR>
-    <TR><TD ALIGN=RIGHT><CODE>0x00000001</CODE></TD><TD>Run Length Encoded (RLE)</TD></TR>
-    
+    <TR><TH>Display mode</TH><TH>Description</TH></TR>
     <TR><TD ALIGN=RIGHT><CODE>0x00000000</CODE></TD><TD>None</TD></TR>
     <TR><TD ALIGN=RIGHT><CODE>0x00000001</CODE></TD><TD>1bpp, black and white</TD></TR>
     <TR><TD ALIGN=RIGHT><CODE>0x00000002</CODE></TD><TD>2bpp, 4 greys</TD></TR>
